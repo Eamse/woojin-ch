@@ -1,0 +1,23 @@
+/* * {
+  border: solid 1px black;
+} */
+
+main {
+  padding: 80px !important;
+}
+
+.first-introduction,
+.greeting {
+  display: flex;
+  justify-content: center;
+}
+
+.introduction {
+  width: 50%;
+  height: auto;
+}
+
+.introduction img {
+  border: 0;
+  max-width: 100%;
+}

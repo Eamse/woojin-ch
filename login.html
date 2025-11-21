@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>관리자 로그인</title>
+    <link rel="stylesheet" href="./login.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <h1>우진창호 관리자 로그인</h1>
+      <form id="loginForm">
+        <label for="username">아이디</label>
+        <input type="text" id="username" required />
+
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" required />
+
+        <button type="submit">로그인</button>
+      </form>
+      <p class="login-msg" id="login-msg"></p>
+    </div>
+
+    <script>
+      const loginForm = document.getElementById('loginForm');
+      const loginMsg = document.getElementById('login-msg');
+
+      // ✅ 계정 목록 (임시 하드코딩)
+      const users = [
+        { username: 'admin', password: '1234', role: 'master' },
+        { username: 'woojin', password: '5678', role: 'user' },
+      ];
+
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        // 입력값과 users 배열 비교
+        const user = users.find(
+          (u) => u.username === username && u.password === password
+        );
+
+        if (user) {
+          // 로그인 성공 → 로그인 상태 + role 저장
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('role', user.role);
+          window.location.href = 'admin.html';
+        } else {
+          loginMsg.textContent = '아이디 또는 비밀번호가 올바르지 않습니다.';
+          loginMsg.style.color = 'red';
+        }
+      });
+    </script>
+  </body>
+</html>

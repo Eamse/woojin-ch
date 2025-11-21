@@ -1,0 +1,166 @@
+/* --- 공통 스타일 --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+  line-height: 1.6;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* --- Header --- */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  background-color: #004080;
+  color: #fff;
+}
+
+.header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* --- Hero Section --- */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #e6f0ff;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* --- Calculator Section --- */
+.calculator {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 5px solid #4aa3df;
+  border-radius: 12px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+}
+
+.calculator h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #004080;
+}
+
+.calculator form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.calculator label {
+  font-weight: bold;
+}
+
+.calculator input,
+.calculator select,
+.calculator button {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.calculator button {
+  background-color: #004080;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.calculator button:hover {
+  background-color: #0066cc;
+}
+
+.result {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* --- Products Section --- */
+.products {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+.products h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.products ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+/* --- Contact Section --- */
+.contact {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #e6f0ff;
+}
+
+.contact button {
+  padding: 15px 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  background-color: #004080;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.contact button:hover {
+  background-color: #0066cc;
+}
+
+/* --- Footer --- */
+.footer {
+  text-align: center;
+  padding: 30px 20px;
+  background-color: #333;
+  color: #fff;
+  font-size: 0.9rem;
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>시공 후기</title>
+    <link rel="stylesheet" href="./main.css" />
+    <link rel="stylesheet" href="./befter.css" />
+    <script
+      src="https://kit.fontawesome.com/0018d0d2c3.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./woojin.js" defer></script>
+  </head>
+  <body id="top">
+    <!-- 맨 위로 버튼 -->
+    <a href="#top" class="sticky-btn scroll-to-top" aria-label="맨 위로">
+      <i class="fa-solid fa-arrow-up"></i>
+    </a>
+
+    <!-- 헤더/오버레이 (fetch로 주입됨) -->
+    <div id="header-layout-container"></div>
+    <div class="header-overlay"></div>
+
+    <main class="befter-main">
+      <h1>Signature Completion Gallery</h1>
+      <p>우진 창호가 완성한 시공 후 공간만을 모았습니다.</p>
+
+      <!-- (옵션) 필터/정렬 컨트롤: 나중에 쓰고 싶으면 주석만 해제하면 됨
+      <div class="review-controls">
+        <select id="filterRegion" aria-label="지역 필터">
+          <option value="">전체 지역</option>
+        </select>
+        <select id="sortBy" aria-label="정렬">
+          <option value="dateDesc">최신순</option>
+          <option value="dateAsc">오래된순</option>
+        </select>
+      </div>
+      -->
+
+      <!-- 후기 리스트 (JS가 reviews.json을 읽어와 채움) -->
+      <ul class="review" aria-live="polite"></ul>
+
+      <!-- 더 보기 -->
+      <div class="review-more">
+        <button id="loadMoreBtn" class="btnPrimary" type="button">More</button>
+      </div>
+
+      <!-- 상세보기 모달 -->
+      <div id="reviewModal" class="modal" style="display: none">
+        <div class="modalContent">
+          <button class="modal-close" aria-label="닫기">&times;</button>
+          <div class="review-modal-body">
+            <img
+              id="reviewModalImg"
+              src=""
+              alt=""
+              style="max-width: 100%; height: auto; border-radius: 8px"
+            />
+            <div
+              class="review-modal-meta"
+              style="margin-top: 12px; text-align: left"
+            >
+              <h3 id="reviewModalTitle" style="margin: 0 0 6px 0">시공 상세</h3>
+              <p
+                id="reviewModalDate"
+                style="margin: 0 0 4px 0; color: white"
+              ></p>
+              <p
+                id="reviewModalRegion"
+                style="margin: 0 0 8px 0; color: white"
+              ></p>
+              <p id="reviewModalDesc" style="margin: 0"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="nav-layout-container"></div>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>시공</title>
+    <link rel="stylesheet" href="./main.css" />
+    <link rel="stylesheet" href="./installation.css" />
+
+    <script
+      src="https://kit.fontawesome.com/0018d0d2c3.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./woojin.js" defer></script>
+    <script src="./calendar.js" defer></script>
+  </head>
+  <body>
+    <div id="header-layout-container"></div>
+    <div class="header-overlay"></div>
+
+    <main class="installation-main">
+      <h1>시공 문의 페이지입니다.</h1>
+      <p>시공 문의 페이지</p>
+      <div class="calendar-container">
+        <h2>예약 달력</h2>
+
+        <div class="calendar-header">
+          <label for="month-select">월:</label>
+          <select id="month-select"></select>
+
+          <label for="year-select">년도:</label>
+          <select id="year-select"></select>
+        </div>
+
+        <table class="calendar" id="calendar">
+          <thead>
+            <tr>
+              <th>일</th>
+              <th>월</th>
+              <th>화</th>
+              <th>수</th>
+              <th>목</th>
+              <th>금</th>
+              <th>토</th>
+            </tr>
+          </thead>
+          <tbody id="calendar-body"></tbody>
+        </table>
+      </div>
+
+      <div class="installation-qna">
+        <h1>문의 하는 방법</h1>
+        <h2>시공 원하는 날짜 클릭</h2>
+        <p>선택한 날짜를 확인 후 문의하기 버튼을 눌러 주세요.</p>
+      </div>
+    </main>
+
+    <div id="nav-layout-container"></div>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+.mapInformation,
+.contactDsc {
+  padding: 20px;
+  text-align: center;
+}
+
+.mapInformation {
+  margin-top: 20px;
+}
+
+.map-frame {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+#map {
+  max-width: 800px;
+}
+
+#copyToast {
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #1e293b;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+#copyToast.show {
+  opacity: 1;
+  transform: translate(-50%, -6px);
+}
+
+.copy-btn {
+  margin-left: 10px;
+  padding: 3px 7px;
+  font-size: 0.875rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #3b82f6;
+  color: white;
+  cursor: pointer;
+}

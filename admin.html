@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>우진인테리어 관리자 페이지</title>
+    <link rel="stylesheet" href="./admin.css" />
+    <script src="./admin.js" defer></script>
+    <script>
+      // ✅ 로그인 여부 확인
+      if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = 'login.html';
+      }
+    </script>
+  </head>
+  <body>
+    <!-- 좌측 사이드바 -->
+    <aside class="sidebar">
+      <h2>관리 메뉴</h2>
+      <nav>
+        <ul>
+          <li><a href="#reviews" class="menu-link">시공 후기 관리</a></li>
+          <li><a href="#quotes" class="menu-link">견적 문의</a></li>
+          <li><a href="#calendar" class="menu-link">예약 관리</a></li>
+          <li><a href="#settings" class="menu-link">사이트 설정</a></li>
+          <li><a href="#users" class="menu-link">계정 관리</a></li>
+        </ul>
+      </nav>
+      <button id="logout-btn" class="logout-btn">로그아웃</button>
+    </aside>
+
+    <!-- 우측 메인 콘텐츠 -->
+    <div class="main-content">
+      <header class="admin-header">
+        <h1>우진인테리어 관리자 페이지</h1>
+      </header>
+
+      <main>
+        <!-- 시공 후기 관리 -->
+        <section id="reviews" class="content-section active">
+          <h2>시공 후기 관리</h2>
+          <form>
+            <label>시공 전 사진: <input type="file" /></label><br />
+            <label>시공 후 사진: <input type="file" /></label><br />
+            <label>설명: <textarea rows="3"></textarea></label><br />
+            <button type="submit">등록하기</button>
+          </form>
+          <div class="review-list">
+            <p>등록된 후기 목록</p>
+          </div>
+        </section>
+
+        <!-- 견적 문의 -->
+        <section id="quotes" class="content-section">
+          <h2>견적 문의</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>이름</th>
+                <th>전화번호</th>
+                <th>내용</th>
+                <th>상태</th>
+              </tr>
+            </thead>
+            <tbody id="quote-list">
+              <tr>
+                <td>홍길동</td>
+                <td>010-1234-5678</td>
+                <td>이중창 견적 문의</td>
+                <td>확인중</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 예약 관리 -->
+        <section id="calendar" class="content-section">
+          <h2>예약 관리</h2>
+          <div class="calendar-controls">
+            <select id="year-select"></select>
+            <select id="month-select"></select>
+          </div>
+          <table class="calendar">
+            <thead>
+              <tr>
+                <th>일</th>
+                <th>월</th>
+                <th>화</th>
+                <th>수</th>
+                <th>목</th>
+                <th>금</th>
+                <th>토</th>
+              </tr>
+            </thead>
+            <tbody id="calendar-body"></tbody>
+          </table>
+        </section>
+
+        <!-- 사이트 설정 -->
+        <section id="settings" class="content-section">
+          <h2>사이트 설정</h2>
+          <form>
+            <label
+              >회사 연락처: <input type="text" value="010-0000-0000" /></label
+            ><br />
+            <label
+              >회사 주소: <input type="text" value="경기도 군포시 ..." /></label
+            ><br />
+            <label
+              >소개글:
+              <textarea rows="3">안녕하세요. 우진인테리어입니다.</textarea></label
+            ><br />
+            <button type="submit">저장하기</button>
+          </form>
+        </section>
+
+        <!-- 계정 관리 (마스터 전용) -->
+        <section id="users" class="content-section">
+          <h2>계정 관리</h2>
+          <p>이 영역은 마스터 계정만 접근할 수 있습니다.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>아이디</th>
+                <th>권한</th>
+                <th>관리</th>
+              </tr>
+            </thead>
+            <tbody id="user-list">
+              <tr>
+                <td>admin</td>
+                <td>master</td>
+                <td>삭제 불가</td>
+              </tr>
+              <tr>
+                <td>woojin</td>
+                <td>user</td>
+                <td><button>삭제</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <form id="add-user-form">
+            <label
+              >새 아이디:
+              <input type="text" id="new-username" required /></label
+            ><br />
+            <label
+              >비밀번호:
+              <input type="password" id="new-password" required /></label
+            ><br />
+            <label
+              >권한:
+              <select id="new-role">
+                <option value="user">user</option>
+                <option value="master">master</option>
+              </select> </label
+            ><br />
+            <button type="submit">추가</button>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <!-- 예약 팝업 -->
+    <div id="reservation-modal" class="modal">
+      <div class="modal-content">
+        <span id="modal-close" class="modal-close">&times;</span>
+        <h3>예약 추가</h3>
+        <form id="reservation-form">
+          <label>이름: <input type="text" id="res-name" required /></label
+          ><br />
+          <label>전화번호: <input type="text" id="res-phone" required /></label
+          ><br />
+          <label>메모: <textarea id="res-note" rows="3"></textarea></label
+          ><br />
+          <button type="submit">저장</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="./admin-calendar.js"></script>
+    <script>
+      // ✅ 로그아웃 기능
+      document.getElementById('logout-btn').addEventListener('click', () => {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('role');
+        window.location.href = 'login.html';
+      });
+
+      // ✅ master 계정만 "계정 관리" 메뉴 보이게
+      window.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('role') !== 'master') {
+          const usersMenu =
+            document.querySelector('a[href="#users"]')?.parentElement;
+          if (usersMenu) usersMenu.style.display = 'none';
+          const usersSection = document.getElementById('users');
+          if (usersSection) usersSection.remove(); // 섹션 자체도 숨김
+        }
+      });
+
+      // ✅ 탭 전환 기능
+      const links = document.querySelectorAll('.menu-link');
+      const sections = document.querySelectorAll('.content-section');
+
+      links.forEach((link) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute('href').substring(1);
+
+          sections.forEach((sec) => sec.classList.remove('active'));
+          document.getElementById(targetId).classList.add('active');
+        });
+      });
+    </script>
+  </body>
+</html>

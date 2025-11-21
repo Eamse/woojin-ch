@@ -1,0 +1,101 @@
+/* --- 달력 공통 스타일 --- */
+.calendar-container {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.calendar select {
+  padding: 5px;
+}
+
+.calendar {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.calendar table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.calendar th,
+.calendar td {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 10px;
+}
+
+.calendar td:hover {
+  background-color: #e0f0ff;
+  cursor: pointer;
+}
+
+/* 오늘 날짜 강조 */
+.calendar td.today {
+  background-color: #ffeb3b;
+  color: #000;
+  font-weight: bold;
+}
+
+/* 선택한 날짜 */
+.calendar td.selected {
+  background-color: #2196f3;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* --- 미디어 쿼리: 1050px 이하 --- */
+@media (max-width: 1050px) {
+  .calendar {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .calendar th,
+  .calendar td {
+    padding: 8px;
+  }
+}
+
+/* --- 미디어 쿼리: 768px 이하 --- */
+@media (max-width: 768px) {
+  .calendar {
+    width: 95%;
+    padding: 10px;
+  }
+
+  .calendar th,
+  .calendar td {
+    padding: 6px;
+    font-size: 0.9rem;
+  }
+}
+
+/* --- 미디어 쿼리: 512px 이하 --- */
+@media (max-width: 512px) {
+  .calendar th,
+  .calendar td {
+    padding: 4px;
+    font-size: 0.8rem;
+  }
+}
+
+/* --- 미디어 쿼리: 350px 이하 --- */
+@media (max-width: 350px) {
+  .calendar th,
+  .calendar td {
+    padding: 3px;
+    font-size: 0.7rem;
+  }
+}
