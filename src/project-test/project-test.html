@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WOOJIN Project · 시공사례</title>
+    <link rel="stylesheet" href="../layout/layout.css" />
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="project.css" />
+    <script src="../index.js" defer></script>
+    <script src="project.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">WOOJIN · PROJECTS</div>
+        <button class="nav-toggle" data-nav-toggle>MENU</button>
+        <nav class="site-nav">
+          <a href="/upload-test.html">테스트</a>
+          <a href="/admin.html">관리자</a>
+          <a href="/project/project.html" class="active">시공사례</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="hero">
+        <h1>시공사례</h1>
+        <p class="status-line">
+          API 기반 카드 그리드 + 필터 + 정렬 + 페이지네이션 + 모달 뷰
+        </p>
+      </section>
+
+      <section class="card">
+        <form id="project-filter" class="filter-grid-project">
+          <label class="input-label"
+            >카테고리
+            <select name="category" class="select">
+              <option value="">전체</option>
+              <option value="주거공간">주거공간</option>
+              <option value="상업공간">상업공간</option>
+              <option value="오피스공간">오피스공간</option>
+              <option value="리모델링">리모델링</option>
+            </select>
+          </label>
+          <label class="input-label"
+            >정렬
+            <select name="sort" class="select">
+              <option value="recent">최신순</option>
+              <option value="oldest">오래된 순</option>
+            </select>
+          </label>
+          <label class="input-label"
+            >페이지당 항목
+            <select name="limit" class="select">
+              <option value="12">12개</option>
+              <option value="24">24개</option>
+              <option value="36">36개</option>
+            </select>
+          </label>
+        </form>
+      </section>
+
+      <section style="margin-top: 1rem">
+        <div class="card-grid project-grid" id="project-grid"></div>
+        <div class="pagination" id="project-pagination"></div>
+        <p class="status-line" id="project-status"></p>
+      </section>
+    </main>
+
+    <footer class="site-footer">&copy; 2024 WOOJIN Projects</footer>
+
+    <div class="modal-backdrop" id="project-modal">
+      <div class="modal">
+        <button class="modal-close" type="button" aria-label="닫기">
+          &times;
+        </button>
+        <img src="" alt="" id="modal-image" />
+        <h3 id="modal-title"></h3>
+        <p id="modal-category" class="tag"></p>
+      </div>
+    </div>
+  </body>
+</html>

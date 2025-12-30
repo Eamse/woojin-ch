@@ -3,9 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./woojin.css" />
-    <link rel="stylesheet" href="./main.css" />
-    <script src="./woojin.js" defer></script>
+    <link rel="stylesheet" href="./layout/layout.css" />
+    <link rel="stylesheet" href="./index.css" />
+    <!-- [추가] API 주소 명시 (127.0.0.1 사용) -->
+    <meta name="woojin-api-base" content="http://127.0.0.1:4000/api" />
+
     <script
       src="https://kit.fontawesome.com/0018d0d2c3.js"
       crossorigin="anonymous"
@@ -65,47 +67,16 @@
     <main class="magazine-layout">
       <section class="portfolio" aria-label="Recent Projects">
         <div class="feature-heading">
-          <span class="section-eyebrow">In Residence</span>
-          <h2>우진이 완성한 장면들</h2>
-          <p>
-            세대마다 다른 일상의 리듬을 담은 세 프로젝트. 레이어드 프레임과 빛의
-            농도를 통해 공간이 어떻게 호흡하는지 살펴보세요.
+          <span class="section-eyebrow">Latest Projects</span>
+          <h2>우진창호 최신 시공 사례</h2>
+          <p class="portfolio-subtext">
+            실시간으로 업데이트되는 우진의 최신 현장을 확인하세요.
           </p>
         </div>
-        <div class="portfolio-grid">
-          <figure class="box-item">
-            <img src="./after-image/window.jpeg" alt="송도 펜트하우스 거실" />
-            <figcaption>
-              <span class="project-location">Songdo Penthouse</span>
-              <span class="project-title">North View Conservatory</span>
-              <p>
-                일출을 담는 노스 뷰 창을 3차례 각도로 재설계해 사계절 내내 빛의
-                길을 조율했습니다.
-              </p>
-            </figcaption>
-          </figure>
-          <figure class="box-item">
-            <img src="./after-image/window2.jpeg" alt="한남동 레지던스" />
-            <figcaption>
-              <span class="project-location">Hannam Residence</span>
-              <span class="project-title">Muted Brass Collection</span>
-              <p>
-                새틴 브론즈 피니시를 입힌 프레임이 클래식 가구와 어우러져, 주거
-                공간 전반의 무드를 통일했습니다.
-              </p>
-            </figcaption>
-          </figure>
-          <figure class="box-item">
-            <img src="./after-image/window3.jpeg" alt="제주 단독주택" />
-            <figcaption>
-              <span class="project-location">Jeju Maison</span>
-              <span class="project-title">Seaside Silence</span>
-              <p>
-                해풍과 염분에 강한 프레임과 방음층을 더해 바다의 사운드를
-                섬세하게 선택할 수 있도록 설계했습니다.
-              </p>
-            </figcaption>
-          </figure>
+        <div class="portfolio-grid" id="project-grid">
+          <div class="portfolio-empty" id="project-grid-empty">
+            프로젝트를 불러오는 중입니다.
+          </div>
         </div>
       </section>
       <section class="testimonial box-item" aria-label="Client Chronicle">
@@ -159,5 +130,7 @@
       </section>
     </main>
     <div id="nav-layout-container"></div>
+    <script src="./index.js" defer></script>
+    <script src="/src/common.js" defer></script>
   </body>
 </html>

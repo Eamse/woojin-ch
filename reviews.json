@@ -1,101 +1,20 @@
 [
   {
-    "id": "a",
-    "src": "./after-image/window_1.JPG",
-    "alt": "시공 후 이미지",
-    "date": "2023-10-16",
+    "id": "1",
+    "src": "https://placehold.co/600x400",
+    "alt": "거실 리모델링",
     "label": "시공 후",
-    "region": "군포",
-    "desc": "거실 이중창 교체 후 단열 성능이 확실히 좋아졌어요."
+    "date": "2024.01.10",
+    "region": "서울",
+    "desc": "화이트 톤의 깔끔한 거실 인테리어입니다."
   },
   {
-    "id": "b",
-    "src": "./after-image/window_2.JPG",
-    "alt": "시공 후 이미지",
-    "date": "2023-10-16",
+    "id": "2",
+    "src": "https://placehold.co/600x400",
+    "alt": "주방 인테리어",
     "label": "시공 후",
-    "region": "금정",
-    "desc": "소음이 줄고 실내 온도가 일정하게 유지돼서 만족합니다."
-  },
-  {
-    "id": "c",
-    "src": "./after-image/window_3.JPG",
-    "alt": "시공 후 이미지",
-    "date": "2023-10-16",
-    "label": "시공 후",
-    "region": "안양",
-    "desc": "외풍이 완전히 막혀서 겨울 대비 걱정이 사라졌어요."
-  },
-  {
-    "id": "d",
-    "src": "./after-image/window_4.JPG",
-    "alt": "시공 후 이미지",
-    "date": "2023-10-16",
-    "label": "시공 후",
-    "region": "안산",
-    "desc": "결로 문제로 고민했는데 교체 후 벽이 뽀송해졌어요."
-  },
-  {
-    "id": "e",
-    "src": "./after-image/window_5.JPG",
-    "alt": "시공 후 이미지",
-    "date": "2023-10-16",
-    "label": "시공 후",
-    "region": "산본",
-    "desc": "창틀 마감이 깔끔하고 단열이 확실해서 가족 모두 만족해요."
-  },
-  {
-    "id": "f",
-    "src": "./after-image/window.jpeg",
-    "alt": "시공 후 이미지",
-    "date": "2023-10-16",
-    "label": "시공 후",
-    "region": "의왕",
-    "desc": "유리 교체 후 결로가 거의 생기지 않아 편해요."
-  },
-  {
-    "id": "g",
-    "src": "./after-image/window2.jpeg",
-    "alt": "시공 후 이미지",
-    "date": "2023-10-16",
-    "label": "시공 후",
-    "region": "안산",
-    "desc": "여름에도 냉방 효율이 좋아져서 전기요금이 줄었어요."
-  },
-  {
-    "id": "h",
-    "src": "./after-image/window3.jpeg",
-    "alt": "시공 후 이미지",
-    "date": "2023-10-16",
-    "label": "시공 후",
-    "region": "군포",
-    "desc": "디자인이 깔끔해서 인테리어 효과도 좋아요."
-  },
-  {
-    "id": "i",
-    "src": "./after-image/window_6.jpg",
-    "alt": "시공 후 이미지",
-    "date": "2023-10-16",
-    "label": "시공 후",
-    "region": "산본",
-    "desc": "외풍이 줄고 창문 여닫을 때 소음이 없어졌어요."
-  },
-  {
-    "id": "j",
-    "src": "./after-image/window_7.jpg",
-    "alt": "시공 후 이미지",
-    "date": "2023-10-16",
-    "label": "시공 후",
-    "region": "안양",
-    "desc": "시공이 빠르고 마감이 꼼꼼해서 믿음이 갑니다."
-  },
-  {
-    "id": "k",
-    "src": "./after-image/window_8.jpg",
-    "alt": "시공 후 이미지",
-    "date": "2023-10-16",
-    "label": "시공 후",
-    "region": "안양",
-    "desc": "방음 성능이 좋아져서 도로 소음이 거의 들리지 않아요."
+    "date": "2024.02.15",
+    "region": "경기",
+    "desc": "모던한 감성의 주방 공간입니다."
   }
 ]

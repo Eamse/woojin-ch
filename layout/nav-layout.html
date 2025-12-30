@@ -1,191 +1,114 @@
-<!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>우진 창호</title>
-    <link rel="stylesheet" href="./main.css" />
-    <script
-      src="https://kit.fontawesome.com/0018d0d2c3.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    <!-- 하단 네비게이션 -->
-    <div class="fixed-nav-wrapper">
-      <nav class="low-navigation">
-        <div class="low-navigation-bar" id="low-nav">
-          <!-- 무료견적 신청 버튼 (모달 열기) -->
-          <a href="#" class="nav-btn free" id="openEstimateModal">
-            <i class="fa-solid fa-calculator"></i>
-            <span class="nav-btn-text">무료견적 신청</span>
-            <span class="nav-btn-text-pc">무료견적 신청하기</span>
-          </a>
+<div class="fixed-nav-wrapper">
+  <nav class="low-navigation">
+    <div class="low-navigation-bar" id="low-nav">
+      <a href="#" class="nav-btn free" id="openEstimateModal">
+        <i class="fa-solid fa-calculator"></i>
+        <span class="nav-btn-text">무료견적 신청</span>
+        <span class="nav-btn-text-pc">무료견적 신청하기</span>
+      </a>
 
-          <a
-            href="./installation.html"
-            class="nav-btn"
-            id="nav-btn-ins"
-            target="_self"
-          >
-            <i class="fa-solid fa-calendar"></i>
-            <span class="nav-btn-text">예약</span>
-          </a>
+      <a href="./installation.html" class="nav-btn" id="nav-btn-ins">
+        <i class="fa-solid fa-calendar"></i>
+        <span class="nav-btn-text">예약</span>
+      </a>
 
-          <a
-            href="./index.html"
-            class="nav-btn"
-            id="nav-btn-home"
-            target="_self"
-          >
-            <i class="fa-solid fa-house"></i>
-            <span class="nav-btn-text">홈</span>
-          </a>
+      <a href="./index.html" class="nav-btn" id="nav-btn-home">
+        <i class="fa-solid fa-house"></i>
+        <span class="nav-btn-text">홈</span>
+      </a>
 
-          <a
-            href="./befter.html"
-            class="nav-btn"
-            id="nav-btn-bef"
-            target="_self"
-          >
-            <i class="fa-solid fa-star"></i>
-            <span class="nav-btn-text">후기</span>
-          </a>
+      <a href="./befter.html" class="nav-btn" id="nav-btn-bef">
+        <i class="fa-solid fa-star"></i>
+        <span class="nav-btn-text">후기</span>
+      </a>
 
-          <a
-            href="javascript:void(0)"
-            class="nav-btn"
-            id="nav-btn-qna"
-            target="_self"
-          >
-            <i class="fa-solid fa-comments"></i>
-            <span class="nav-btn-text">카톡 문의</span>
-          </a>
-        </div>
-      </nav>
+      <a href="javascript:void(0)" class="nav-btn" id="nav-btn-qna">
+        <i class="fa-solid fa-comments"></i>
+        <span class="nav-btn-text">카톡 문의</span>
+      </a>
     </div>
+  </nav>
+</div>
 
-    <!-- 푸터 -->
-    <footer class="woojin-info">
-      <div class="footer-info">
-        <div class="footer-layout">
-          <div class="footer-logo">
-            <img
-              src="https://placehold.co/350x125?text=woojin+Logo"
-              alt="우진 창호 로고"
-            />
-          </div>
-
-          <div class="footer-text">
-            <span>상호명 : 우진 창호</span><br />
-            <span>대표 : XXX</span><br />
-            <span>사업자 번호 : 000-000-000</span><br />
-            <span>E-mail : example@gmail.com</span><br />
-            <span>주소 : 경기도 xx시 xx로 00-0, 000호</span><br />
-            <span class="callcard"
-              >대표번호 : 010-0000-0000 / Tel : (031)000 - 0000</span
-            ><br />
-            <span>Fax : (031)000 - 0000</span>
-          </div>
-        </div>
-        <div class="logo-background">
-          <img
-            class="contact-logo kaka"
-            src="https://placehold.co/50x50?text=Logo"
-            alt="카카오 로고"
-          />
-          <img
-            class="contact-logo mail"
-            src="https://placehold.co/50x50?text=Logo"
-            alt="메일 로고"
-          />
-        </div>
+<footer class="woojin-info">
+  <div class="footer-info">
+    <div class="footer-layout">
+      <div class="footer-logo">
+        <img
+          src="https://placehold.co/350x125?text=woojin+Logo"
+          alt="우진 창호 로고"
+        />
       </div>
-    </footer>
 
-    <!-- 무료견적 모달 -->
-    <div id="estimateModal" class="modal">
-      <div class="modal-content">
-        <button class="modal-close">&times;</button>
-
-        <!-- STEP01 -->
-        <section class="step step01 active">
-          <h2 class="title">무료견적을 시작합니다!</h2>
-          <p class="subtitle">
-            <span class="step-num">STEP01</span> 현재 거주하고 계시는 집의
-            형태를 선택해주세요
-          </p>
-
-          <div class="btn-group">
-            <button class="btn-outline type-btn" data-type="apartment">
-              🏢 아파트
-            </button>
-            <button class="btn-outline type-btn" data-type="house">
-              🏠 단독주택, 빌라 등
-            </button>
-          </div>
-
-          <button class="btn-primary full" id="step01Confirm">접수확인</button>
-        </section>
-
-        <!-- STEP02 (아파트) -->
-        <section class="step step02-apartment">
-          <h2 class="title">맞춤 인테리어 견적이 궁금하신가요?</h2>
-          <p class="subtitle">
-            <span class="step-num">STEP02</span> 아파트 정보를 입력해주세요
-          </p>
-          <form class="form">
-            <input type="text" placeholder="이름을 입력해주세요" />
-            <input type="text" placeholder="휴대폰번호 (-없이 입력)" />
-            <input type="text" placeholder="평형을 입력해주세요" />
-            <input type="text" placeholder="지역(시/구/동)을 입력해주세요" />
-            <input type="text" placeholder="상세주소(번지 수, 동/호수 등)" />
-          </form>
-          <br />
-          <hr />
-
-          <!-- 2D 도안 이미지 영역 -->
-          <div class="blueprint">
-            <img
-              src="./mian-image/2D-apartment-floor.png"
-              alt="아파트 2D 도안"
-            />
-          </div>
-          <hr />
-
-          <button class="btn-primary full">견적 요청</button>
-        </section>
-
-        <!-- STEP02 (단독/빌라) -->
-        <section class="step step02-house">
-          <h2 class="title">맞춤 인테리어 견적을 요청해주세요~</h2>
-          <p class="subtitle">
-            <span class="step-num">STEP02</span> 주택 정보를 입력해주세요
-          </p>
-          <form class="form">
-            <input type="text" placeholder="이름을 입력해주세요" />
-            <input type="text" placeholder="휴대폰번호 (-없이 입력)" />
-            <input type="text" placeholder="지역(시/구/동)을 입력해주세요" />
-            <input type="text" placeholder="상세주소(번지 수, 동/호수 등)" />
-          </form>
-          <br />
-          <hr />
-
-          <!-- 2D 도안 이미지 영역 -->
-          <div class="blueprint">
-            <img
-              src="./mian-image/2D-apartment-floor.png"
-              alt="아파트 2D 도안"
-            />
-          </div>
-          <hr />
-
-          <button class="btn-primary full">견적 요청</button>
-        </section>
+      <div class="footer-text">
+        <span>상호명 : 우진 창호</span><br />
+        <span>대표 : XXX</span><br />
+        <span>사업자 번호 : 000-000-000</span><br />
+        <span>E-mail : example@gmail.com</span><br />
+        <span>주소 : 경기도 xx시 xx로 00-0, 000호</span><br />
+        <span class="callcard"
+          >대표번호 : 010-0000-0000 / Tel : (031)000 - 0000</span
+        ><br />
+        <span>Fax : (031)000 - 0000</span>
       </div>
     </div>
+    <div class="logo-background">
+      <img
+        class="contact-logo kaka"
+        src="https://placehold.co/50x50?text=Logo"
+        alt="카카오 로고"
+      />
+      <img
+        class="contact-logo mail"
+        src="https://placehold.co/50x50?text=Logo"
+        alt="메일 로고"
+      />
+    </div>
+  </div>
+</footer>
 
-    <!-- 스크립트 -->
-    <script src="./woojin.js"></script>
-  </body>
-</html>
+<!-- 무료견적 모달 -->
+<div id="estimateModal" class="modal">
+  <div class="modal-content">
+    <button class="modal-close">&times;</button>
+
+    <section class="step step01 active">
+      <h2 class="title">무료견적을 시작합니다!</h2>
+      <p class="subtitle">
+        <span class="step-num">STEP01</span> 현재 거주하고 계시는 집의 형태를
+        선택해주세요
+      </p>
+
+      <div class="btn-group">
+        <button class="btn-outline type-btn" data-type="apartment">
+          🏢 아파트
+        </button>
+        <button class="btn-outline type-btn" data-type="house">🏠 주택</button>
+      </div>
+    </section>
+
+    <section class="step step02-apartment">
+      <h2 class="title">STEP02. 아파트 타입을 선택해주세요</h2>
+      <div class="btn-group">
+        <button class="btn-outline type-btn" data-type="apt-remodel">
+          전체 리모델링
+        </button>
+        <button class="btn-outline type-btn" data-type="apt-partial">
+          부분 시공
+        </button>
+      </div>
+    </section>
+
+    <section class="step step02-house">
+      <h2 class="title">STEP02. 주택/빌라 타입을 선택해주세요</h2>
+      <div class="btn-group">
+        <button class="btn-outline type-btn" data-type="house-remodel">
+          전체 리모델링
+        </button>
+        <button class="btn-outline type-btn" data-type="house-partial">
+          부분 시공
+        </button>
+      </div>
+    </section>
+  </div>
+</div>
