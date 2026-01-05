@@ -156,7 +156,7 @@ img {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .menu-eyebrow {
@@ -854,7 +854,8 @@ img {
   }
 
   .header-menu-title > a {
-    display: block;
+    display: flex;
+    justify-content: center;
     width: 100%;
     font-size: 0.9rem;
     padding: 6px 0 0;

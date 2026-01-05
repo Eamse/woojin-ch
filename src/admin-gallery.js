@@ -638,6 +638,9 @@ function setupModalEvents() {
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+      }
       closeModal();
     }
   });

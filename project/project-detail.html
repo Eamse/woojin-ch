@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>시공사례 상세 · 우진창호</title>
+    <meta name="woojin-api-base" content="http://localhost:4000/api" />
+
+    <link rel="stylesheet" href="../index.css" />
+    <link rel="stylesheet" href="../gaon/layout/layout.css" />
+    <link rel="stylesheet" href="./project-detail.css" />
+
+    <script
+      src="https://kit.fontawesome.com/0018d0d2c3.js"
+      crossorigin="anonymous"
+      defer
+    ></script>
+  </head>
+  <body>
+    <div id="layout-header"></div>
+
+    <main class="project-detail-main">
+      <div class="project-detail-container">
+        <section class="gallery-section">
+          <header class="project-header">
+            <div class="title-group">
+              <h1 class="project-title" data-project-title>프로젝트 로딩중...</h1>
+              <span class="project-area-badge" data-project-area-badge></span>
+            </div>
+            <p class="project-description" data-project-description></p>
+          </header>
+
+          <div class="image-gallery-container">
+            <div class="main-image-wrapper">
+              <img
+                src="https://placehold.co/1200x800/eeeeee/ffffff?text=Loading..."
+                alt="메인 시공 이미지"
+                class="main-gallery-image"
+                data-main-image
+              />
+            </div>
+            <div class="thumbnail-list-wrapper">
+              <ul class="thumbnail-list" data-thumbnail-list></ul>
+            </div>
+          </div>
+        </section>
+
+        <aside class="info-sidebar">
+          <div class="info-sidebar-content">
+            <section class="project-summary-section">
+              <h2 class="sidebar-title">프로젝트 정보</h2>
+              <ul class="summary-list">
+                <li>
+                  <span class="label">시공 타입</span>
+                  <span class="value" data-project-category></span>
+                </li>
+                <li>
+                  <span class="label">준공 연도</span>
+                  <span class="value" data-project-year></span>
+                </li>
+                <li>
+                  <span class="label">시공 기간</span>
+                  <span class="value" data-project-period></span>
+                </li>
+                <li>
+                  <span class="label">총 면적</span>
+                  <span class="value" data-project-area></span>
+                </li>
+              </ul>
+            </section>
+
+            <hr class="sidebar-divider" />
+
+            <section class="estimate-section">
+              <h2 class="sidebar-title">예상 견적</h2>
+              <div class="total-price-display">
+                <span class="label">Total</span>
+                <strong class="price" data-project-price></strong>
+              </div>
+              <ul class="price-breakdown-list" data-price-breakdown></ul>
+            </section>
+
+            <hr class="sidebar-divider" />
+
+            <div class="sidebar-actions">
+              <button class="action-button primary" id="btn-consult">
+                프로젝트로 상담신청
+              </button>
+              <button class="action-button" id="btn-share">
+                공유하기 <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <div id="layout-footer"></div>
+
+    <script src="/src/common.js" defer></script>
+    <script src="../gaon/layout/layout.js" defer></script>
+    <script src="/index.js" defer></script>
+    <script src="./project-detail.js" defer></script>
+  </body>
+</html>

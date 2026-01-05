@@ -251,138 +251,141 @@ function calc() {
 // -------------------------------------
 // 슬라이드 애니메이션
 // -------------------------------------
-const slides = document.querySelector('.slides');
-const slide = document.querySelectorAll('.slide');
-const prev = document.querySelector('.prev');
-const next = document.querySelector('.next');
-const pagination = document.querySelector('.slider-pagination');
 
-let current = 0;
-let autoplayTimer = null;
-let paginationDots = [];
+const elements = {
+  slidesContainer: document.querySelector('.slides'),
+  slideItems: document.querySelectorAll('.slide'),
+  prevBtn: document.querySelector('.prev'),
+  nextBtn: document.querySelector('.next'),
+  paginationContainer: document.querySelector('.slider-pagination'),
+};
 
-function updatePagination(activeIndex) {
-  paginationDots.forEach((dot, index) => {
-    const isActive = index === activeIndex;
+let state = {
+  currentIndex: 0,
+  autoplayTimer: null,
+  paginationDots: [],
+  totalSlides: elements.slideItems.length,
+};
+
+// [핵심 변경 1] 슬라이드 표시 함수 (페이드 효과 적용)
+function showSlide(index) {
+  if (state.totalSlides === 0) return;
+
+  // 순환 인덱스 계산 (ex: -1이면 마지막으로, 마지막 넘으면 처음으로)
+  state.currentIndex = (index + state.totalSlides) % state.totalSlides;
+
+  // 기존: 컨테이너를 통째로 이동 (transform)
+  // 변경: 개별 슬라이드의 클래스를 토글 (opacity 조절)
+  elements.slideItems.forEach((item, i) => {
+    const isActive = i === state.currentIndex;
+    item.classList.toggle('active', isActive);
+    item.setAttribute('aria-hidden', !isActive); // 접근성 추가
+  });
+
+  updatePagination();
+}
+
+// 페이지네이션(닷) 상태 업데이트
+function updatePagination() {
+  state.paginationDots.forEach((dot, index) => {
+    const isActive = index === state.currentIndex;
     dot.classList.toggle('active', isActive);
-    dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    dot.setAttribute('aria-selected', isActive);
     dot.tabIndex = isActive ? 0 : -1;
   });
 }
 
-function showSlide(index) {
-  if (!slides || !slide.length) return;
-  current = (index + slide.length) % slide.length;
-  slides.style.transform = `translateX(${-current * 100}%)`;
-  updatePagination(current);
-}
-
+// --- 오토플레이 관련 로직 ---
 function stopAutoplay() {
-  if (!autoplayTimer) return;
-  clearInterval(autoplayTimer);
-  autoplayTimer = null;
-}
-
-function isHoveringSlides() {
-  return Boolean(slides?.matches(':hover'));
-}
-
-function hasFocusedDot() {
-  return Boolean(pagination?.contains(document.activeElement));
+  clearInterval(state.autoplayTimer);
 }
 
 function startAutoplay() {
-  stopAutoplay();
-  if (slide.length <= 1) return;
-  autoplayTimer = setInterval(() => {
-    showSlide(current + 1);
+  stopAutoplay(); // 기존 타이머 제거 후 시작
+  if (state.totalSlides <= 1) return;
+  state.autoplayTimer = setInterval(() => {
+    showSlide(state.currentIndex + 1);
   }, 5000);
 }
 
-function handleDotClick(index) {
-  showSlide(index);
-  if (!isHoveringSlides() && !hasFocusedDot()) {
-    startAutoplay();
-  }
-}
+// 마우스 호버나 포커스 상태 체크 (안전한 오토플레이 재시작을 위해)
+const isInteracting = () =>
+  elements.slidesContainer?.matches(':hover') ||
+  elements.paginationContainer?.contains(document.activeElement);
 
-if (pagination) {
-  if (slide.length <= 1) {
-    pagination.classList.add('hidden');
-    pagination.setAttribute('aria-hidden', 'true');
-  } else {
-    pagination.setAttribute('aria-hidden', 'false');
-    paginationDots = Array.from(slide).map((_, index) => {
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = 'slider-dot';
-      dot.setAttribute('role', 'tab');
-      dot.setAttribute('aria-label', `슬라이드 ${index + 1}`);
-      dot.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
-      dot.tabIndex = index === 0 ? 0 : -1;
-      if (index === 0) dot.classList.add('active');
-      dot.addEventListener('click', () => handleDotClick(index));
-      dot.addEventListener('keydown', (event) => {
-        if (
-          ![
-            'ArrowRight',
-            'ArrowLeft',
-            'ArrowUp',
-            'ArrowDown',
-            'Home',
-            'End',
-          ].includes(event.key)
-        )
-          return;
+// [핵심 변경 2] 초기화 로직 (복잡했던 map 부분 정리)
+function initPagination() {
+  if (!elements.paginationContainer || state.totalSlides <= 1) return;
 
-        event.preventDefault();
+  // 복잡했던 map 내부의 키보드 이벤트 핸들러를 밖으로 분리
+  const handleKeydown = (event, index) => {
+    const keyMap = {
+      ArrowRight: 1,
+      ArrowDown: 1,
+      ArrowLeft: -1,
+      ArrowUp: -1,
+      Home: -index, // 현재 인덱스를 빼면 0이 됨
+      End: state.totalSlides - 1 - index, // 마지막 인덱스로 이동
+    };
 
-        if (event.key === 'Home') {
-          paginationDots[0]?.focus();
-          handleDotClick(0);
-          return;
-        }
-        if (event.key === 'End') {
-          const lastIndex = paginationDots.length - 1;
-          paginationDots[lastIndex]?.focus();
-          handleDotClick(lastIndex);
-          return;
-        }
-        const inc =
-          event.key === 'ArrowRight' || event.key === 'ArrowDown' ? 1 : -1;
-        const nextIndex =
-          (index + inc + paginationDots.length) % paginationDots.length;
-        paginationDots[nextIndex]?.focus();
-        handleDotClick(nextIndex);
-      });
-      pagination.appendChild(dot);
-      return dot;
+    if (!keyMap[event.key]) return;
+    event.preventDefault();
+
+    const nextIndex =
+      (index + keyMap[event.key] + state.totalSlides) % state.totalSlides;
+    state.paginationDots[nextIndex]?.focus();
+    showSlide(nextIndex);
+  };
+
+  // map을 사용해 닷 요소 생성에만 집중
+  state.paginationDots = Array.from(elements.slideItems).map((_, index) => {
+    const dot = document.createElement('button');
+    dot.className = 'slider-dot';
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-label', `${index + 1}번 슬라이드`);
+
+    dot.addEventListener('click', () => {
+      showSlide(index);
+      if (!isInteracting()) startAutoplay();
     });
-  }
+
+    dot.addEventListener('keydown', (e) => handleKeydown(e, index));
+    elements.paginationContainer.appendChild(dot);
+    return dot;
+  });
 }
 
-prev?.addEventListener('click', () => {
-  showSlide(current - 1);
-  if (!isHoveringSlides() && !hasFocusedDot()) startAutoplay();
-});
+// --- 이벤트 리스너 연결 ---
+function attachEvents() {
+  elements.prevBtn?.addEventListener('click', () =>
+    showSlide(state.currentIndex - 1)
+  );
+  elements.nextBtn?.addEventListener('click', () =>
+    showSlide(state.currentIndex + 1)
+  );
 
-next?.addEventListener('click', () => {
-  showSlide(current + 1);
-  if (!isHoveringSlides() && !hasFocusedDot()) startAutoplay();
-});
+  // 공통된 인터랙션 종료 처리
+  const handleInteractionEnd = () => {
+    // 약간의 지연을 주어 포커스 이동 등을 감지할 시간을 줌
+    setTimeout(() => {
+      if (!isInteracting()) startAutoplay();
+    }, 50);
+  };
 
-slides?.addEventListener('mouseenter', stopAutoplay);
-slides?.addEventListener('mouseleave', () => {
-  if (!hasFocusedDot()) startAutoplay();
-});
+  elements.slidesContainer?.addEventListener('mouseenter', stopAutoplay);
+  elements.slidesContainer?.addEventListener(
+    'mouseleave',
+    handleInteractionEnd
+  );
+  elements.paginationContainer?.addEventListener('focusin', stopAutoplay);
+  elements.paginationContainer?.addEventListener(
+    'focusout',
+    handleInteractionEnd
+  );
+}
 
-pagination?.addEventListener('focusin', stopAutoplay);
-pagination?.addEventListener('focusout', (event) => {
-  if (!pagination.contains(event.relatedTarget) && !isHoveringSlides()) {
-    startAutoplay();
-  }
-});
-
-// 첫 슬라이드 세팅
-showSlide(current);
+// --- 실행 ---
+initPagination();
+showSlide(state.currentIndex);
 startAutoplay();
+attachEvents();

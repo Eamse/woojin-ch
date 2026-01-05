@@ -213,8 +213,7 @@ select#project-sort {
   height: 240px;
   width: 100%;
   overflow: hidden;
-  position: relative; /* 자식 요소를 위한 기준점 */
-  border-radius: 16px; /* 이미지 둥근 모서리 추가 */
+  position: relative;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* 이미지에만 그림자 */
   background: #f4f5f7;
 }
@@ -227,23 +226,7 @@ select#project-sort {
 .project-card:hover .project-thumb-wrap img {
   transform: scale(1.04);
 }
-.project-card figcaption {
-  /* [수정] 이미지 위에 텍스트를 배치하기 위한 스타일 */
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 20px 16px;
-  display: grid;
-  gap: 4px;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.6) 100%
-  );
-  color: #fff;
-  pointer-events: none; /* 텍스트가 링크 클릭을 방해하지 않도록 함 */
-}
+
 .project-location {
   font-size: 0.7rem;
   letter-spacing: 0.24em;

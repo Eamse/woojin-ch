@@ -6,6 +6,7 @@
 }
 
 /* Hero slider base (moved from main.css) */
+/* Hero slider base */
 .slider {
   position: relative;
   width: 100%;
@@ -15,16 +16,31 @@
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 }
 
+/* [수정됨] Flex(가로배열) 제거하고 겹치기 위한 준비 */
 .slides {
-  display: flex;
-  height: 100%;
-  transition: transform 0.8s ease-in-out;
+  position: relative;
+  width: 100%;
+  height: 100%; /* 부모 높이 상속 */
+  min-height: 675px; /* [테스트용] 강제로 높이 지정해보기 */
 }
 
+/* [수정됨] 슬라이드들을 한 곳에 겹쳐놓고 투명도(opacity)로 제어 */
 .slide {
-  min-width: 100%;
-  flex-shrink: 0;
+  position: absolute; /* 겹치기 필수 */
+  inset: 0; /* top, left, right, bottom 모두 0 */
+  width: 100%;
   height: 100%;
+
+  opacity: 0; /* 기본적으로 숨김 */
+  z-index: 1;
+
+  transition: opacity 0.8s ease-in-out; /* 페이드 효과 핵심 */
+}
+
+/* [추가됨] 활성화된 슬라이드만 보이게 */
+.slide.active {
+  opacity: 1;
+  z-index: 2; /* 활성 슬라이드를 위로 */
 }
 
 .slide img {
@@ -34,6 +50,7 @@
   filter: saturate(107%);
 }
 
+/* [수정됨] 이미지가 absolute로 뜨면서 가려질 수 있으므로 z-index 명시 */
 .slider::after {
   content: '';
   position: absolute;
@@ -45,8 +62,10 @@
     rgba(10, 14, 25, 0.12) 100%
   );
   pointer-events: none;
+  z-index: 3;
 }
 
+/* [수정됨] 텍스트도 이미지 위에 떠야 하므로 z-index 상향 조정 */
 .slider-overlay {
   position: absolute;
   inset: 0;
@@ -54,7 +73,7 @@
   align-items: center;
   justify-content: center;
   padding: 0 6vw;
-  z-index: 2;
+  z-index: 4; /* 그라디언트(3)보다 위 */
 }
 
 .slider-content {
@@ -98,6 +117,7 @@
   flex-wrap: wrap;
 }
 
+/* 페이지네이션은 z-index가 3이었는데, 안전하게 더 올림 */
 .slider-pagination {
   position: absolute;
   bottom: 13px;
@@ -111,7 +131,7 @@
   background: rgba(10, 14, 25, 0.35);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  z-index: 3;
+  z-index: 10; /* 가장 위에 */
 }
 
 .slider-pagination.hidden {
@@ -145,36 +165,6 @@
 
 .slider-dot:hover {
   background: rgba(244, 247, 255, 0.75);
-}
-
-.prev,
-.next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 50px;
-  z-index: 100;
-  font-weight: lighter;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.prev {
-  left: 10px;
-}
-
-.next {
-  right: 10px;
-}
-
-.prev:hover,
-.next:hover {
-  transform: translateY(-50%) scale(1.06);
-  opacity: 0.9;
 }
 
 /* Shared button styles */
@@ -387,6 +377,7 @@
   border: none;
   box-shadow: none;
   transition: transform 0.25s ease;
+  margin: 0;
 }
 
 .project-card:hover {
@@ -402,7 +393,6 @@
 .project-thumb-wrap {
   height: 240px;
   width: 100%;
-  border-radius: 16px;
   position: relative;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   background: #f4f5f7;
