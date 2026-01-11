@@ -9,7 +9,6 @@ const scrollObserver = new IntersectionObserver(
       if (entry.isIntersecting) {
         entry.target.classList.add('show');
       } else {
-        // 다시 스크롤 올렸을 때 애니메이션을 반복하고 싶지 않다면 이 부분을 주석 처리
         entry.target.classList.remove('show');
       }
     });
@@ -46,14 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loadHeaderLayout();
   loadNavLayout();
-
-  // [수정] 빠져있던 API 호출 함수 실행
   initLatestProjects();
-
-  const lowNavWrapper = document.querySelector('.fixed-nav-wrapper');
-  if (window.innerWidth < 1050) {
-    lowNavWrapper?.style && (lowNavWrapper.style.display = 'block');
-  }
 
   // [추가] 정적인 .box-item 요소들(소개, 아뜰리에 섹션)을 관찰
   const staticItems = document.querySelectorAll(
@@ -198,14 +190,7 @@ function initializeHeaderFunctionality() {
   const header = document.querySelector('.header-side');
   const toggleBtn = document.querySelector('.mobile-toggle-btn');
   const menuItems = document.querySelector('.menu-items');
-  const lowNavWrapper = document.querySelector('.fixed-nav-wrapper');
   const scrollToTopBtn = document.querySelector('.sticky-btn.scroll-to-top');
-
-  if (window.innerWidth > 1050) {
-    lowNavWrapper?.style && (lowNavWrapper.style.display = 'none');
-  } else {
-    lowNavWrapper?.style && (lowNavWrapper.style.display = 'block');
-  }
 
   toggleBtn?.addEventListener('click', () => {
     menuItems?.classList.toggle('active');
@@ -357,12 +342,17 @@ function initPagination() {
 
 // --- 이벤트 리스너 연결 ---
 function attachEvents() {
-  elements.prevBtn?.addEventListener('click', () =>
-    showSlide(state.currentIndex - 1)
-  );
-  elements.nextBtn?.addEventListener('click', () =>
-    showSlide(state.currentIndex + 1)
-  );
+  // [수정] 버튼이 존재할 때만 이벤트를 연결하도록 변경
+  if (elements.prevBtn) {
+    elements.prevBtn.addEventListener('click', () =>
+      showSlide(state.currentIndex - 1)
+    );
+  }
+  if (elements.nextBtn) {
+    elements.nextBtn.addEventListener('click', () =>
+      showSlide(state.currentIndex + 1)
+    );
+  }
 
   // 공통된 인터랙션 종료 처리
   const handleInteractionEnd = () => {

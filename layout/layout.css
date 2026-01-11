@@ -1,6 +1,5 @@
 /* Base & layout styles migrated from main.css */
 :root {
-  --color-background: #f7f4ed;
   --color-surface: rgba(255, 255, 255, 0.86);
   --color-primary: #1f369a;
   --color-primary-dark: #15246c;
@@ -8,7 +7,7 @@
   --color-ink: #10141f;
   --color-muted: #5a6070;
   --color-line: rgba(25, 32, 45, 0.08);
-  --shadow-soft: 0 30px 55px rgba(16, 20, 31, 0.08);
+  --shadow-soft: 1px 0 30px 55px rgba(9, 20, 31, 0.03);
   --shadow-elevated: 0 32px 70px rgba(16, 20, 31, 0.14);
   /* --radius-lg: 32px; */
   --radius-md: 22px;
@@ -35,7 +34,7 @@ body {
   margin: 0;
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(180deg, #fbf8f2 0%, #f3f1ec 45%, #ffffff 100%);
+  background-color: white;
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
 }
@@ -135,7 +134,7 @@ img {
 }
 
 .project-thumb-wrap {
-  height: 240px;
+  height: 300px;
   width: 100%;
   position: relative;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
@@ -157,18 +156,10 @@ img {
 }
 
 .project-card figcaption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 24px 20px;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.65) 100%
-  );
+  margin-top: 10px;
   pointer-events: none;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
@@ -205,7 +196,7 @@ img {
   left: 0;
   height: 6rem;
   width: 100%;
-  background: rgba(247, 245, 239, 0.26);
+  background: white;
   border-bottom: 1px solid rgba(214, 195, 165, 0.4);
   z-index: 1001;
   transition: background 0.35s ease, border-color 0.35s ease,
@@ -215,7 +206,7 @@ img {
 }
 
 .header-side.scrolled {
-  background: rgba(247, 245, 239, 0.92);
+  background: rgba(247, 245, 239, 1);
   border-bottom: 1px solid rgba(214, 195, 165, 0.52);
   box-shadow: 0 24px 40px rgba(12, 16, 24, 0.12);
 }
@@ -230,7 +221,6 @@ img {
   justify-content: space-between;
   gap: clamp(1.6rem, 4vw, 2.6rem);
   height: 100%;
-  background: transparent;
 }
 
 .main-logo {
@@ -695,6 +685,10 @@ img {
   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
+.sticky-btn {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .sticky-btn.show {
     bottom: 8.2rem;
@@ -772,11 +766,7 @@ img {
   }
 
   .fixed-nav-wrapper {
-    bottom: 0;
-    height: 70px;
-    padding: 0;
-    background-color: rgba(245, 245, 245, 0.92);
-    width: 100%;
+    display: none;
   }
 
   .low-navigation-bar {
@@ -1053,7 +1043,7 @@ img {
   }
 
   .woojin-info {
-    padding: 20px 10px 90px 10px;
+    padding: 20px 10px 130px 10px;
     min-height: auto;
   }
 

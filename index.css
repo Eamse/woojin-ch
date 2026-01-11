@@ -6,10 +6,11 @@
   /* [변경] 컨셉 1에 맞는 강렬한 산세리프 폰트 및 컬러 정의 */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, Roboto,
     'Helvetica Neue', Arial, sans-serif;
-  --color-ink: #000000; /* 완전한 블랙 */
-  --color-paper: #ffffff; /* 완전한 화이트 */
-  --color-muted: #555555; /* 짙은 회색 */
-  --color-accent: #000000; /* 포인트 컬러도 블랙으로 통일 */
+  --color-ink: #3a3026; /* 짙은 웜 브라운 (텍스트) */
+  --color-paper: #f9f7f2; /* 따뜻한 크림 베이지 (배경) */
+  --color-muted: #8b8276; /* 부드러운 웜 그레이 (보조 텍스트) */
+  --color-accent: #d6c3a5; /* 샌드 베이지 (강조) */
+  --color-gold: #c5a35d; /* 가온 스타일 골드 포인트 */
 
   /* [변경] 모든 곡률 제거 (날카로운 엣지) */
   --radius-lg: 0px;
@@ -24,7 +25,7 @@
 body {
   font-family: var(--font-sans);
   color: var(--color-ink);
-  background-color: var(--color-paper);
+  background: white;
 }
 
 /* =========================================
@@ -67,16 +68,6 @@ body {
   }
 }
 
-/* 3. 밑줄이 쫙 그어지는 효과 */
-@keyframes lineReveal {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
-
 /* =========================================
    HERO SLIDER SECTION (압도적인 스케일)
    ========================================= */
@@ -84,11 +75,9 @@ body {
 .slider {
   position: relative;
   width: 100%;
-  /* 높이를 화면 가득 채우거나 매우 높게 설정 */
   min-height: 90vh;
-  margin-top: 0; /* 헤더와 딱 붙게 */
+  margin-top: 0;
   overflow: hidden;
-  /* [변경] border-radius 제거 */
   border-radius: 0;
   background: var(--color-ink);
 }
@@ -119,22 +108,20 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* [변경] 채도를 낮추고 대비를 높여 묵직한 느낌 */
   filter: saturate(80%) contrast(120%) brightness(90%);
   transform: scale(1);
   transition: transform 6s ease;
 }
-/* 슬라이드 활성화 시 이미지가 천천히 확대됨 */
+
 .slide.active img {
   transform: scale(1.05);
 }
 
-/* [변경] 그라데이션 대신 더 어둡고 균일한 오버레이 적용 */
 .slider::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5); /* 단순한 블랙 오버레이 */
+  background: rgba(0, 0, 0, 0.5);
   pointer-events: none;
   z-index: 3;
 }
@@ -143,40 +130,36 @@ body {
   position: absolute;
   inset: 0;
   display: flex;
-  /* [변경] 중앙 정렬 대신 하단 배치를 기본으로 설정하여 무게감 부여 */
   align-items: flex-end;
-  justify-content: flex-start; /* 좌측 정렬 */
-  padding: 0 4vw 6vw; /* 하단 패딩을 넓게 */
+  justify-content: flex-start;
+  padding: 0 4vw 6vw;
   z-index: 4;
 }
 
 .slider-content {
-  position: relative; /* absolute 제거 */
-  top: auto; /* top 제거 */
-  max-width: 900px; /* 너비 증가 */
+  position: absolute;
+  top: 200px;
+  max-width: 900px;
   color: var(--color-paper);
-  text-shadow: none; /* 그림자 제거로 깔끔하게 */
+  text-shadow: none;
+  left: 200px;
 }
 
-/* [디자인 변경 & 동적 요소 추가] 아이브로우 텍스트 */
 .slider-eyebrow {
   display: inline-block;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.4em;
   text-transform: uppercase;
-  /* 배경 및 둥근 테두리 제거 */
   background: transparent;
   padding: 0;
   margin-bottom: 24px;
   position: relative;
-
-  /* 애니메이션 적용 */
   opacity: 0;
   animation: fadeInUpStark 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards
     0.2s;
 }
-/* 마우스 오버 시 밑줄이 생기는 효과 */
+
 .slider-eyebrow::after {
   content: '';
   position: absolute;
@@ -187,32 +170,29 @@ body {
   background-color: var(--color-paper);
   transition: width 0.3s ease;
 }
+
 .slider-eyebrow:hover::after {
   width: 100%;
 }
 
-/* [디자인 변경 & 동적 요소 추가] 메인 헤드라인 */
 .slider-content h1 {
   font-family: var(--font-sans);
-  /* 기존: clamp(3.5rem, 12vw, 8rem) -> 축소됨 */
-  font-size: clamp(2.2rem, 5vw, 4.5rem);
-  font-weight: 800; /* 두께도 살짝 줄여서 부담 완화 */
-  line-height: 1.1; /* 행간을 조금 넓혀 가독성 확보 */
+  font-size: clamp(2.2rem, 4vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.1;
   letter-spacing: -0.02em;
   margin: 0 0 20px;
   text-transform: uppercase;
-
   opacity: 0;
   animation: fadeInUpStark 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards
     0.4s;
 }
-/* 마우스 오버 시 미세하게 떨리는 긴장감 효과 */
+
 .slider-content h1:hover {
   animation: textJitter 0.4s linear;
   cursor: default;
 }
 
-/* [디자인 변경 & 동적 요소 추가] 본문 텍스트 */
 .slider-content p {
   font-size: clamp(1rem, 1.5vw, 1.2rem);
   line-height: 1.7;
@@ -220,8 +200,6 @@ body {
   color: rgba(255, 255, 255, 0.8);
   max-width: 600px;
   font-weight: 400;
-
-  /* 애니메이션 적용 */
   opacity: 0;
   animation: fadeInUpStark 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards
     0.6s;
@@ -231,31 +209,26 @@ body {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
-
-  /* 애니메이션 적용 */
   opacity: 0;
   animation: fadeInUpStark 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards
     0.8s;
 }
 
-/* 페이지네이션 스타일 변경 (점 대신 선이나 숫자 등 미니멀하게) */
 .slider-pagination {
   position: absolute;
   bottom: 4vw;
-  right: 4vw; /* 우측 하단으로 이동 */
+  right: 4vw;
   left: auto;
   transform: none;
   display: inline-flex;
   align-items: center;
   gap: 15px;
   padding: 0;
-  /* 배경 및 블러 제거 */
   background: transparent;
   backdrop-filter: none;
   z-index: 10;
 }
 
-/* 점을 얇은 선(bar) 형태로 변경 */
 .slider-dot {
   width: 30px;
   height: 2px;
@@ -266,7 +239,7 @@ body {
 
 .slider-dot.active {
   background: var(--color-paper);
-  width: 50px; /* 활성화된 것만 길게 */
+  width: 50px;
   transform: none;
 }
 
@@ -279,7 +252,7 @@ body {
 }
 
 /* =========================================
-   BUTTONS (직관적이고 날카롭게)
+   BUTTONS
    ========================================= */
 .btn {
   display: inline-flex;
@@ -287,7 +260,6 @@ body {
   justify-content: center;
   gap: 12px;
   padding: 18px 36px;
-  /* border-radius 제거 */
   border-radius: 0;
   font-size: 0.9rem;
   font-weight: 800;
@@ -295,24 +267,22 @@ body {
   text-transform: uppercase;
   text-decoration: none;
   transition: all 0.3s ease;
-  border: 2px solid transparent; /* 테두리 공간 확보 */
+  border: 2px solid transparent;
 }
 
-/* Primary Button: 완전한 블랙 박스 */
 .btn.primary {
   color: var(--color-paper);
   background: var(--color-ink);
-  box-shadow: none; /* 그림자 제거 */
+  box-shadow: none;
 }
 
 .btn.primary:hover {
   transform: translateY(-4px);
   background: var(--color-paper);
   color: var(--color-ink);
-  border-color: var(--color-paper); /* 호버 시 흰색 배경에 흰색 테두리 느낌 */
+  border-color: var(--color-paper);
 }
 
-/* Ghost/Outline Button: 날카로운 테두리 */
 .btn.ghost,
 .btn.outline {
   color: var(--color-paper);
@@ -328,15 +298,14 @@ body {
 }
 
 .hero-scroll {
-  /* 스크롤 표시도 더 미니멀하게 */
   right: 4vw;
   bottom: 12vh;
   letter-spacing: 0.5em;
   font-weight: 700;
   font-size: 0.7rem;
+  color: white;
 }
 .hero-scroll::after {
-  /* 화살표 대신 긴 선 추가 */
   content: '';
   display: block;
   width: 1px;
@@ -346,23 +315,22 @@ body {
 }
 
 /* =========================================
-   LAYOUT & SECTIONS (잡지 레이아웃)
+   LAYOUT & SECTIONS
    ========================================= */
 
 .magazine-layout {
-  max-width: 1440px; /* 전체 폭을 더 넓게 사용 */
+  max-width: 1440px;
   margin: 0 auto;
   width: 100%;
   padding: clamp(5rem, 10vw, 8rem) 4vw;
   display: grid;
-  gap: clamp(6rem, 15vw, 10rem); /* 섹션 간 간격을 넓게 */
+  gap: clamp(6rem, 15vw, 10rem);
 }
 
 .feature-heading h2,
 .atelier-copy h2,
 .editorial-headline h2 {
   font-family: var(--font-sans);
-  /* 기존: clamp(2.8rem, 6vw, 4.5rem) -> 축소됨 */
   font-size: clamp(1.8rem, 3.5vw, 3rem);
   font-weight: 800;
   letter-spacing: -0.01em;
@@ -372,7 +340,6 @@ body {
   text-transform: uppercase;
 }
 
-/* 공통 서브텍스트 스타일 */
 .feature-heading p,
 .atelier-copy p,
 .editorial-summary .lead {
@@ -383,7 +350,6 @@ body {
   font-weight: 400;
 }
 
-/* 섹션 눈썹 제목 (Eyebrow) - 캡슐형 제거 */
 .section-eyebrow {
   display: inline-block;
   font-size: 0.8rem;
@@ -395,34 +361,35 @@ body {
   border: none;
   padding: 0;
   margin-bottom: 20px;
-  border-bottom: 2px solid var(--color-ink); /* 하단 밑줄로 포인트 */
+  border-bottom: 2px solid var(--color-ink);
 }
 
 /* =========================================
-   PORTFOLIO GRID (날카로운 카드)
+   PORTFOLIO GRID
    ========================================= */
 
 .portfolio-grid {
   display: grid;
-  /* 카드를 더 크게 보여주기 위해 최소 너비 증가 */
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 40px; /* 간격 증가 */
+  gap: 40px;
 }
 
 .box-item figcaption {
-  /* 기존 스타일 리셋 및 컨셉 적용 */
-  padding: 30px 0 0 0; /* 이미지 아래로 텍스트 배치 */
-  background: transparent;
-  border: none;
+  padding: 10px 0 0 0;
+  display: block;
 }
 
 .portfolio figure {
   margin: 0;
   background: transparent;
-  border-radius: 0; /* 모서리 직각 */
+  border-radius: 0;
   border: none;
   box-shadow: none;
-  overflow: visible; /* 캡션이 밖으로 나오도록 */
+  overflow: visible;
+}
+
+.portfolio figure .project-thumb-wrap {
+  border-radius: 0;
 }
 
 .portfolio figure img {
@@ -430,19 +397,17 @@ body {
   height: 100%;
   object-fit: cover;
   border-radius: 0;
-  filter: grayscale(100%); /* 기본 흑백 */
+  filter: grayscale(100%);
   transition: all 0.5s ease;
 }
 
-/* 호버 시 컬러로 변경되며 확대 */
 .portfolio figure:hover img {
   filter: grayscale(0%);
   transform: scale(1.03);
 }
 
-/* 프로젝트 위치 (작은 텍스트) */
 .project-location {
-  font-size: 0.75rem;
+  font-size: 1.5rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--color-muted);
@@ -451,10 +416,9 @@ body {
   margin-bottom: 10px;
 }
 
-/* 프로젝트 제목 (크고 두껍게) */
 .project-title {
   font-family: var(--font-sans);
-  font-size: 1.4rem; /* 1.8rem에서 축소 */
+  font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--color-ink);
@@ -470,79 +434,168 @@ body {
 }
 
 /* =========================================
-   TESTIMONIAL (강렬한 반전 섹션)
+   PROCESS SECTION (GAON STYLE - DARK & FRAMED)
    ========================================= */
 
-.testimonial {
+/* 섹션 전체를 어둡게 처리하여 프리미엄 느낌 강조 */
+.process-section.dark-mode {
+  background-color: #2e2a27; /* 웜 블랙 (다크 브라운 톤) */
+  color: #ffffff;
+  padding: clamp(6rem, 15vw, 10rem) 4vw;
+  margin: 0 -4vw;
+  width: calc(100% + 8vw);
+}
+
+/* 제목 중앙 정렬용 유틸리티 */
+.text-center {
+  text-align: center;
+  margin-bottom: clamp(4rem, 10vw, 7rem);
+}
+
+/* 제목 색상 반전 (다크모드 대응) */
+.dark-mode .feature-heading h2 {
+  color: #ffffff;
+}
+.dark-mode .section-eyebrow {
+  color: var(--color-gold); /* 골드 포인트 컬러 */
+  border-color: var(--color-gold);
+}
+
+.process-container {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6rem, 12vw, 10rem);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.process-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8%;
+}
+
+/* 짝수 번째 아이템 반전 (지그재그) */
+.process-row:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+/* --- 이미지 프레임 디자인 --- */
+.process-img-wrapper {
+  flex: 1;
+
+  max-width: 550px;
+
+  margin: 0 auto;
   position: relative;
-  /* 그라데이션 제거, 완전한 블랙 배경 */
-  background: var(--color-ink);
-  border-radius: 0;
-  color: var(--color-paper);
-  padding: clamp(4rem, 10vw, 6rem);
-  box-shadow: none;
+  padding: 20px;
 }
 
-.testimonial-tag {
-  font-size: 0.8rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-  display: inline-block;
-  padding-bottom: 10px;
+.img-frame {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
 }
 
-.testimonial blockquote {
-  margin: 30px 0;
+.img-frame img {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(110%);
+  transition: all 0.5s ease;
+  display: block;
+}
+
+/* 오프셋 라인 박스 (사진 뒤에 깔리는 선) */
+.img-frame::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(197, 163, 93, 0.5); /* 은은한 골드 라인 */
+  z-index: -1;
+  transition: transform 0.5s ease;
+}
+
+/* 짝수 번째 사진은 프레임을 반대쪽으로 배치 */
+.process-row:nth-child(even) .img-frame::before {
+  top: auto;
+  bottom: -20px;
+  left: auto;
+  right: -20px;
+}
+
+/* 호버 효과 */
+.process-row:hover img {
+  filter: grayscale(0%);
+  transform: scale(1.02);
+}
+.process-row:hover .img-frame::before {
+  transform: translate(-10px, -10px);
+}
+.process-row:nth-child(even):hover .img-frame::before {
+  transform: translate(10px, 10px);
+}
+
+/* --- 텍스트 디자인 --- */
+.process-text {
+  flex: 1;
+  position: relative;
+}
+
+.step-number {
+  display: block;
+  font-size: clamp(4rem, 6vw, 6rem);
+  font-weight: 900;
+  line-height: 1;
+  /* 테두리만 있는 숫자 스타일 (Outline Text) */
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+  color: transparent;
+  margin-bottom: 20px;
   font-family: var(--font-sans);
-  /* 기존: clamp(2.2rem, 5vw, 3.5rem) -> 축소됨 */
-  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
-  line-height: 1.5;
+}
+
+.process-text h3 {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
   font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--color-paper);
-}
-
-/* 인용구에 마우스 오버시 떨림 효과 */
-.testimonial blockquote:hover {
-  animation: textJitter 0.4s linear;
-}
-
-.testimonial cite {
-  font-size: 1rem;
-  letter-spacing: 0.2em;
+  margin-bottom: 24px;
+  color: #ffffff;
   text-transform: uppercase;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.8);
-  font-style: normal;
+}
+
+.process-text p {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.6);
+  word-break: keep-all;
 }
 
 /* =========================================
-   ATELIER SECTION (미니멀한 컨택 포인트)
+   ATELIER SECTION
    ========================================= */
 
 .atelier {
-  /* 배경 및 테두리 제거, 순수한 화이트 공간 */
   background: var(--color-paper);
   border-radius: 0;
-  padding: clamp(4rem, 10vw, 6rem) 0; /* 좌우 패딩 제거 */
+  padding: clamp(4rem, 10vw, 6rem) 0;
   border: none;
   box-shadow: none;
-  border-top: 4px solid var(--color-ink); /* 상단에 두꺼운 블랙 라인 */
+  border-top: 4px solid var(--color-ink);
 }
 
 .atelier::before {
-  display: none; /* 배경 패턴 제거 */
+  display: none;
 }
 
 .atelier-content {
-  align-items: flex-start; /* 상단 정렬 */
-  margin-bottom: 60px;
+  align-items: flex-start;
+  margin: 0 60px 60px 70px;
 }
 
 .atelier-actions .btn.primary {
-  /* 아뜰리에 섹션 버튼은 반전 (흰 배경에 검은 버튼) */
   background: var(--color-ink);
   color: var(--color-paper);
 }
@@ -563,6 +616,7 @@ body {
 .atelier-footer {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 40px;
+  margin: 0 60px 0 60px;
 }
 
 .atelier-label {
@@ -579,30 +633,13 @@ body {
 }
 
 /* =========================================
-   SCROLL ANIMATION BASE (재사용)
-   ========================================= */
-.box-item {
-  opacity: 0;
-  /* 아래에서 위로 올라오는 거리 증가 */
-  transform: translateY(80px);
-  /* 텐션감이 느껴지는 베지어 곡선 적용 */
-  transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.box-item.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* =========================================
-   RESPONSIVE ADJUSTMENTS (반응형)
+   RESPONSIVE ADJUSTMENTS
    ========================================= */
 
 @media (min-width: 1051px) {
   .slider {
-    /* 큰 화면에서는 높이를 더 시원하게 */
-    min-height: 95vh;
+    min-height: 90vh;
+    top: 80px;
   }
 }
 
@@ -611,11 +648,7 @@ body {
     min-height: 80vh;
   }
   .slider-content h1 {
-    font-size: 5rem;
-  }
-  .hero-meta,
-  .hero-scroll {
-    display: none;
+    font-size: 2rem;
   }
 }
 
@@ -624,18 +657,15 @@ body {
     min-height: 70vh;
   }
   .slider-overlay {
-    padding: 0 20px 40px; /* 모바일 패딩 조정 */
+    padding: 0 20px 40px;
     align-items: flex-end;
   }
-  .slider-content h1 {
-    font-size: 3.5rem; /* 모바일에서도 여전히 크게 */
-    line-height: 1;
+  .slider-content {
+    left: auto;
   }
+
   .slider-content p {
     font-size: 1rem;
-  }
-  .slider-actions {
-    display: none; /* 모바일에서 버튼 숨김 (선택사항) */
   }
 
   .magazine-layout {
@@ -643,20 +673,35 @@ body {
     gap: 5rem;
   }
   .portfolio-grid {
-    grid-template-columns: 1fr; /* 한 줄로 */
+    grid-template-columns: 1fr;
   }
-  /* .portfolio figure img {
-    height: 100%;
-  } */
 
-  .testimonial blockquote {
-    font-size: 1.8rem;
+  /* Process Section Mobile */
+  .process-section.dark-mode {
+    width: auto;
+    left: auto;
+    margin: 0 -20px; /* 모바일 패딩 상쇄 */
+    padding: 4rem 20px;
+  }
+
+  .process-row,
+  .process-row:nth-child(even) {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .img-frame::before {
+    top: -15px;
+    left: -15px;
+  }
+  .process-row:nth-child(even) .img-frame::before {
+    bottom: -15px;
+    right: -15px;
   }
 }
 
 @media (max-width: 480px) {
   .slider-content h1 {
-    font-size: 3rem;
+    font-size: 2rem;
   }
   .slider-eyebrow {
     letter-spacing: 0.2em;
@@ -666,7 +711,6 @@ body {
     font-size: 0.8rem;
   }
 
-  /* 모바일에서 섹션 제목 크기 조정 */
   .feature-heading h2,
   .atelier-copy h2 {
     font-size: 2.2rem;

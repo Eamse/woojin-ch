@@ -189,7 +189,7 @@ select#project-sort {
 .project-grid {
   display: grid;
   /* [수정] 최소 너비 240px로 조정하여 가독성 확보 및 왼쪽 정렬 유지 */
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: clamp(1rem, 2vw, 1.4rem);
   list-style: none;
   padding: 0;
@@ -274,6 +274,14 @@ select#project-sort {
   .befter-main {
     margin: 38px 0 0 0;
   }
+
+  .project-controls {
+    display: contents;
+  }
+
+  .search-sort {
+    justify-content: flex-start;
+  }
 }
 @media (max-width: 768px) {
   .befter-main {
@@ -314,4 +322,180 @@ select#project-sort {
   align-items: center;
   justify-content: center;
   z-index: 10000;
+}
+
+/* =========================================
+   Project Detail Page
+   ========================================= */
+.detail-main {
+  margin-top: 6rem;
+  padding: 0;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+/* 그리드 레이아웃 컨테이너 */
+#detail-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 60px 4vw 120px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 60px;
+}
+
+@media (min-width: 1024px) {
+  #detail-container {
+    grid-template-columns: 340px 1fr; /* 사이드바 고정폭 | 갤러리 가변폭 */
+    gap: 100px;
+    align-items: start;
+  }
+}
+
+/* --- 좌측 사이드바 (정보 영역) --- */
+.detail-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+@media (min-width: 1024px) {
+  .detail-sidebar {
+    position: sticky;
+    top: 140px; /* 스크롤 시 상단 고정 */
+    height: fit-content;
+  }
+}
+
+.detail-header-group {
+  border-bottom: 1px solid #111;
+  padding-bottom: 30px;
+}
+
+.detail-category-label {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #999;
+  margin-bottom: 16px;
+  display: block;
+  text-transform: uppercase;
+}
+
+.detail-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #000;
+  margin: 0;
+  word-break: keep-all;
+}
+
+.detail-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-item {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  align-items: baseline;
+}
+
+.info-label {
+  color: #888;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+}
+
+.info-value {
+  color: #000;
+  font-weight: 500;
+}
+
+.detail-description {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #333;
+  white-space: pre-line;
+  margin-top: 10px;
+}
+
+.btn-back-list {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #000;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: opacity 0.3s;
+}
+.btn-back-list:hover {
+  opacity: 0.6;
+}
+
+/* --- 우측 갤러리 영역 --- */
+.detail-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.gallery-image {
+  width: 100%;
+  display: block;
+  margin: 0;
+}
+
+.gallery-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 0; /* 가온 스타일: 날카로운 엣지 */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+}
+
+/* --- 견적 테이블 (미니멀) --- */
+.detail-costs-wrap {
+  margin-top: 20px;
+  border: 1px solid #eee;
+  padding: 24px;
+  background: #fafafa;
+}
+.detail-costs-wrap h3 {
+  font-size: 0.9rem;
+  margin: 0 0 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #000;
+}
+
+.cost-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+  color: #555;
+}
+.cost-row.total {
+  border-bottom: none;
+  font-weight: 700;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #000;
+  color: #000;
+  font-size: 1rem;
 }

@@ -1,0 +1,409 @@
+/* ===== Structure Section (공통 구조 가이드) ===== */
+.structure {
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  padding: clamp(18px, 3vw, 26px);
+}
+
+.structure-head {
+  margin: 0 0 60px;
+}
+
+.structure-title {
+  margin: 0 0 8px;
+  font-size: clamp(18px, 2.6vw, 30px);
+  letter-spacing: -0.02em;
+}
+
+.structure-sub {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 92ch;
+}
+
+.structure-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+/* [동적 요소 1] 카드 호버 리프트 효과 */
+.structure-card {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.structure-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* [동적 요소 2] 이미지 오버레이 & 돋보기 효과 */
+.structure-media {
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  aspect-ratio: 5 / 5;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.structure-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 14px;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+/* 마우스 올리면 이미지 살짝 확대 */
+.structure-card:hover .structure-media img {
+  transform: scale(1.05);
+}
+
+/* 오버레이 (검은 막) */
+.structure-media::after {
+  content: '\f00e'; /* FontAwesome 돋보기 아이콘 코드 */
+  font-family: 'Font Awesome 5 Free'; /* 폰트어썸 사용 시 */
+  font-weight: 900;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* 반투명 검정 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 2rem;
+  opacity: 0; /* 평소엔 숨김 */
+  transition: opacity 0.3s ease;
+}
+
+/* 카드에 마우스 올리면 오버레이 등장 */
+.structure-card:hover .structure-media::after {
+  opacity: 1;
+}
+
+.structure-cap {
+  padding: 20px;
+}
+
+.structure-cap h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.cap-lead {
+  margin: 0 0 8px;
+  color: #4a4540;
+  font-weight: 700;
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.cap-desc {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 15px;
+  word-break: keep-all; /* 한글 단어 끊김 방지 */
+}
+
+.structure-note {
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ===== Structure More (더보기) ===== */
+.structure-more {
+  margin-top: 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* 기본 마커 제거 */
+.structure-summary {
+  list-style: none;
+}
+.structure-summary::-webkit-details-marker {
+  display: none;
+}
+
+.structure-summary {
+  cursor: pointer;
+  user-select: none;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-weight: 800;
+  color: #4a4540;
+  background: #fff;
+  transition: background 0.2s;
+}
+
+.structure-summary:hover {
+  background: #f9f9f9;
+}
+
+.summary-left {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.structure-count {
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 0.9em;
+}
+
+.summary-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  color: var(--accent-strong);
+  background: #f3eee7;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 열렸을 때 스타일 */
+.structure-more[open] .structure-summary {
+  border-bottom: 1px solid var(--line);
+  background: #fbfaf8;
+}
+
+.structure-more[open] .summary-icon {
+  transform: rotate(45deg);
+  background: #fff;
+}
+
+.structure-grid--more {
+  padding: 20px;
+  margin-top: 0;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.structure-media::after {
+  content: '\f00e';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 2rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+/* ===== 모달 (Modal) ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
+}
+
+.modal-content-wrapper {
+  position: relative;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  max-width: 900px;
+  pointer-events: none;
+}
+
+.modal-content {
+  display: block;
+  margin: 0 auto;
+  max-width: 90%;
+  max-height: 70vh;
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  animation: zoomIn 0.3s ease;
+  pointer-events: auto;
+  max-width: 50%;
+}
+
+/* 닫기 버튼 위치 수정 (화면 우측 상단 고정) */
+.close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: 300;
+  transition: transform 0.3s;
+  cursor: pointer;
+  z-index: 2100;
+  opacity: 0.8;
+}
+
+.close:hover {
+  color: #fff;
+  opacity: 1;
+  transform: rotate(90deg);
+}
+
+/* 텍스트 컨테이너 */
+.modal-text-container {
+  text-align: center;
+  color: #fff;
+  padding: 20px;
+  max-width: 700px;
+  margin: 20px auto 0;
+  pointer-events: auto;
+}
+
+#caption {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+#modalDesc {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #ccc;
+  word-break: keep-all;
+}
+
+/* 줌 애니메이션 */
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =========================================
+   [Mobile & Tablet] 반응형 미디어 쿼리
+   ========================================= */
+
+/* 태블릿 (화면 폭 1024px 이하) */
+@media (max-width: 1024px) {
+  .structure-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 모바일 (화면 폭 768px 이하) */
+@media (max-width: 768px) {
+  body {
+    padding: 0;
+  }
+
+  .structure {
+    padding: 62px 16px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .structure-head {
+    margin-bottom: 30px;
+  }
+
+  /* 2열 -> 1열로 변경 */
+  .structure-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  /* 모바일에서 호버 효과 제거 (터치 시 꼬일 수 있음) */
+  .structure-card:hover {
+    transform: none;
+  }
+
+  .structure-media::after {
+    display: none;
+  }
+
+  /* 모달 닫기 버튼 위치 조정 */
+
+  .close {
+    top: 10px;
+    right: 20px;
+    font-size: 35px;
+  }
+
+  .modal-content {
+    max-width: 70%;
+    max-height: 50vh;
+    top: 10%;
+  }
+
+  .modal-text-container {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+  }
+
+  #modalDesc {
+    font-size: 0.95rem;
+    text-align: left;
+  }
+}
