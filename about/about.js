@@ -1,5 +1,5 @@
 // -------------------------------
-// 네이버 지도
+// 네이버 지도 (기존 코드 유지)
 // -------------------------------
 function initMap() {
   const location = new naver.maps.LatLng(37.36622, 126.94353); // 군포시 금정 좌표
@@ -24,69 +24,49 @@ function initMap() {
 }
 initMap();
 
-document.addEventListener('click', async (e) => {
-  const btn = e.target.closest('.copy-btn, [data-copy-target]');
-  if (!btn) return;
+// -------------------------------
+// 주소 복사 기능 (수정됨)
+// -------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  const copyBtn = document.getElementById('copyBtn'); // 버튼 ID
+  const addrText = document.getElementById('addrText'); // 주소 텍스트 ID
 
-  const sel = btn.dataset.copyTarget;
-  let targetEl = sel ? document.querySelector(sel) : null;
-  if (!targetEl)
-    targetEl = btn.previousElementSibling || btn.nextElementSibling || null;
-  if (!targetEl) {
-    console.warn('Copy target not found:', sel);
-    return;
-  }
+  // 버튼과 주소 텍스트가 둘 다 있을 때만 실행
+  if (copyBtn && addrText) {
+    copyBtn.addEventListener('click', async () => {
+      // 1. 복사할 텍스트 가져오기 (공백 제거)
+      const textToCopy = addrText.innerText.trim();
 
-  let raw = '';
-  if (
-    targetEl instanceof HTMLInputElement ||
-    targetEl instanceof HTMLTextAreaElement
-  ) {
-    raw = (targetEl.value || '').trim();
-  } else {
-    raw = (targetEl.textContent || '').trim();
-  }
-  if (!raw) {
-    console.warn('Nothing to copy from target:', targetEl);
-    return;
-  }
+      try {
+        // 2. 클립보드에 쓰기 (최신 방식)
+        await navigator.clipboard.writeText(textToCopy);
 
-  try {
-    await navigator.clipboard.writeText(raw);
-    toast('주소가 복사되었습니다.');
-  } catch {
-    const ta = document.createElement('textarea');
-    ta.value = raw;
-    ta.style.position = 'fixed';
-    ta.style.top = '-9999px';
-    document.body.appendChild(ta);
-    ta.focus();
-    ta.select();
-    try {
-      document.execCommand('copy');
-      toast('주소가 복사되었습니다.');
-    } catch {
-      alert('복사에 실패했습니다. 수동으로 복사해주세요.');
-    } finally {
-      document.body.removeChild(ta);
-    }
+        // 3. 성공 시 토스트 메시지 띄우기
+        showToast('주소가 복사되었습니다.');
+      } catch (err) {
+        // 4. 실패 시 (보안 설정 등으로 인해)
+        console.error('복사 실패:', err);
+        alert('주소 복사에 실패했습니다. 텍스트를 직접 복사해주세요.');
+      }
+    });
   }
 });
 
-function toast(msg) {
-  let el = document.getElementById('copyToast');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'copyToast';
-    el.style.cssText =
-      'position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;transition:opacity .2s';
-    document.body.appendChild(el);
-  }
-  el.textContent = msg;
-  el.hidden = false; // 중요
-  el.style.opacity = '1';
+// -------------------------------
+// 토스트 메시지 함수 (CSS 클래스 연동)
+// -------------------------------
+function showToast(msg) {
+  const toast = document.getElementById('copyToast');
+  if (!toast) return;
+
+  // 메시지 내용 설정
+  toast.textContent = msg;
+
+  // CSS의 .show 클래스를 추가해서 애니메이션 실행 (opacity 1)
+  toast.classList.add('show');
+
+  // 2초 뒤에 클래스 제거 (다시 사라짐)
   setTimeout(() => {
-    el.style.opacity = '0';
-    el.hidden = true;
-  }, 1200);
+    toast.classList.remove('show');
+  }, 2000);
 }

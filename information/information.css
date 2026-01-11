@@ -1,6 +1,6 @@
 /* ===== Structure Section (공통 구조 가이드) ===== */
 .structure {
-  margin-top: 18px;
+  margin-top: 75px;
   border: 1px solid var(--line);
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
   border-radius: var(--radius);

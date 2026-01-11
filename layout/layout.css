@@ -258,7 +258,7 @@ img {
 }
 
 .logo {
-  width: clamp(68px, 7vw, 90px);
+  width: 190px;
   height: auto;
   filter: drop-shadow(0 12px 25px rgba(12, 18, 32, 0.18));
 }
@@ -706,7 +706,8 @@ img {
 
 /* Footer */
 .woojin-info {
-  background: #4a4a4a;
+  background: var(--color-ink); /* Changed from #4a4a4a to Theme Ink Color */
+  color: var(--color-surface);
 }
 
 .footer-info {
@@ -729,7 +730,7 @@ img {
 
 .footer-text {
   font-size: 1.1rem;
-  color: white;
+  color: var(--color-surface); /* Changed from white to Theme Surface Color */
 }
 
 /* Desktop adjustments */
@@ -1043,7 +1044,7 @@ img {
   }
 
   .woojin-info {
-    padding: 20px 10px 130px 10px;
+    padding: 20px 10px 145px 10px;
     min-height: auto;
   }
 
