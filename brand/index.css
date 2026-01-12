@@ -130,7 +130,7 @@ a {
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--color-primary);
+  color: #fff;
   background: rgba(31, 54, 154, 0.08);
   padding: 6px 12px;
   border-radius: 100px;

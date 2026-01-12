@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>시공 후기</title>
-    <!-- [추가] API 주소 명시 (127.0.0.1 사용) -->
     <meta name="woojin-api-base" content="http://127.0.0.1:4000/api" />
     <link rel="stylesheet" href="../layout/layout.css" />
     <link rel="stylesheet" href="./project.css" />
@@ -14,12 +13,10 @@
     ></script>
   </head>
   <body id="top">
-    <!-- 맨 위로 버튼 -->
     <a href="#top" class="sticky-btn scroll-to-top" aria-label="맨 위로">
       <i class="fa-solid fa-arrow-up"></i>
     </a>
 
-    <!-- 헤더/오버레이 (fetch로 주입됨) -->
     <div id="header-layout-container"></div>
     <div class="header-overlay"></div>
 
@@ -62,7 +59,7 @@
 
     <div id="nav-layout-container"></div>
     <script src="/src/common.js" defer></script>
-    <script src="./project.js?v=fix_api" defer></script>
-    <script src="/index.js" defer></script>
+    <script src="./project.js" defer></script>
+    <script src="../index.js" defer></script>
   </body>
 </html>

@@ -1,94 +1,33 @@
-/* project.css - 우진창호 시공사례(프로젝트) 페이지 스타일 */
-
-:root {
-  /* 공통 변수 (Layout/Brand와 통일) */
-  --bg-page: #ffffff;
-  --bg-panel: #fbfaf8;
-  --line-color: rgba(25, 32, 45, 0.12);
-
-  --text-main: #10141f;
-  --text-muted: #5a6070;
-
-  /* 우진 블루 */
-  --color-primary: #1f369a;
-  --color-primary-dark: #15246c;
-
-  /* 웜 엑센트 (베이지/골드) */
-  --color-accent: #d6c3a5;
-  --color-accent-strong: #9c836a;
-
-  /* 그림자 */
-  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.06);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
-
-  /* 폰트 */
-  --font-serif: 'Playfair Display', 'Nanum Myeongjo', serif;
-  --font-sans: 'SUIT Variable', 'Pretendard', sans-serif;
-}
-
 /* =========================================
    Main Listing (Projects Grid)
    ========================================= */
 .befter-main {
-  margin: 80px 0 0 0;
-  padding: clamp(4rem, 5vw, 6rem) clamp(2rem, 6vw, 4rem) clamp(6rem, 10vw, 8rem);
-  display: grid;
-  gap: clamp(3rem, 8vw, 4.5rem);
+  margin-top: 20px;
+  padding-bottom: clamp(6rem, 10vw, 8rem);
 
-  background: linear-gradient(
-    180deg,
-    #f8fbff 0%,
-    #ffffff 100%
-  ); /* 블루 틴트 배경 */
-  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  background: transparent;
+  color: var(--color-ink);
 }
 
 .befter-main h1 {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(2.6rem, 4vw, 3.4rem);
-  letter-spacing: 0.02em;
-  color: var(--text-main);
-  line-height: 1.1;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  line-height: 1.15;
 }
 
 .befter-main h3,
-.befter-main span {
-  margin: 6px 0 0 0;
-  font-size: clamp(1.05rem, 2vw, 1.2rem);
+.befter-main p {
+  margin: 10px 0 0 0;
+  font-size: clamp(1rem, 2vw, 1.15rem);
   letter-spacing: -0.01em;
-  color: var(--text-muted);
+  color: var(--color-muted);
   line-height: 1.6;
-}
-
-/* Primary Button (공용 - Layout.css 스타일 상속) */
-.btnPrimary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 28px;
-  border-radius: 999px;
-
-  /* 우진 블루 그라데이션 */
-  background: linear-gradient(135deg, #2a5dee 0%, #1c3fc5 100%);
-  border: 1px solid transparent;
-  color: #fff;
-
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  text-decoration: none;
-
-  box-shadow: 0 4px 15px rgba(31, 54, 154, 0.3);
-  transition: all 0.25s ease;
-  cursor: pointer;
-}
-
-.btnPrimary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(31, 54, 154, 0.4);
 }
 
 /* =========================================
@@ -100,8 +39,8 @@
   gap: 16px;
   align-items: center;
   margin: 24px 0 16px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--line-color);
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-line);
 }
 
 .filter-chips {
@@ -111,29 +50,29 @@
 }
 
 .chip {
-  border: 1px solid var(--line-color);
+  border: 1px solid var(--color-line);
   border-radius: 999px;
   background: #fff;
-  padding: 8px 16px;
+  padding: 8px 18px;
   cursor: pointer;
-
+  font-family: var(--font-family);
   font-size: 0.9rem;
   font-weight: 500;
-  color: var(--text-muted);
+  color: var(--color-muted);
   transition: all 0.2s ease;
 }
 
 .chip:hover {
   border-color: var(--color-primary);
   color: var(--color-primary);
-  background: #f0f4ff;
+  background: rgba(31, 54, 154, 0.04);
 }
 
 .chip.active {
   background: var(--color-primary);
   color: #fff;
   border-color: var(--color-primary);
-  box-shadow: 0 4px 10px rgba(31, 54, 154, 0.2);
+  box-shadow: 0 4px 12px rgba(31, 54, 154, 0.25);
 }
 
 .search-sort {
@@ -149,14 +88,15 @@
   align-items: center;
   gap: 8px;
   background: #fff;
-  border: 1px solid var(--line-color);
-  border-radius: 999px; /* 둥근 검색창 */
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
   padding: 6px 6px 6px 16px;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .search-box:focus-within {
   border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(31, 54, 154, 0.1);
 }
 
 .search-box input {
@@ -164,13 +104,14 @@
   background: transparent;
   outline: none;
   font-size: 0.9rem;
-  color: var(--text-main);
+  font-family: var(--font-family);
+  color: var(--color-ink);
   min-width: 140px;
 }
 
 .search-box button {
   border: none;
-  background: var(--text-main); /* 다크 그레이 */
+  background: var(--color-ink);
   color: #fff;
   width: 32px;
   height: 32px;
@@ -188,13 +129,18 @@
 }
 
 select#project-sort {
-  border: 1px solid var(--line-color);
-  border-radius: 8px;
-  padding: 8px 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 20px;
+  padding: 0 16px;
   background: #fff;
-  color: var(--text-main);
+  color: var(--color-ink);
+  font-family: var(--font-family);
   font-size: 0.9rem;
   cursor: pointer;
+  outline: none;
+}
+select#project-sort:focus {
+  border-color: var(--color-primary);
 }
 
 /* =========================================
@@ -202,8 +148,8 @@ select#project-sort {
    ========================================= */
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
   list-style: none;
   padding: 0;
   margin: 0 0 40px;
@@ -213,9 +159,9 @@ select#project-sort {
   display: block;
   background: #fff;
   border-radius: 20px;
-  padding: 16px; /* 내부 여백 */
-  border: 1px solid var(--line-color);
-  box-shadow: var(--shadow-card);
+  padding: 12px;
+  border: 1px solid transparent;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   text-decoration: none;
   position: relative;
@@ -224,7 +170,7 @@ select#project-sort {
 
 .bundle:hover {
   transform: translateY(-6px);
-  box-shadow: var(--shadow-hover);
+  box-shadow: 0 20px 40px rgba(16, 20, 31, 0.12);
   border-color: rgba(31, 54, 154, 0.2);
 }
 
@@ -232,10 +178,11 @@ select#project-sort {
 .review-image {
   width: 100%;
   aspect-ratio: 4 / 3;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
   margin-bottom: 16px;
-  background: #f0f0f0;
+  background: #f4f5f7;
+  position: relative;
 }
 
 .review-image img {
@@ -246,38 +193,39 @@ select#project-sort {
 }
 
 .bundle:hover .review-image img {
-  transform: scale(1.05); /* 이미지 살짝 확대 */
+  transform: scale(1.05);
 }
 
-/* 카드 하단 정보 (Title/Tags) */
 .before-after {
-  display: block;
-  text-align: left;
-  padding: 0 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 8px 8px;
 }
 
 .before-after h3 {
-  margin: 0 0 6px;
-  font-size: 1.1rem;
+  margin: 0;
+  font-size: 1.15rem;
   font-weight: 700;
-  color: var(--text-main);
+  color: var(--color-ink);
   letter-spacing: -0.01em;
+  line-height: 1.3;
 }
 
 .before-after span {
-  display: inline-block;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  background: #f3eee7; /* 웜 베이지 태그 배경 */
-  padding: 4px 10px;
-  border-radius: 6px;
+  align-self: flex-start;
+  font-size: 0.75rem;
+  color: var(--color-primary-dark);
+  background: rgba(31, 54, 154, 0.08); /* 웜 베이지 대신 브랜드 톤앤매너 유지 */
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 600;
 }
 
-/* 더보기 버튼 영역 */
 .review-more {
   display: flex;
   justify-content: center;
-  margin: 40px 0 60px;
+  margin: 40px 0 0;
 }
 
 /* =========================================
@@ -288,7 +236,7 @@ select#project-sort {
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
-  display: none; /* JS 제어 */
+  display: none;
   align-items: center;
   justify-content: center;
   z-index: 10000;
@@ -303,7 +251,7 @@ select#project-sort {
   padding: 40px;
   position: relative;
   text-align: center;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-elevated); /* main.css 변수 사용 */
   animation: modalFadeUp 0.3s ease-out;
 }
 
@@ -320,21 +268,19 @@ select#project-sort {
 
 .modalContent h2 {
   margin: 0 0 16px;
-  font-family: var(--font-sans);
   font-weight: 700;
   font-size: 1.8rem;
-  color: var(--text-main);
+  color: var(--color-ink);
   letter-spacing: -0.02em;
 }
 
 .modalContent p {
   font-size: 1rem;
-  color: var(--text-muted);
+  color: var(--color-muted);
   line-height: 1.6;
   margin-bottom: 24px;
 }
 
-/* 모달 닫기 버튼 (우측 상단 X) */
 .close-modal-btn {
   position: absolute;
   top: 20px;
@@ -347,24 +293,20 @@ select#project-sort {
   transition: color 0.2s;
 }
 .close-modal-btn:hover {
-  color: #000;
+  color: var(--color-ink);
 }
 
 /* =========================================
    Project Detail Page (Full Page)
    ========================================= */
 .detail-main {
-  margin-top: 80px;
-  padding: 0;
-  background-color: #ffffff;
-  min-height: 100vh;
+  width: 100%;
 }
 
-/* 컨테이너 */
 #detail-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 60px 4vw 120px;
+  padding: 40px 0 100px;
   display: grid;
   grid-template-columns: 1fr;
   gap: 60px;
@@ -372,13 +314,13 @@ select#project-sort {
 
 @media (min-width: 1024px) {
   #detail-container {
-    grid-template-columns: 320px 1fr; /* 사이드바 | 갤러리 */
+    grid-template-columns: 340px 1fr;
     gap: 80px;
     align-items: start;
   }
 }
 
-/* --- 좌측 사이드바 (Sticky Info) --- */
+/* Sidebar */
 .detail-sidebar {
   display: flex;
   flex-direction: column;
@@ -388,33 +330,31 @@ select#project-sort {
 @media (min-width: 1024px) {
   .detail-sidebar {
     position: sticky;
-    top: 120px;
+    top: 140px;
     height: fit-content;
   }
 }
 
 .detail-header-group {
-  border-bottom: 2px solid var(--text-main); /* 진한 밑줄 */
+  border-bottom: 2px solid var(--color-ink);
   padding-bottom: 24px;
 }
 
 .detail-category-label {
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: var(--color-primary); /* 브랜드 포인트 컬러 */
+  color: var(--color-primary);
   margin-bottom: 12px;
   display: block;
   text-transform: uppercase;
 }
 
 .detail-title {
-  font-family: var(--font-sans); /* 제목은 가독성 좋은 산세리프 추천 */
   font-size: 2rem;
   font-weight: 700;
   line-height: 1.3;
-  color: var(--text-main);
+  color: var(--color-ink);
   margin: 0;
   word-break: keep-all;
 }
@@ -422,36 +362,37 @@ select#project-sort {
 .detail-info-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .info-item {
-  display: grid;
-  grid-template-columns: 100px 1fr;
+  /* display: grid;
+  grid-template-columns: 100px 1fr; */
   font-size: 0.95rem;
   line-height: 1.6;
   align-items: baseline;
 }
 
 .info-label {
-  color: var(--text-muted);
+  color: var(--color-muted);
   font-weight: 500;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
 .info-value {
-  color: var(--text-main);
+  color: var(--color-ink);
   font-weight: 600;
 }
 
 .detail-description {
   font-size: 1rem;
-  line-height: 1.75;
+  line-height: 1.8;
   color: #444;
   white-space: pre-line;
   margin-top: 8px;
 }
 
+/* 뒤로가기 링크 */
 .btn-back-list {
   display: inline-flex;
   align-items: center;
@@ -459,7 +400,7 @@ select#project-sort {
   margin-top: 16px;
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--color-muted);
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -467,7 +408,7 @@ select#project-sort {
   color: var(--color-primary);
 }
 
-/* --- 우측 갤러리 영역 --- */
+/* Gallery */
 .detail-gallery {
   display: flex;
   flex-direction: column;
@@ -476,60 +417,57 @@ select#project-sort {
 
 .gallery-image {
   width: 100%;
-  display: block;
-  margin: 0;
-  background: #f5f5f5; /* 로딩 전 배경색 */
-  border-radius: 8px; /* 살짝 둥근 모서리 */
+  border-radius: 12px;
   overflow: hidden;
+  background: #f5f5f5;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
 .gallery-image img {
   width: 100%;
   height: auto;
   display: block;
-  transition: opacity 0.3s;
 }
 
-/* --- 견적 테이블 (미니멀 디자인) --- */
+/* Cost Table */
 .detail-costs-wrap {
   margin-top: 24px;
-  border: 1px solid var(--line-color);
-  border-radius: 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 16px;
   padding: 24px;
   background: #fbfbfb;
 }
+
 .detail-costs-wrap h3 {
-  font-size: 0.95rem;
+  font-size: 1rem;
   margin: 0 0 16px;
   font-weight: 700;
-  color: var(--text-main);
+  color: var(--color-ink);
 }
 
 .cost-row {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
+  padding: 12px 0;
   border-bottom: 1px solid #eee;
-  font-size: 0.9rem;
-  color: var(--text-muted);
+  font-size: 0.95rem;
+  color: var(--color-muted);
 }
+
 .cost-row.total {
   border-bottom: none;
   font-weight: 700;
   margin-top: 12px;
   padding-top: 16px;
-  border-top: 2px solid var(--text-main);
-  color: var(--color-primary); /* 총 견적 강조 */
-  font-size: 1.1rem;
+  border-top: 2px solid var(--color-ink);
+  color: var(--color-primary);
+  font-size: 1.2rem;
 }
 
 /* =========================================
    Responsive Adjustments
    ========================================= */
 @media (max-width: 1050px) {
-  .befter-main {
-    margin: 60px 0 0 0;
-  }
   .project-controls {
     flex-direction: column;
     align-items: flex-start;
@@ -545,11 +483,12 @@ select#project-sort {
 
 @media (max-width: 768px) {
   .befter-main {
-    padding: clamp(3rem, 5vw, 4rem) 20px 80px;
+    padding-bottom: 40px;
   }
 
   .project-grid {
-    grid-template-columns: 1fr; /* 모바일 1열 */
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 
   .bundle {
@@ -558,11 +497,17 @@ select#project-sort {
   }
 
   .review-image {
-    border-radius: 0; /* 모바일은 꽉 차게 */
+    border-radius: 0;
     margin-bottom: 0;
+    aspect-ratio: 16 / 9;
   }
 
   .before-after {
     padding: 16px;
+  }
+
+  #detail-container {
+    padding: 20px 0 60px;
+    gap: 40px;
   }
 }

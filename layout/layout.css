@@ -1,6 +1,7 @@
 /* Base & layout styles migrated from main.css */
 :root {
   --color-surface: rgba(255, 255, 255, 0.86);
+  --color-text: black;
   --color-primary: #1f369a;
   --color-primary-dark: #15246c;
   --color-accent-warm: #d6c3a5;
@@ -258,7 +259,7 @@ img {
 }
 
 .logo {
-  width: 190px;
+  width: 150px;
   height: auto;
   filter: drop-shadow(0 12px 25px rgba(12, 18, 32, 0.18));
 }
@@ -704,36 +705,108 @@ img {
   font-size: 20px;
 }
 
-/* Footer */
-.woojin-info {
-  background: var(--color-ink); /* Changed from #4a4a4a to Theme Ink Color */
-  color: var(--color-surface);
+/* =======================================
+   New Footer (Gaon Style Refactoring)
+   ======================================= */
+#footer {
+  background-color: #f9f9f9; /* 레퍼런스와 동일한 연한 회색 배경 */
+  border-top: 1px solid #e5e5e5;
+  padding: 30px 0;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.6;
+  width: 100%;
+  position: relative;
+  z-index: 10;
 }
 
-.footer-info {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
+.footer-inner {
+  width: 100%;
+  max-width: 1260px; /* Header의 폭과 일치시킴 */
+  margin: 0 auto;
+  padding: 0 clamp(1.6rem, 4vw, 3rem); /* Header 패딩과 일치시킴 */
 }
 
-.footer-logo img,
-.contact-logo {
-  max-width: 100%;
-  height: auto;
-}
-
+/* Top Section: Logo & SNS */
 .footer-top {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
+  margin-bottom: 40px;
 }
 
-.footer-text {
-  font-size: 1.1rem;
-  color: var(--color-surface); /* Changed from white to Theme Surface Color */
+.logo-placeholder {
+  display: inline-block;
+  background-color: #e0e0e0;
+  color: #777;
+  padding: 12px 20px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.05em;
 }
 
-/* Desktop adjustments */
+.footer-sns {
+  display: flex;
+  gap: 10px;
+}
+
+.sns-item {
+  width: 36px;
+  height: 36px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #777;
+  transition: background 0.25s ease;
+  text-decoration: none;
+}
+
+.sns-item:hover {
+  background-color: #d0d0d0;
+}
+
+/* Middle Section: Info Text */
+.footer-info {
+  margin-bottom: 30px;
+}
+
+.info-row {
+  margin-bottom: 8px;
+}
+
+.info-items {
+  color: #555;
+  letter-spacing: -0.02em;
+}
+
+.info-items b {
+  color: #111;
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+.divider {
+  color: #ccc;
+  margin: 0 10px;
+  font-size: 11px;
+  vertical-align: middle;
+}
+
+/* Bottom Section: Copyright */
+.footer-copyright {
+  color: #999;
+  font-size: 13px;
+  margin-top: 25px;
+}
+
+/* =======================================
+   Footer Responsive (Mobile/Tablet)
+   ======================================= */
+
+/* Desktop adjustments for Layout (Header/Nav) */
 @media (min-width: 1051px) {
   .menu-items {
     align-items: center;
@@ -747,18 +820,6 @@ img {
   .mobile-menu-list {
     flex-direction: row;
     gap: clamp(2rem, 4vw, 3.6rem);
-  }
-
-  .footer-text {
-    padding-left: 10%;
-  }
-
-  .footer-info {
-    padding-left: 3%;
-  }
-
-  .woojin-info {
-    padding: 20px 95px 90px 95px;
   }
 
   .mobile-toggle,
@@ -806,48 +867,6 @@ img {
   #nav-btn-ins,
   .low-navigation i {
     display: none;
-  }
-}
-
-@media (min-width: 750px) {
-  footer {
-    bottom: 0;
-    padding: 10px 10px 60px 10px;
-  }
-
-  .footer-layout {
-    display: flex;
-  }
-
-  .footer-info {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-  }
-
-  .footer-logo {
-    width: 50%;
-    flex: 0 0 auto;
-    text-align: left;
-    padding-right: 15px;
-  }
-
-  .footer-logo img {
-    width: 100%;
-    object-fit: cover;
-  }
-
-  .footer-text {
-    flex: 0 0 auto;
-    text-align: left;
-  }
-
-  .logo-background {
-    flex: 0 0 auto;
-    text-align: right;
-    display: flex;
-    gap: 10px;
-    padding-right: 20px;
   }
 }
 
@@ -1043,46 +1062,16 @@ img {
     cursor: pointer;
   }
 
-  .woojin-info {
-    padding: 20px 10px 145px 10px;
-    min-height: auto;
-  }
-
   .nav-btn-text-pc {
     display: none;
+  }
+
+  #footer {
+    padding: 30px 0 150px;
   }
 }
 
 @media (max-width: 512px) {
-  footer {
-    padding: 50px;
-    padding-bottom: 90px;
-  }
-
-  .footer-layout {
-    display: block;
-    width: 70%;
-  }
-
-  .footer-logo {
-    width: 100%;
-    padding-bottom: 10px;
-  }
-
-  .footer-logo img {
-    object-fit: cover;
-  }
-
-  .footer-info {
-    align-items: flex-start;
-  }
-
-  .footer-text {
-    width: 105%;
-    font-size: 0.9rem;
-    flex: 0 0 auto;
-  }
-
   .logo-background {
     display: flex;
     justify-content: flex-end;

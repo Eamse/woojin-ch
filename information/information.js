@@ -3,7 +3,7 @@ const modalImg = document.getElementById('modalImg');
 const descriptionText = document.getElementById('modalDesc');
 const captionText = document.getElementById('caption');
 const closeBtn = document.getElementsByClassName('close')[0];
-const structureSection = document.querySelector('.structure'); // 이미지를 감싸는 부모 영역
+const structureSection = document.querySelector('.structure');
 
 structureSection.addEventListener('click', (e) => {
   if (e.target.tagName === 'IMG' && e.target.closest('.structure-card')) {
