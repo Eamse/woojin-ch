@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>프로젝트 상세 - 우진창호</title>
-    <!-- API 주소 설정 -->
-    <meta name="woojin-api-base" content="http://127.0.0.1:4000/api" />
 
-    <link rel="stylesheet" href="/public/layout/layout.css" />
-    <link rel="stylesheet" href="/public/project/project.css" />
-    <script
-      src="https://kit.fontawesome.com/0018d0d2c3.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body id="top">
-    <a href="#top" class="sticky-btn scroll-to-top" aria-label="맨 위로">
-      <i class="fa-solid fa-arrow-up"></i>
-    </a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>프로젝트 상세 - 우진창호</title>
+  <!-- API 주소 설정 -->
+  <meta name="woojin-api-base" content="http://127.0.0.1:4000/api" />
 
-    <!-- 헤더/오버레이 -->
-    <div id="header-layout-container"></div>
-    <div class="header-overlay"></div>
+  <link rel="stylesheet" href="/layout/layout.css" />
+  <link rel="stylesheet" href="/project/project.css" />
+  <script src="https://kit.fontawesome.com/0018d0d2c3.js" crossorigin="anonymous"></script>
+</head>
 
-    <main class="detail-main">
-      <div id="detail-container">
-        <div style="text-align: center; padding: 4rem; color: #888">
-          프로젝트 정보를 불러오는 중입니다...
-        </div>
+<body id="top">
+  <a href="#top" class="sticky-btn scroll-to-top" aria-label="맨 위로">
+    <i class="fa-solid fa-arrow-up"></i>
+  </a>
+
+  <!-- 헤더/오버레이 -->
+  <div id="header-layout-container"></div>
+  <div class="header-overlay"></div>
+
+  <main class="detail-main">
+    <div id="detail-container">
+      <div style="text-align: center; padding: 4rem; color: #888">
+        프로젝트 정보를 불러오는 중입니다...
       </div>
-    </main>
+    </div>
+  </main>
 
-    <div id="nav-layout-container"></div>
-    <!-- [수정] 캐시 방지를 위해 버전 파라미터 추가 -->
-    <script src="/public/common.js" defer></script>
-    <script src="/public/project/project-detail.js?v=1.0"></script>
-  </body>
+  <div id="nav-layout-container"></div>
+  <!-- [수정] 캐시 방지를 위해 버전 파라미터 추가 -->
+  <script src="/common.js" defer></script>
+  <script src="/project/project-detail.js?v=1.0"></script>
+</body>
+
 </html>

@@ -17,7 +17,7 @@ const scrollObserver = new IntersectionObserver(
 );
 
 document.addEventListener('DOMContentLoaded', () => {
-  const layoutBase = '/public/layout/';
+  const layoutBase = '/layout/';
 
   function loadHeaderLayout() {
     fetch(`${layoutBase}/header-layout.html`)
