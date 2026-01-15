@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>시공 후기</title>
+    <meta name="woojin-api-base" content="http://127.0.0.1:4000/api" />
+    <link rel="stylesheet" href="/public/layout/layout.css" />
+    <link rel="stylesheet" href="/public/project/project.css" />
+    <script
+      src="https://kit.fontawesome.com/0018d0d2c3.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body id="top">
+    <a href="#top" class="sticky-btn scroll-to-top" aria-label="맨 위로">
+      <i class="fa-solid fa-arrow-up"></i>
+    </a>
+
+    <div id="header-layout-container"></div>
+    <div class="header-overlay"></div>
+
+    <main class="befter-main">
+      <h1>Latest Projects</h1>
+      <p>우진 창호의 최신 시공 사례를 확인하세요.</p>
+
+      <div class="project-controls" aria-label="프로젝트 필터 및 검색">
+        <div class="filter-chips" id="project-filter">
+          <button class="chip active" data-cat="">전체보기</button>
+          <button class="chip" data-cat="단창">단창</button>
+          <button class="chip" data-cat="이중창 (외창 + 내창)">
+            이중창 (외창 + 내창)
+          </button>
+          <button class="chip" data-cat="시스템 단창">시스템 단창</button>
+          <button class="chip" data-cat="시스템 이중창">시스템 이중창</button>
+        </div>
+        <div class="search-sort">
+          <div class="search-box">
+            <input
+              type="search"
+              id="project-search"
+              placeholder="프로젝트명, 위치 검색"
+              aria-label="프로젝트 검색"
+            />
+            <button type="button" id="project-search-btn">검색</button>
+          </div>
+          <select id="project-sort" aria-label="정렬">
+            <option value="recent">최신순</option>
+            <option value="oldest">오래된순</option>
+          </select>
+        </div>
+      </div>
+
+      <ul class="project-grid" id="project-grid" aria-live="polite"></ul>
+      <div class="project-empty" id="project-empty" hidden>
+        표시할 프로젝트가 없습니다.
+      </div>
+    </main>
+
+    <div id="nav-layout-container"></div>
+    <script src="/public/common.js" defer></script>
+    <script src="/public/project/project.js" defer></script>
+    <script src="/public/index.js" defer></script>
+  </body>
+</html>

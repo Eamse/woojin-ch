@@ -11,7 +11,18 @@ const router = Router();
 // 📌 문의 목록 조회 (GET /api/inquiries) - 관리자용
 router.get('/', protect, async (req, res, next) => {
   try {
+    const { q } = req.query;
+    const where = {};
+
+    if (q) {
+      where.OR = [
+        { userName: { contains: q } },
+        { userPhone: { contains: q } },
+      ];
+    }
+
     const inquiries = await prisma.inquiry.findMany({
+      where,
       orderBy: { createdAt: 'desc' }, // 최신순으로 정렬
     });
     res.json({ ok: true, inquiries });
@@ -67,6 +78,11 @@ router.post('/', async (req, res, next) => {
 router.patch('/:id', protect, async (req, res, next) => {
   try {
     const id = Number(req.params.id);
+    if (isNaN(id)) {
+      const error = new Error('유효한 문의 ID가 아닙니다.');
+      error.status = 400;
+      throw error;
+    }
     const { status, adminMemo } = req.body;
 
     const updatedInquiry = await prisma.inquiry.update({
@@ -77,6 +93,27 @@ router.patch('/:id', protect, async (req, res, next) => {
     res.json({ ok: true, inquiry: updatedInquiry });
   } catch (error) {
     // P2025: Prisma에서 레코드를 찾지 못했을 때 발생하는 에러 코드
+    if (error.code === 'P2025') {
+      const err = new Error('해당 문의를 찾을 수 없습니다.');
+      err.status = 404;
+      return next(err);
+    }
+    next(error);
+  }
+});
+
+// 문의 삭제
+router.delete('/:id', protect, async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    if (isNaN(id)) {
+      const error = new Error('유효한 문의 ID가 아닙니다.');
+      error.status = 400;
+      throw error;
+    }
+    await prisma.inquiry.delete({ where: { id } });
+    res.json({ ok: true });
+  } catch (error) {
     if (error.code === 'P2025') {
       const err = new Error('해당 문의를 찾을 수 없습니다.');
       err.status = 404;
