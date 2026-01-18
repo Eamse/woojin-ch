@@ -23,8 +23,6 @@ const ROOT_DIR = path.join(__dirname, '..');
 const UPLOAD_DIR = path.join(ROOT_DIR, 'uploads');
 const SRC_DIR = path.join(ROOT_DIR, 'src');
 const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
-
-// 업로드 관련 폴더가 없으면 자동 생성 (동기 처리)
 const DIR_ORIGINAL = path.join(UPLOAD_DIR, 'original');
 const DIR_LARGE = path.join(UPLOAD_DIR, 'large');
 const DIR_MEDIUM = path.join(UPLOAD_DIR, 'medium');
@@ -41,15 +39,22 @@ const DIR_THUMB = path.join(UPLOAD_DIR, 'thumb');
   }
 });
 
-// ---------------------------
-// Express 기본 설정
-// ---------------------------
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.disable('x-powered-by');
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+// ---------------------------
+// 환경변수 검증
+// ---------------------------
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  console.error('❌ 치명적 오류: JWT_SECRET 환경변수가 설정되지 않았습니다!');
+  console.error('💡 해결 방법: .env 파일에 JWT_SECRET=your-secret-key 추가');
+  process.exit(1); // 서버 종료
+}
 
 const VISIT_SALT = process.env.VISIT_SALT || 'visit-salt';
 const ADMIN_BASIC_USER = process.env.ADMIN_BASIC_USER;
@@ -110,7 +115,6 @@ const adminGuard = (req, res, next) => {
   return res.status(401).send('Invalid credentials');
 };
 
-// [수정] 경로 매칭을 위해 '/src' 접두사 제거 (app.use('/src') 내부에서는 상대 경로로 들어옴)
 const adminStaticPaths = new Set([
   '/admin-projects.html',
   '/admin-gallery.html',
@@ -156,9 +160,7 @@ const ALLOWED_ORIGINS = new Set([
 
 const corsOptions = {
   origin(origin, callback) {
-    // 브라우저가 Origin을 보내지 않는 경우(null, same-origin) 허용
     if (!origin) return callback(null, true);
-
     // [추가] 로컬 개발 환경의 모든 포트 허용 (localhost, 127.0.0.1)
     if (
       origin.startsWith('http://localhost:') ||

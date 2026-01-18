@@ -1,5 +1,5 @@
 // -------------------------------
-// 네이버 지도 (기존 코드 유지)
+// 네이버 지도
 // -------------------------------
 function initMap() {
   const location = new naver.maps.LatLng(37.36622, 126.94353); // 군포시 금정 좌표
@@ -28,23 +28,16 @@ initMap();
 // 주소 복사 기능 (수정됨)
 // -------------------------------
 document.addEventListener('DOMContentLoaded', () => {
-  const copyBtn = document.getElementById('copyBtn'); // 버튼 ID
-  const addrText = document.getElementById('addrText'); // 주소 텍스트 ID
-
-  // 버튼과 주소 텍스트가 둘 다 있을 때만 실행
+  const copyBtn = document.getElementById('copyBtn');
+  const addrText = document.getElementById('addrText');
   if (copyBtn && addrText) {
     copyBtn.addEventListener('click', async () => {
-      // 1. 복사할 텍스트 가져오기 (공백 제거)
       const textToCopy = addrText.innerText.trim();
 
       try {
-        // 2. 클립보드에 쓰기 (최신 방식)
         await navigator.clipboard.writeText(textToCopy);
-
-        // 3. 성공 시 토스트 메시지 띄우기
         showToast('주소가 복사되었습니다.');
       } catch (err) {
-        // 4. 실패 시 (보안 설정 등으로 인해)
         console.error('복사 실패:', err);
         alert('주소 복사에 실패했습니다. 텍스트를 직접 복사해주세요.');
       }
@@ -58,14 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
 function showToast(msg) {
   const toast = document.getElementById('copyToast');
   if (!toast) return;
-
-  // 메시지 내용 설정
   toast.textContent = msg;
-
-  // CSS의 .show 클래스를 추가해서 애니메이션 실행 (opacity 1)
   toast.classList.add('show');
 
-  // 2초 뒤에 클래스 제거 (다시 사라짐)
+  // 2초 뒤에 클래스 제거
   setTimeout(() => {
     toast.classList.remove('show');
   }, 2000);

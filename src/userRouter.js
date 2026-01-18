@@ -1,12 +1,30 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import rateLimit from 'express-rate-limit';
 import prisma from './db.js';
 
 const router = Router();
 
+// ---------------------------
+// 🛡️ Rate Limiting 설정
+// ---------------------------
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: {
+    ok: false,
+    error: '너무 많은 로그인 시도입니다. 15분 후에 다시 시도해주세요.'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// ---------------------------
 // POST /api/users/login
-router.post('/login', async (req, res, next) => {
+// ---------------------------
+router.post('/login', loginLimiter, async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
@@ -29,11 +47,15 @@ router.post('/login', async (req, res, next) => {
       throw error;
     }
 
-    // 3. 토큰 생성 (환경변수 JWT_SECRET이 없으면 기본값 사용)
+    // 3. 토큰 생성
+    // 💡 학습 포인트: JWT는 사용자의 "신분증"입니다!
+    // - Payload: 사용자 정보 (id, username)
+    // - Secret: 비밀 서명 키 (절대 노출 금지!)
+    // - expiresIn: 유효기간 (짧을수록 안전, 1시간 권장)
     const token = jwt.sign(
       { id: user.id, username: user.username },
-      process.env.JWT_SECRET || 'secret_key',
-      { expiresIn: '12h' }
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
     );
 
     return res.json({ ok: true, token });
