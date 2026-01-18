@@ -51,7 +51,7 @@ const initProjectPage = () => {
 
   const apiBase =
     document.querySelector('meta[name="woojin-api-base"]')?.content ||
-    'http://127.0.0.1:4000/api';
+    'https://woojin-ch.kr/api';
 
   console.log('🚀 [Project] API Base:', apiBase);
 
@@ -180,8 +180,8 @@ const initProjectPage = () => {
         <a href="/project/project-detail.html?id=${p.id}">
           <div class="project-thumb-wrap">
             <img src="${thumb}" alt="${
-        p.title
-      }" loading="lazy" onerror="this.src='https://placehold.co/480x320?text=No+Image';" />
+              p.title
+            }" loading="lazy" onerror="this.src='https://placehold.co/480x320?text=No+Image';" />
           </div>
           <figcaption>
             <span class="project-location">${

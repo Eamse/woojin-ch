@@ -59,7 +59,7 @@ function initProjectDetail() {
   // ---------------------------------------------------------
   const apiBase =
     document.querySelector('meta[name="woojin-api-base"]')?.content ||
-    'http://127.0.0.1:4000/api';
+    'https://woojin-ch.kr/api';
 
   const params = new URLSearchParams(window.location.search);
   const projectId = params.get('id');
@@ -118,7 +118,7 @@ function initProjectDetail() {
     // 중복 제거 후 렌더링
     [...new Set(allImages)].forEach((url) => {
       imagesHtml += `<figure class="gallery-image"><img src="${processImgUrl(
-        url
+        url,
       )}" alt="${p.title}" loading="lazy" /></figure>`;
     });
 
@@ -132,13 +132,13 @@ function initProjectDetail() {
           <span>${c.label}</span>
           <span>${parseInt(c.amount).toLocaleString()}만원</span>
         </div>
-      `
+      `,
         )
         .join('');
 
       const total = p.costs.reduce(
         (sum, c) => sum + (parseInt(c.amount) || 0),
-        0
+        0,
       );
 
       costHtml = `

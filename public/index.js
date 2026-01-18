@@ -13,7 +13,7 @@ const scrollObserver = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.01 }
+  { threshold: 0.01 },
 );
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // [추가] 정적인 .box-item 요소들(소개, 아뜰리에 섹션)을 관찰
   const staticItems = document.querySelectorAll(
-    '.testimonial.box-item, .atelier.box-item'
+    '.testimonial.box-item, .atelier.box-item',
   );
   staticItems.forEach((item) => scrollObserver.observe(item));
 });
@@ -71,7 +71,7 @@ async function initLatestProjects() {
   try {
     const apiBase =
       document.querySelector('meta[name="woojin-api-base"]')?.content ||
-      'http://127.0.0.1:4000/api';
+      'https://woojin-ch.kr/api';
     const data =
       typeof window.apiFetch === 'function'
         ? await window.apiFetch('/projects')
@@ -165,7 +165,7 @@ function initializeModalFunctionality() {
 
   closeModalBtn?.addEventListener(
     'click',
-    () => (modal.style.display = 'none')
+    () => (modal.style.display = 'none'),
   );
 
   typeBtns.forEach((btn) => {
@@ -228,9 +228,8 @@ function calc() {
   let price = (area * type) / 10000 + option;
   const minPrice = Math.floor(price * 0.9);
   const maxPrice = Math.ceil(price * 1.1);
-  document.getElementById(
-    'price'
-  ).innerText = `${minPrice.toLocaleString()} ~ ${maxPrice.toLocaleString()}`;
+  document.getElementById('price').innerText =
+    `${minPrice.toLocaleString()} ~ ${maxPrice.toLocaleString()}`;
 }
 
 // -------------------------------------
@@ -345,12 +344,12 @@ function attachEvents() {
   // [수정] 버튼이 존재할 때만 이벤트를 연결하도록 변경
   if (elements.prevBtn) {
     elements.prevBtn.addEventListener('click', () =>
-      showSlide(state.currentIndex - 1)
+      showSlide(state.currentIndex - 1),
     );
   }
   if (elements.nextBtn) {
     elements.nextBtn.addEventListener('click', () =>
-      showSlide(state.currentIndex + 1)
+      showSlide(state.currentIndex + 1),
     );
   }
 
@@ -365,12 +364,12 @@ function attachEvents() {
   elements.slidesContainer?.addEventListener('mouseenter', stopAutoplay);
   elements.slidesContainer?.addEventListener(
     'mouseleave',
-    handleInteractionEnd
+    handleInteractionEnd,
   );
   elements.paginationContainer?.addEventListener('focusin', stopAutoplay);
   elements.paginationContainer?.addEventListener(
     'focusout',
-    handleInteractionEnd
+    handleInteractionEnd,
   );
 }
 

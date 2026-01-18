@@ -1,6 +1,6 @@
 const API_BASE =
   (window.WOOJIN_API_BASE && window.WOOJIN_API_BASE.replace(/\/$/, '')) ||
-  'http://localhost:4000/api';
+  'https://woojin-ch.kr/api';
 
 // 상태 관리
 const STATE = {
@@ -120,8 +120,8 @@ function renderModalGallery() {
       galleryCard.className = 'gallery-item-card';
       galleryCard.innerHTML = `
         <img src="${galleryImg.thumbUrl}" alt="${
-        galleryImg.alt
-      }" loading="lazy">
+          galleryImg.alt
+        }" loading="lazy">
         <div class="gallery-item-info">
           <span>${galleryImg.alt || '설명 없음'}</span>
           <button class="btn-icon" data-delete-gallery-id="${
@@ -255,7 +255,7 @@ function createCard(item) {
         STATE.allItems = STATE.allItems.filter((it) =>
           type === 'project'
             ? it.id !== Number(idOrName)
-            : it.filename !== idOrName
+            : it.filename !== idOrName,
         );
         STATE.total -= 1;
         renderItems();
@@ -413,7 +413,7 @@ async function fetchProjectImages(projectId) {
 
   try {
     const data = await window.apiFetch(
-      `${API_BASE}/projects/${projectId}/images`
+      `${API_BASE}/projects/${projectId}/images`,
     );
 
     STATE.allItems = Array.isArray(data.items) ? data.items : [];
@@ -495,12 +495,12 @@ function setupControls() {
             {
               method: 'POST',
               body: formData,
-            }
+            },
           );
 
           window.showNotice(
             `${res.count}개의 이미지가 업로드되었습니다.`,
-            'success'
+            'success',
           );
 
           // 목록 새로고침
@@ -587,7 +587,7 @@ async function handleGalleryImageUpload() {
       {
         method: 'POST',
         body: formData,
-      }
+      },
     );
 
     const count = result?.count || 0;
@@ -595,7 +595,7 @@ async function handleGalleryImageUpload() {
       count > 0
         ? `${count}개의 상세 이미지가 추가되었습니다.`
         : '상세 이미지가 추가되었습니다.',
-      'success'
+      'success',
     );
 
     // 상태 업데이트 및 UI 갱신
@@ -665,7 +665,7 @@ function setupModalEvents() {
 
         // 상태 및 UI 업데이트
         currentModalItem.galleryImages = currentModalItem.galleryImages.filter(
-          (img) => img.id !== galleryImageId
+          (img) => img.id !== galleryImageId,
         );
         renderModalGallery(); // 모달 갤러리 다시 렌더링
         fetchAdminImages(true); // 메인 그리드 새로고침 (뱃지 카운트 업데이트)

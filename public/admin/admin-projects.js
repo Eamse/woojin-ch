@@ -6,7 +6,7 @@ const initAdminProjects = () => {
   // 메타 태그에서 API 주소 가져오기 (없으면 로컬 기본값)
   const API_BASE =
     document.querySelector('meta[name="woojin-api-base"]')?.content ||
-    'http://127.0.0.1:4000/api';
+    'https://woojin-ch.kr/api';
 
   const token = localStorage.getItem('token');
 
@@ -234,7 +234,7 @@ const initAdminProjects = () => {
       // 3) 이미지 업로드 처리
       const mainFile = formData.get('mainImageFile');
       const detailInput = document.querySelector(
-        'input[name="detailImageFiles"]'
+        'input[name="detailImageFiles"]',
       );
       const detailFiles = detailInput ? detailInput.files : [];
 
@@ -247,7 +247,7 @@ const initAdminProjects = () => {
         for (let i = 0; i < detailFiles.length; i++) {
           if (detailFiles[i].size > MAX_SIZE) {
             throw new Error(
-              `상세 이미지(${detailFiles[i].name})가 20MB를 초과합니다.`
+              `상세 이미지(${detailFiles[i].name})가 20MB를 초과합니다.`,
             );
           }
         }
@@ -275,7 +275,7 @@ const initAdminProjects = () => {
             method: 'POST',
             headers: { Authorization: `Bearer ${token}` },
             body: imageFormData, // Content-Type은 자동 설정됨
-          }
+          },
         );
 
         if (!uploadRes.ok) {
@@ -284,7 +284,7 @@ const initAdminProjects = () => {
           alert(
             `프로젝트는 저장되었으나 이미지 업로드에 실패했습니다.\n사유: ${
               errData.error || uploadRes.statusText
-            }`
+            }`,
           );
           loadProjects();
           return;
@@ -296,7 +296,7 @@ const initAdminProjects = () => {
 
         if (hasMain && uploadData.items) {
           const mainItem = uploadData.items.find(
-            (item) => item.fieldname === 'mainImageFile'
+            (item) => item.fieldname === 'mainImageFile',
           );
 
           if (mainItem && mainItem.urls) {
