@@ -154,8 +154,9 @@ const ALLOWED_ORIGINS = new Set([
   'http://127.0.0.1:5500',
   'http://localhost:5502',
   'http://127.0.0.1:5502',
-  'https:/woojin-ch.kr',
-  'https:/www.woojin-ch.kr',
+  'https://woojin-ch.kr',
+  'https://www.woojin-ch.kr',
+  'https://admin.woojin-ch.kr',
 ]);
 
 const corsOptions = {

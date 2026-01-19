@@ -62,7 +62,7 @@ async function fetchInquiries() {
       (err.message && err.message.includes('expired'))
     ) {
       alert('세션이 만료되었습니다. 다시 로그인해주세요.');
-      window.location.replace('/src/admin-login.html');
+      window.location.replace('/admin/admin-login.html');
       return;
     }
 
@@ -135,9 +135,8 @@ function renderTable(list) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>
-        <input type="checkbox" class="row-checkbox" ${
-          selectedIds.has(item.id) ? 'checked' : ''
-        }
+        <input type="checkbox" class="row-checkbox" ${selectedIds.has(item.id) ? 'checked' : ''
+      }
         onclick="toggleRowSelect(${item.id}, this.checked)"
         />
       </td>
@@ -146,18 +145,15 @@ function renderTable(list) {
       <td>${item.createdAt}</td>
       <td style="font-weight:600;">${escapeHtml(item.userName)}</td>
       <td>${escapeHtml(item.userPhone)}</td>
-      <td>${typeMap[item.spaceType] || escapeHtml(item.spaceType)} / ${
-      item.areaSize
-    }평</td>
+      <td>${typeMap[item.spaceType] || escapeHtml(item.spaceType)} / ${item.areaSize
+      }평</td>
       <td>${Number(item.budget).toLocaleString()}만원</td>
       <td>
         <div class="action-buttons">
-          <button class="btn-action btn-view" onclick="openDetail(${
-            item.id
-          })">상세보기</button>
-          <button class="btn-action btn-del" onclick="deleteInquiry(${
-            item.id
-          })">삭제</button>
+          <button class="btn-action btn-view" onclick="openDetail(${item.id
+      })">상세보기</button>
+          <button class="btn-action btn-del" onclick="deleteInquiry(${item.id
+      })">삭제</button>
         </div>
       </td>
     `;
@@ -269,7 +265,7 @@ window.saveInquiryData = async () => {
       (err.message && err.message.includes('expired'))
     ) {
       alert('세션이 만료되었습니다. 다시 로그인해주세요.');
-      window.location.replace('/src/admin-login.html');
+      window.location.replace('/admin/admin-login.html');
       return;
     }
     alert('저장 실패: ' + err.message);
