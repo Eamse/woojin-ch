@@ -1,5 +1,3 @@
-// src/common.js
-
 // 1. API Base URL 설정
 const resolveApiBase = () => {
   const meta = document.querySelector('meta[name="woojin-api-base"]');
@@ -136,6 +134,6 @@ window.logout = () => {
   if (confirm('로그아웃 하시겠습니까?')) {
     localStorage.removeItem('token');
     alert('로그아웃되었습니다.');
-    window.location.href = '/src/admin-login.html';
+    window.location.href = '/admin-login.html';
   }
 };

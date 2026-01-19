@@ -76,9 +76,9 @@ async function initLatestProjects() {
       typeof window.apiFetch === 'function'
         ? await window.apiFetch('/projects')
         : await fetch(`${apiBase}/projects`).then((r) => {
-            if (!r.ok) throw new Error(r.statusText);
-            return r.json();
-          });
+          if (!r.ok) throw new Error(r.statusText);
+          return r.json();
+        });
 
     const projects = (data && data.projects) || [];
     if (!projects.length) {

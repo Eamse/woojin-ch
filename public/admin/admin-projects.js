@@ -15,14 +15,14 @@ const initAdminProjects = () => {
   // ---------------------------------------------------------
   if (!token) {
     alert('로그인이 필요합니다.');
-    window.location.href = '/admin/admin-login.html';
+    window.location.href = '/admin-login.html';
     return;
   }
 
   // 로그아웃 기능
   window.logout = () => {
     localStorage.removeItem('token');
-    window.location.href = '/admin/admin-login.html';
+    window.location.href = '/admin-login.html';
   };
 
   // ---------------------------------------------------------
@@ -146,12 +146,11 @@ const initAdminProjects = () => {
 
       card.innerHTML = `
         <div class="p-thumb">
-          ${
-            imgUrl
-              ? `<img src="${imgUrl}" alt="${p.title}" 
+          ${imgUrl
+          ? `<img src="${imgUrl}" alt="${p.title}" 
                    onerror="this.onerror=null; this.src='https://via.placeholder.com/300?text=No+Image';">`
-              : `<div style="display:flex; align-items:center; justify-content:center; height:100%; color:#999;">No Image</div>`
-          }
+          : `<div style="display:flex; align-items:center; justify-content:center; height:100%; color:#999;">No Image</div>`
+        }
         </div>
         <div class="p-content">
           <div class="p-header">
@@ -282,8 +281,7 @@ const initAdminProjects = () => {
           const errData = await uploadRes.json().catch(() => ({}));
           // 이미지는 실패했지만 프로젝트는 생성된 상태
           alert(
-            `프로젝트는 저장되었으나 이미지 업로드에 실패했습니다.\n사유: ${
-              errData.error || uploadRes.statusText
+            `프로젝트는 저장되었으나 이미지 업로드에 실패했습니다.\n사유: ${errData.error || uploadRes.statusText
             }`,
           );
           loadProjects();
