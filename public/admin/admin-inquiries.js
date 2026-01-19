@@ -1,9 +1,7 @@
-// src/admin-inquiries.js
-
 // 1. 로그인 체크
 if (!localStorage.getItem('token')) {
   alert('로그인이 만료되었거나 필요합니다.\n로그인 페이지로 이동합니다.');
-  window.location.replace('/src/admin-login.html');
+  window.location.replace('/admin/admin-login.html');
 }
 
 // 2. 더미 데이터 (Mock Data) - 나중에 API로 대체될 부분
@@ -303,7 +301,7 @@ window.deleteInquiry = async (id) => {
       (err.message && err.message.includes('expired'))
     ) {
       alert('세션이 만료되었습니다. 다시 로그인해주세요.');
-      window.location.replace('/src/admin-login.html');
+      window.location.replace('/admin/admin-login.html');
       return;
     }
     alert('삭제 실패: ' + err.message);
@@ -369,7 +367,7 @@ window.deleteSelected = async () => {
       (err.message && err.message.includes('expired'))
     ) {
       alert('세션이 만료되었습니다. 다시 로그인해주세요.');
-      window.location.replace('/src/admin-login.html');
+      window.location.replace('/admin/admin-login.html');
       return;
     }
     alert('삭제 실패: ' + err.message);

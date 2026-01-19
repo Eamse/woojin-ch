@@ -15,7 +15,7 @@ function initMap() {
   });
 
   const infoWindow = new naver.maps.InfoWindow({
-    content: `<div style="padding:10px;">우진 창호<br />경기도 군포시 금정로 xx-x</div>`,
+    content: `<div style="padding:10px;">우진 창호<br />경기도 군포시 금정동 80-2, 101호</div>`,
   });
 
   naver.maps.Event.addListener(marker, 'click', () => {
