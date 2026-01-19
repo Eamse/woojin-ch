@@ -6,11 +6,16 @@
   /* [변경] 컨셉 1에 맞는 강렬한 산세리프 폰트 및 컬러 정의 */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, Roboto,
     'Helvetica Neue', Arial, sans-serif;
-  --color-ink: #3a3026; /* 짙은 웜 브라운 (텍스트) */
-  --color-paper: #f9f7f2; /* 따뜻한 크림 베이지 (배경) */
-  --color-muted: #8b8276; /* 부드러운 웜 그레이 (보조 텍스트) */
-  --color-accent: #d6c3a5; /* 샌드 베이지 (강조) */
-  --color-gold: #c5a35d; /* 우진 스타일 골드 포인트 */
+  --color-ink: #3a3026;
+  /* 짙은 웜 브라운 (텍스트) */
+  --color-paper: #f9f7f2;
+  /* 따뜻한 크림 베이지 (배경) */
+  --color-muted: #8b8276;
+  /* 부드러운 웜 그레이 (보조 텍스트) */
+  --color-accent: #d6c3a5;
+  /* 샌드 베이지 (강조) */
+  --color-gold: #c5a35d;
+  /* 우진 스타일 골드 포인트 */
 
   /* [변경] 모든 곡률 제거 (날카로운 엣지) */
   --radius-lg: 0px;
@@ -39,6 +44,7 @@ body {
     transform: translateY(40px) scale(0.98);
     filter: blur(5px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -51,18 +57,23 @@ body {
   0% {
     transform: translate(0, 0);
   }
+
   20% {
     transform: translate(-1px, 1px);
   }
+
   40% {
     transform: translate(-1px, -1px);
   }
+
   60% {
     transform: translate(1px, 1px);
   }
+
   80% {
     transform: translate(1px, -1px);
   }
+
   100% {
     transform: translate(0, 0);
   }
@@ -156,8 +167,7 @@ body {
   margin-bottom: 24px;
   position: relative;
   opacity: 0;
-  animation: fadeInUpStark 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards
-    0.2s;
+  animation: fadeInUpStark 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.2s;
 }
 
 .slider-eyebrow::after {
@@ -184,8 +194,7 @@ body {
   margin: 0 0 20px;
   text-transform: uppercase;
   opacity: 0;
-  animation: fadeInUpStark 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards
-    0.4s;
+  animation: fadeInUpStark 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.4s;
 }
 
 .slider-content h1:hover {
@@ -201,8 +210,7 @@ body {
   max-width: 600px;
   font-weight: 400;
   opacity: 0;
-  animation: fadeInUpStark 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards
-    0.6s;
+  animation: fadeInUpStark 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.6s;
 }
 
 .slider-actions {
@@ -210,8 +218,7 @@ body {
   gap: 20px;
   flex-wrap: wrap;
   opacity: 0;
-  animation: fadeInUpStark 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards
-    0.8s;
+  animation: fadeInUpStark 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.8s;
 }
 
 .slider-pagination {
@@ -305,6 +312,7 @@ body {
   font-size: 0.7rem;
   color: white;
 }
+
 .hero-scroll::after {
   content: '';
   display: block;
@@ -397,7 +405,6 @@ body {
   height: 100%;
   object-fit: cover;
   border-radius: 0;
-  filter: grayscale(100%);
   transition: all 0.5s ease;
 }
 
@@ -439,7 +446,8 @@ body {
 
 /* 섹션 전체를 어둡게 처리하여 프리미엄 느낌 강조 */
 .process-section.dark-mode {
-  background-color: #2e2a27; /* 웜 블랙 (다크 브라운 톤) */
+  background-color: #2e2a27;
+  /* 웜 블랙 (다크 브라운 톤) */
   color: #ffffff;
   padding: clamp(6rem, 15vw, 10rem) 4vw;
   margin: 0 -4vw;
@@ -456,8 +464,10 @@ body {
 .dark-mode .feature-heading h2 {
   color: #ffffff;
 }
+
 .dark-mode .section-eyebrow {
-  color: var(--color-gold); /* 골드 포인트 컬러 */
+  color: var(--color-gold);
+  /* 골드 포인트 컬러 */
   border-color: var(--color-gold);
 }
 
@@ -515,7 +525,8 @@ body {
   left: -20px;
   width: 100%;
   height: 100%;
-  border: 1px solid rgba(197, 163, 93, 0.5); /* 은은한 골드 라인 */
+  border: 1px solid rgba(197, 163, 93, 0.5);
+  /* 은은한 골드 라인 */
   z-index: -1;
   transition: transform 0.5s ease;
 }
@@ -533,9 +544,11 @@ body {
   filter: grayscale(0%);
   transform: scale(1.02);
 }
+
 .process-row:hover .img-frame::before {
   transform: translate(-10px, -10px);
 }
+
 .process-row:nth-child(even):hover .img-frame::before {
   transform: translate(10px, 10px);
 }
@@ -599,6 +612,7 @@ body {
   background: var(--color-ink);
   color: var(--color-paper);
 }
+
 .atelier-actions .btn.primary:hover {
   background: var(--color-muted);
 }
@@ -608,6 +622,7 @@ body {
   color: var(--color-ink);
   background: transparent;
 }
+
 .atelier-actions .btn.outline:hover {
   background: var(--color-ink);
   color: var(--color-paper);
@@ -647,6 +662,7 @@ body {
   .slider {
     min-height: 80vh;
   }
+
   .slider-content h1 {
     font-size: 2rem;
   }
@@ -656,10 +672,12 @@ body {
   .slider {
     min-height: 70vh;
   }
+
   .slider-overlay {
     padding: 0 20px 40px;
     align-items: flex-end;
   }
+
   .slider-content {
     left: auto;
   }
@@ -672,6 +690,7 @@ body {
     padding: 4rem 20px;
     gap: 5rem;
   }
+
   .portfolio-grid {
     grid-template-columns: 1fr;
   }
@@ -680,7 +699,8 @@ body {
   .process-section.dark-mode {
     width: auto;
     left: auto;
-    margin: 0 -20px; /* 모바일 패딩 상쇄 */
+    margin: 0 -20px;
+    /* 모바일 패딩 상쇄 */
     padding: 4rem 20px;
   }
 
@@ -689,10 +709,12 @@ body {
     flex-direction: column;
     gap: 40px;
   }
+
   .img-frame::before {
     top: -15px;
     left: -15px;
   }
+
   .process-row:nth-child(even) .img-frame::before {
     bottom: -15px;
     right: -15px;
@@ -703,9 +725,11 @@ body {
   .slider-content h1 {
     font-size: 2rem;
   }
+
   .slider-eyebrow {
     letter-spacing: 0.2em;
   }
+
   .btn {
     padding: 15px 24px;
     font-size: 0.8rem;

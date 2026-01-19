@@ -54,7 +54,7 @@ const ALLOWED_MIMES = [
   'image/heif',
 ];
 
-const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 const MAX_MULTI_FILES = 10;
 
 const sanitizeFilename = (name) =>
@@ -130,7 +130,7 @@ const applyFormat = (pipeline, format, quality) => {
 
 const generateSizesToDisk = async (sourcePath, filename) => {
   const format = path.extname(filename).replace('.', '').toLowerCase();
-  const baseImage = sharp(sourcePath).rotate(); // EXIF 회전 정보 반영
+  const baseImage = sharp(sourcePath, { failOnError: false }).rotate();
 
   const targets = [
     { width: 2000, quality: 95, dir: DIR_LARGE }, // [상향] 원본급 고화질
@@ -167,7 +167,7 @@ const cleanupLocalFiles = async (fileList) => {
       path.join(DIR_LARGE, filename),
       path.join(DIR_MEDIUM, filename),
       path.join(DIR_THUMB, filename),
-    ].map((p) => fsp.unlink(p).catch(() => {})); // 에러 무시하고 삭제 시도
+    ].map((p) => fsp.unlink(p).catch(() => { })); // 에러 무시하고 삭제 시도
   });
   await Promise.all(deletions.flat());
 };
