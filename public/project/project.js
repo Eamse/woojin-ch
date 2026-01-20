@@ -183,7 +183,7 @@ const initProjectPage = () => {
           <figcaption>
             <span class="project-location">${p.location || p.category || '시공 사례'
         }</span>
-            <h3 class="project-title">${p.title}</h3>
+            <span class="project-title">${p.title}</span>
           </figcaption>
         </a>
       `;

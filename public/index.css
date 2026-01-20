@@ -414,7 +414,7 @@ body {
 }
 
 .project-location {
-  font-size: 1.5rem;
+  font-size: 1rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--color-muted);
@@ -425,7 +425,7 @@ body {
 
 .project-title {
   font-family: var(--font-sans);
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--color-ink);

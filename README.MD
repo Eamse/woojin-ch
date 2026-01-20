@@ -137,7 +137,7 @@ npx prisma studio
 npm run dev
 ```
 
-서버가 `http://localhost:3000`에서 실행됩니다.
+서버가 `http://localhost:4000`에서 실행됩니다.
 
 ---
 

@@ -224,6 +224,11 @@ async function handleEditSubmit(e) {
 
     try {
         const formData = new FormData(editForm);
+
+        // costs 필드 추가 (백엔드가 배열 형식을 기대함)
+        // 수정 시에는 기존 costs를 유지하므로 빈 배열 전송
+        formData.append('costs', JSON.stringify([]));
+
         const token = localStorage.getItem('token');
 
         const res = await fetch(`${API_BASE}/projects/${currentEditId}`, {
