@@ -161,6 +161,7 @@ const initAdminProjects = () => {
           <div class="p-desc">${p.location || '-'} | ${p.year || '-'}</div>
           <div class="p-actions">
             <button type="button" class="btn-action btn-view btn-edit">수정</button>
+            <button type="button" class="btn-action btn-preview" style="background: #10b981; border-color: #10b981;">미리보기</button>
             <button type="button" class="btn-action btn-del btn-delete">삭제</button>
           </div>
         </div>
@@ -169,6 +170,9 @@ const initAdminProjects = () => {
       card
         .querySelector('.btn-edit')
         .addEventListener('click', () => editProject(p));
+      card
+        .querySelector('.btn-preview')
+        .addEventListener('click', () => window.open(`/project/project-detail.html?id=${p.id}`, '_blank'));
       card
         .querySelector('.btn-delete')
         .addEventListener('click', () => deleteProject(p.id));
