@@ -207,7 +207,7 @@ function initProjectDetail() {
       </aside>
 
       <div class="detail-gallery">
-        ${imagesHtml}
+        ${galleryHtml}
       </div>
     `;
   }
