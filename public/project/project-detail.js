@@ -103,10 +103,10 @@ function initProjectDetail() {
       return `${serverBase}${url.startsWith('/') ? '' : '/'}${url}`;
     };
 
-    // 메인 이미지 + 상세 이미지들 병합
+    // 상세 이미지만 표시 (mainImage는 p.images에 포함되어 있음)
     let imagesHtml = '';
     const allImages = [];
-    if (p.mainImage) allImages.push(p.mainImage);
+
     if (p.images && p.images.length > 0) {
       p.images.forEach((img) => {
         // 원본 혹은 큰 이미지 사용
