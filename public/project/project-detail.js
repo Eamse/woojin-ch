@@ -103,49 +103,46 @@ function initProjectDetail() {
       return `${serverBase}${url.startsWith('/') ? '' : '/'}${url}`;
     };
 
-    // 이미지 렌더링 (중복 방지)
-    let imagesHtml = '';
+    // 이미지 갤러리 렌더링
     const allImages = [];
 
-    // mainImage와 동일한 이미지를 찾기 위한 모든 URL 패턴
-    const mainImageUrls = new Set();
+    // 1. 먼저 mainImage 추가 (썸네일)
     if (p.mainImage) {
-      mainImageUrls.add(p.mainImage);
+      allImages.push(p.mainImage);
     }
 
+    // 2. ProjectImage 테이블의 상세 이미지들 추가
     if (p.images && p.images.length > 0) {
       p.images.forEach((img) => {
-        // 모든 URL 변형 수집
-        const urls = [
-          img.originalUrl,
-          img.largeUrl,
-          img.mediumUrl,
-          img.thumbUrl
-        ].filter(Boolean);
-
-        // mainImage와 일치하는지 확인
-        const isMainImage = urls.some(url => mainImageUrls.has(url));
-
-        if (isMainImage && mainImageUrls.size > 0) {
-          // mainImage와 같은 이미지는 한 번만 추가
-          if (allImages.length === 0) {
-            const url = img.originalUrl || img.largeUrl || img.mediumUrl;
-            if (url) allImages.push(url);
-          }
-        } else {
-          // 일반 이미지는 그냥 추가
-          const url = img.originalUrl || img.largeUrl || img.mediumUrl;
-          if (url) allImages.push(url);
+        const url = img.originalUrl || img.largeUrl || img.mediumUrl;
+        if (url) {
+          allImages.push(url);
         }
       });
     }
 
-    // 렌더링
-    allImages.forEach((url) => {
-      imagesHtml += `<figure class="gallery-image"><img src="${processImgUrl(
-        url,
-      )}" alt="${p.title}" loading="lazy" /></figure>`;
-    });
+    // 3. 갤러리 HTML 생성
+    let galleryHtml = '';
+    if (allImages.length > 0) {
+      // 메인 이미지 영역
+      const mainImageUrl = processImgUrl(allImages[0]);
+      galleryHtml = `
+        <div class="image-gallery">
+          <div class="main-image-container">
+            <img id="mainDisplayImage" src="${mainImageUrl}" alt="${p.title}" />
+          </div>
+          ${allImages.length > 1 ? `
+            <div class="thumbnail-grid">
+              ${allImages.map((url, index) => `
+                <div class="thumbnail ${index === 0 ? 'active' : ''}" onclick="changeMainImage(${index}, '${processImgUrl(url)}')">
+                  <img src="${processImgUrl(url)}" alt="${p.title} ${index + 1}" />
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
 
     // 견적 정보 HTML 생성
     let costHtml = '';
@@ -215,6 +212,24 @@ function initProjectDetail() {
     `;
   }
 }
+
+// 갤러리 이미지 변경 함수 (전역)
+window.changeMainImage = function (index, url) {
+  // 메인 이미지 변경
+  const mainImg = document.getElementById('mainDisplayImage');
+  if (mainImg) {
+    mainImg.src = url;
+  }
+
+  // 썸네일 active 클래스 변경
+  document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+    if (i === index) {
+      thumb.classList.add('active');
+    } else {
+      thumb.classList.remove('active');
+    }
+  });
+};
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initProjectDetail);

@@ -126,6 +126,14 @@ async function handleFormSubmit(e) {
             body: formData
         });
 
+        // 401 에러 시 자동 로그아웃
+        if (res.status === 401) {
+            alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+            localStorage.removeItem('token');
+            window.location.href = '/admin-login.html';
+            return;
+        }
+
         if (!res.ok) {
             throw new Error('등록 실패');
         }
