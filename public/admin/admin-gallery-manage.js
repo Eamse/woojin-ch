@@ -5,7 +5,15 @@
 
 console.log('🎨 [Admin Gallery Manage] Script Loaded');
 
-const API_BASE = document.querySelector('meta[name="woojin-api-base"]')?.content || 'https://woojin-ch.kr/api';
+// 🌐 환경 자동 감지
+const isLocalhost = window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1';
+
+const API_BASE = isLocalhost
+    ? 'http://localhost:4000/api'      // 로컬 개발
+    : 'https://woojin-ch.kr/api';      // 프로덕션
+
+console.log('🌐 API_BASE:', API_BASE, isLocalhost ? '(로컬 환경)' : '(프로덕션)');
 
 // State
 let allProjects = [];

@@ -2,9 +2,12 @@ import { Router } from 'express';
 import multer from 'multer';
 import dotenv from 'dotenv';
 import prisma from './db.js';
-import { deleteFileFromR2 } from './r2.js';
+import { deleteFileFromR2, uploadFileToR2 } from './r2.js';
 import { protect } from './auth.js';
 import jwt from 'jsonwebtoken';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
 
 dotenv.config();
 
@@ -155,6 +158,7 @@ router.post(
         calculatedPrice = costData.reduce((sum, c) => sum + c.amount, 0);
       }
 
+      // 프로젝트 생성 (파일 업로드 전)
       const newProject = await prisma.project.create({
         data: {
           title,
@@ -164,12 +168,65 @@ router.post(
           year: year ? parseInt(year, 10) : null,
           period: period || '',
           area: area ? parseFloat(area) : null,
-          price: calculatedPrice, // 총액 자동 저장
+          price: calculatedPrice,
           mainImage: mainImage || null,
           images: images || undefined,
           costs: { create: costData },
         },
       });
+
+      // 📸 파일 업로드 처리
+      let uploadedMainImageUrl = null;
+      const uploadedDetailUrls = [];
+
+      // 메인 이미지 업로드
+      if (req.files?.mainImageFile && req.files.mainImageFile[0]) {
+        const file = req.files.mainImageFile[0];
+        const tempPath = path.join(os.tmpdir(), `${Date.now()}-${file.originalname}`);
+        fs.writeFileSync(tempPath, file.buffer);
+
+        const r2Key = `projects/${newProject.id}/main-${Date.now()}-${file.originalname}`;
+        const result = await uploadFileToR2(tempPath, r2Key, file.mimetype);
+        uploadedMainImageUrl = result.url;
+
+        fs.unlinkSync(tempPath); // 임시 파일 삭제
+      }
+
+      // 상세 이미지 업로드
+      if (req.files?.detailImageFiles) {
+        for (const file of req.files.detailImageFiles) {
+          const tempPath = path.join(os.tmpdir(), `${Date.now()}-${file.originalname}`);
+          fs.writeFileSync(tempPath, file.buffer);
+
+          const r2Key = `projects/${newProject.id}/detail-${Date.now()}-${file.originalname}`;
+          const result = await uploadFileToR2(tempPath, r2Key, file.mimetype);
+          uploadedDetailUrls.push(result.url);
+
+          fs.unlinkSync(tempPath);
+        }
+      }
+
+      // 업로드된 URL로 프로젝트 업데이트
+      if (uploadedMainImageUrl || uploadedDetailUrls.length > 0) {
+        const updateData = {};
+        if (uploadedMainImageUrl) {
+          updateData.mainImage = uploadedMainImageUrl;
+        }
+        if (uploadedDetailUrls.length > 0) {
+          // 기존 images 배열에 추가
+          updateData.images = [
+            ...(newProject.images || []),
+            ...uploadedDetailUrls
+          ];
+        }
+
+        const updated = await prisma.project.update({
+          where: { id: newProject.id },
+          data: updateData,
+        });
+
+        return res.status(201).json({ ok: true, project: updated });
+      }
 
       res.status(201).json({ ok: true, project: newProject });
     } catch (error) {
@@ -249,10 +306,51 @@ router.patch(
         dataToUpdate.price = costData.reduce((sum, c) => sum + c.amount, 0);
       }
 
-      if (Object.keys(dataToUpdate).length === 0) {
+      if (Object.keys(dataToUpdate).length === 0 && !req.files?.mainImageFile && !req.files?.detailImageFiles) {
         return res
           .status(400)
           .json({ ok: false, error: '수정할 내용이 없습니다.' });
+      }
+
+      // 📸 파일 업로드 처리 (PATCH)
+      // 메인 이미지 업로드
+      if (req.files?.mainImageFile && req.files.mainImageFile[0]) {
+        const file = req.files.mainImageFile[0];
+        const tempPath = path.join(os.tmpdir(), `${Date.now()}-${file.originalname}`);
+        fs.writeFileSync(tempPath, file.buffer);
+
+        const r2Key = `projects/${id}/main-${Date.now()}-${file.originalname}`;
+        const result = await uploadFileToR2(tempPath, r2Key, file.mimetype);
+        dataToUpdate.mainImage = result.url;
+
+        fs.unlinkSync(tempPath);
+      }
+
+      // 상세 이미지 추가 업로드
+      if (req.files?.detailImageFiles && req.files.detailImageFiles.length > 0) {
+        // 기존 프로젝트 조회
+        const existing = await prisma.project.findUnique({
+          where: { id },
+          select: { images: true }
+        });
+
+        const uploadedDetailUrls = [];
+        for (const file of req.files.detailImageFiles) {
+          const tempPath = path.join(os.tmpdir(), `${Date.now()}-${file.originalname}`);
+          fs.writeFileSync(tempPath, file.buffer);
+
+          const r2Key = `projects/${id}/detail-${Date.now()}-${file.originalname}`;
+          const result = await uploadFileToR2(tempPath, r2Key, file.mimetype);
+          uploadedDetailUrls.push(result.url);
+
+          fs.unlinkSync(tempPath);
+        }
+
+        // 기존 이미지에 추가
+        dataToUpdate.images = [
+          ...(existing?.images || []),
+          ...uploadedDetailUrls
+        ];
       }
 
       const updatedProject = await prisma.project.update({
