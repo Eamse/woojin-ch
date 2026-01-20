@@ -179,7 +179,6 @@ router.post(
   '/projects/:projectId/images',
   protect,
   upload.fields([
-    { name: 'files', maxCount: 10 },
     { name: 'mainImageFile', maxCount: 1 },
     { name: 'detailImageFiles', maxCount: 10 },
   ]),
@@ -192,10 +191,16 @@ router.post(
         throw new Error('유효한 프로젝트 ID가 아닙니다.');
 
       const fileList = [
-        ...(req.files?.files || []),
         ...(req.files?.mainImageFile || []),
         ...(req.files?.detailImageFiles || []),
       ];
+
+      // [디버그] 업로드된 파일 정보 로깅
+      console.log('📤 [Upload Debug] 받은 필드:', Object.keys(req.files || {}));
+      console.log('📤 [Upload Debug] mainImageFile:', req.files?.mainImageFile?.map(f => f.originalname));
+      console.log('📤 [Upload Debug] detailImageFiles:', req.files?.detailImageFiles?.map(f => f.originalname));
+      console.log('📤 [Upload Debug] fileList 총 개수:', fileList.length);
+      console.log('📤 [Upload Debug] fileList 파일명:', fileList.map(f => f.originalname));
 
       if (fileList.length === 0) throw new Error('업로드된 파일이 없습니다.');
 

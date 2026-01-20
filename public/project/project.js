@@ -111,12 +111,10 @@ const initProjectPage = () => {
 
   async function loadProjects() {
     try {
-      console.log('🚀 [Project] Fetching projects...');
       const res = await fetch(`${apiBase}/projects`);
       if (!res.ok) throw new Error('Failed to load projects');
       const data = await res.json();
       allProjects = data.projects || [];
-      console.log('🚀 [Project] Projects loaded:', allProjects.length);
       render();
     } catch (err) {
       console.error('❌ [Project] Load Error:', err);
@@ -179,14 +177,12 @@ const initProjectPage = () => {
       li.innerHTML = `
         <a href="/project/project-detail.html?id=${p.id}">
           <div class="project-thumb-wrap">
-            <img src="${thumb}" alt="${
-              p.title
-            }" loading="lazy" onerror="this.src='https://placehold.co/480x320?text=No+Image';" />
+            <img src="${thumb}" alt="${p.title
+        }" loading="lazy" onerror="this.src='https://placehold.co/480x320?text=No+Image';" />
           </div>
           <figcaption>
-            <span class="project-location">${
-              p.location || p.category || '시공 사례'
-            }</span>
+            <span class="project-location">${p.location || p.category || '시공 사례'
+        }</span>
             <h3 class="project-title">${p.title}</h3>
           </figcaption>
         </a>

@@ -70,7 +70,7 @@ function initProjectDetail() {
       <div style="text-align:center; padding:4rem;">
         <h3>잘못된 접근입니다.</h3>
         <p>프로젝트 ID가 확인되지 않습니다.</p>
-        <a href="/project/project.html" class="btn outline" style="margin-top:20px;">목록으로 돌아가기</a>
+        <a href="/project" class="btn outline" style="margin-top:20px;">목록으로 돌아가기</a>
       </div>`;
     return;
   }
@@ -89,7 +89,7 @@ function initProjectDetail() {
       container.innerHTML = `<div style="text-align:center; padding:4rem;">
         <h3>프로젝트를 불러오지 못했습니다.</h3>
         <p>${err.message}</p>
-        <a href="/project/project.html" class="btn outline" style="margin-top:20px;">목록으로 돌아가기</a>
+        <a href="/project" class="btn outline" style="margin-top:20px;">목록으로 돌아가기</a>
       </div>`;
     }
   }
@@ -179,7 +179,7 @@ function initProjectDetail() {
 
         ${costHtml}
 
-        <a href="/project/project.html" class="btn-back-list">
+        <a href="/project" class="btn-back-list">
           <i class="fa-solid fa-arrow-left-long"></i> Back to List
         </a>
       </aside>
