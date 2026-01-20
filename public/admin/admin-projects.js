@@ -172,7 +172,7 @@ const initAdminProjects = () => {
         .addEventListener('click', () => editProject(p));
       card
         .querySelector('.btn-preview')
-        .addEventListener('click', () => window.open(`/project-detail.html?id=${p.id}`, '_blank'));
+        .addEventListener('click', () => window.open(`https://woojin-ch.kr/project/project-detail.html?id=${p.id}`, '_blank'));
       card
         .querySelector('.btn-delete')
         .addEventListener('click', () => deleteProject(p.id));

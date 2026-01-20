@@ -4,3 +4,4 @@ npm-debug.log*
 dist/
 
 /src/generated/prisma
+src/createAdmin.js
