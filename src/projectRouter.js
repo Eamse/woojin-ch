@@ -105,59 +105,77 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // 📌 프로젝트 생성 (POST /api/projects)
-router.post('/', protect, async (req, res, next) => {
-  try {
-    const {
-      title,
-      description,
-      location,
-      category,
-      year,
-      period,
-      area,
-      costs, // [{ label: '철거', amount: 1000 }, ...]
-      mainImage,
-      images,
-    } = req.body;
-
-    if (!title) {
-      const error = new Error('프로젝트 제목(title)은 필수입니다.');
-      error.status = 400;
-      throw error;
-    }
-
-    // 견적 합계 계산
-    let calculatedPrice = 0;
-    let costData = [];
-    if (Array.isArray(costs)) {
-      costData = costs.map((c) => ({
-        label: c.label,
-        amount: Number(c.amount) || 0,
-      }));
-      calculatedPrice = costData.reduce((sum, c) => sum + c.amount, 0);
-    }
-
-    const newProject = await prisma.project.create({
-      data: {
+router.post(
+  '/',
+  protect,
+  upload.fields([
+    { name: 'mainImageFile', maxCount: 1 },
+    { name: 'detailImageFiles', maxCount: 10 }
+  ]),
+  async (req, res, next) => {
+    try {
+      const {
         title,
-        description: description || '',
-        location: location || '',
-        category: category || '',
-        year: year ? parseInt(year, 10) : null,
-        period: period || '',
-        area: area ? parseFloat(area) : null,
-        price: calculatedPrice, // 총액 자동 저장
-        mainImage: mainImage || null,
-        images: images || undefined,
-        costs: { create: costData },
-      },
-    });
+        description,
+        location,
+        category,
+        year,
+        period,
+        area,
+        costs: costsRaw, // JSON 문자열로 올 수 있음
+        mainImage,
+        images,
+      } = req.body;
 
-    res.status(201).json({ ok: true, project: newProject });
-  } catch (error) {
-    next(error);
-  }
-});
+      // FormData에서 오는 costs는 JSON 문자열이므로 파싱 필요
+      let costs = costsRaw;
+      if (typeof costsRaw === 'string' && costsRaw) {
+        try {
+          costs = JSON.parse(costsRaw);
+        } catch (e) {
+          console.error('❌ [POST] costs JSON parse error:', e);
+          costs = [];
+        }
+      }
+
+      if (!title) {
+        const error = new Error('프로젝트 제목(title)은 필수입니다.');
+        error.status = 400;
+        throw error;
+      }
+
+      // 견적 합계 계산
+      let calculatedPrice = 0;
+      let costData = [];
+      if (Array.isArray(costs)) {
+        costData = costs.map((c) => ({
+          label: c.label,
+          amount: Number(c.amount) || 0,
+        }));
+        calculatedPrice = costData.reduce((sum, c) => sum + c.amount, 0);
+      }
+
+      const newProject = await prisma.project.create({
+        data: {
+          title,
+          description: description || '',
+          location: location || '',
+          category: category || '',
+          year: year ? parseInt(year, 10) : null,
+          period: period || '',
+          area: area ? parseFloat(area) : null,
+          price: calculatedPrice, // 총액 자동 저장
+          mainImage: mainImage || null,
+          images: images || undefined,
+          costs: { create: costData },
+        },
+      });
+
+      res.status(201).json({ ok: true, project: newProject });
+    } catch (error) {
+      next(error);
+    }
+  });
 
 // 📌 프로젝트 수정 (PATCH /api/projects/:id)
 router.patch(
@@ -184,10 +202,22 @@ router.patch(
         year,
         period,
         area,
-        costs,
+        costs: costsRaw,
         mainImage,
         images,
       } = req.body;
+
+      // FormData에서 오는 costs는 JSON 문자열이므로 파싱 필요
+      let costs = costsRaw;
+      if (typeof costsRaw === 'string' && costsRaw) {
+        try {
+          costs = JSON.parse(costsRaw);
+        } catch (e) {
+          console.error('❌ [PATCH] costs JSON parse error:', e);
+          costs = undefined;
+        }
+      }
+
       const dataToUpdate = {};
 
       if (title !== undefined) dataToUpdate.title = title;
