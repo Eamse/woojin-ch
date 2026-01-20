@@ -177,7 +177,6 @@ router.post(
 
       // 📸 파일 업로드 처리
       let uploadedMainImageUrl = null;
-      const uploadedDetailUrls = [];
 
       // 메인 이미지 업로드
       if (req.files?.mainImageFile && req.files.mainImageFile[0]) {
@@ -193,6 +192,7 @@ router.post(
       }
 
       // 상세 이미지 업로드
+      const uploadedImages = [];
       if (req.files?.detailImageFiles) {
         for (const file of req.files.detailImageFiles) {
           const tempPath = path.join(os.tmpdir(), `${Date.now()}-${file.originalname}`);
@@ -200,32 +200,57 @@ router.post(
 
           const r2Key = `projects/${newProject.id}/detail-${Date.now()}-${file.originalname}`;
           const result = await uploadFileToR2(tempPath, r2Key, file.mimetype);
-          uploadedDetailUrls.push(result.url);
+
+          // ProjectImage 레코드 생성을 위한 데이터
+          uploadedImages.push({
+            projectId: newProject.id,
+            filename: file.originalname,
+            originalUrl: result.url,
+            largeUrl: result.url,
+            mediumUrl: result.url,
+            thumbUrl: result.url,
+          });
 
           fs.unlinkSync(tempPath);
         }
       }
 
-      // 업로드된 URL로 프로젝트 업데이트
-      if (uploadedMainImageUrl || uploadedDetailUrls.length > 0) {
-        const updateData = {};
-        if (uploadedMainImageUrl) {
-          updateData.mainImage = uploadedMainImageUrl;
-        }
-        if (uploadedDetailUrls.length > 0) {
-          // 기존 images 배열에 추가
-          updateData.images = [
-            ...(newProject.images || []),
-            ...uploadedDetailUrls
-          ];
-        }
+      // DB 업데이트
+      const updates = [];
 
-        const updated = await prisma.project.update({
+      // 메인 이미지 업데이트
+      if (uploadedMainImageUrl) {
+        updates.push(
+          prisma.project.update({
+            where: { id: newProject.id },
+            data: { mainImage: uploadedMainImageUrl },
+          })
+        );
+      }
+
+      // 상세 이미지 레코드 생성
+      if (uploadedImages.length > 0) {
+        updates.push(
+          prisma.projectImage.createMany({
+            data: uploadedImages,
+          })
+        );
+      }
+
+      // 모든 업데이트 실행
+      if (updates.length > 0) {
+        await Promise.all(updates);
+
+        // 최종 프로젝트 조회 (images 포함)
+        const finalProject = await prisma.project.findUnique({
           where: { id: newProject.id },
-          data: updateData,
+          include: {
+            images: true,
+            costs: true,
+          },
         });
 
-        return res.status(201).json({ ok: true, project: updated });
+        return res.status(201).json({ ok: true, project: finalProject });
       }
 
       res.status(201).json({ ok: true, project: newProject });
@@ -327,35 +352,51 @@ router.patch(
       }
 
       // 상세 이미지 추가 업로드
+      const uploadedImages = [];
       if (req.files?.detailImageFiles && req.files.detailImageFiles.length > 0) {
-        // 기존 프로젝트 조회
-        const existing = await prisma.project.findUnique({
-          where: { id },
-          select: { images: true }
-        });
-
-        const uploadedDetailUrls = [];
         for (const file of req.files.detailImageFiles) {
           const tempPath = path.join(os.tmpdir(), `${Date.now()}-${file.originalname}`);
           fs.writeFileSync(tempPath, file.buffer);
 
           const r2Key = `projects/${id}/detail-${Date.now()}-${file.originalname}`;
           const result = await uploadFileToR2(tempPath, r2Key, file.mimetype);
-          uploadedDetailUrls.push(result.url);
+
+          // ProjectImage 레코드 생성을 위한 데이터
+          uploadedImages.push({
+            projectId: id,
+            filename: file.originalname,
+            originalUrl: result.url,
+            largeUrl: result.url,
+            mediumUrl: result.url,
+            thumbUrl: result.url,
+          });
 
           fs.unlinkSync(tempPath);
         }
-
-        // 기존 이미지에 추가
-        dataToUpdate.images = [
-          ...(existing?.images || []),
-          ...uploadedDetailUrls
-        ];
       }
 
-      const updatedProject = await prisma.project.update({
+      // 프로젝트 업데이트 (dataToUpdate가 있는 경우만)
+      if (Object.keys(dataToUpdate).length > 0) {
+        await prisma.project.update({
+          where: { id },
+          data: dataToUpdate,
+        });
+      }
+
+      // 상세 이미지 레코드 생성
+      if (uploadedImages.length > 0) {
+        await prisma.projectImage.createMany({
+          data: uploadedImages,
+        });
+      }
+
+      // 최종 프로젝트 조회 (images 포함)
+      const updatedProject = await prisma.project.findUnique({
         where: { id },
-        data: dataToUpdate,
+        include: {
+          images: true,
+          costs: true,
+        },
       });
 
       res.json({ ok: true, project: updatedProject });
