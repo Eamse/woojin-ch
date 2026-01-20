@@ -103,20 +103,45 @@ function initProjectDetail() {
       return `${serverBase}${url.startsWith('/') ? '' : '/'}${url}`;
     };
 
-    // 상세 이미지만 표시 (mainImage는 p.images에 포함되어 있음)
+    // 이미지 렌더링 (중복 방지)
     let imagesHtml = '';
     const allImages = [];
 
+    // mainImage와 동일한 이미지를 찾기 위한 모든 URL 패턴
+    const mainImageUrls = new Set();
+    if (p.mainImage) {
+      mainImageUrls.add(p.mainImage);
+    }
+
     if (p.images && p.images.length > 0) {
       p.images.forEach((img) => {
-        // 원본 혹은 큰 이미지 사용
-        const url = img.originalUrl || img.largeUrl || img.mediumUrl;
-        if (url) allImages.push(url);
+        // 모든 URL 변형 수집
+        const urls = [
+          img.originalUrl,
+          img.largeUrl,
+          img.mediumUrl,
+          img.thumbUrl
+        ].filter(Boolean);
+
+        // mainImage와 일치하는지 확인
+        const isMainImage = urls.some(url => mainImageUrls.has(url));
+
+        if (isMainImage && mainImageUrls.size > 0) {
+          // mainImage와 같은 이미지는 한 번만 추가
+          if (allImages.length === 0) {
+            const url = img.originalUrl || img.largeUrl || img.mediumUrl;
+            if (url) allImages.push(url);
+          }
+        } else {
+          // 일반 이미지는 그냥 추가
+          const url = img.originalUrl || img.largeUrl || img.mediumUrl;
+          if (url) allImages.push(url);
+        }
       });
     }
 
-    // 중복 제거 후 렌더링
-    [...new Set(allImages)].forEach((url) => {
+    // 렌더링
+    allImages.forEach((url) => {
       imagesHtml += `<figure class="gallery-image"><img src="${processImgUrl(
         url,
       )}" alt="${p.title}" loading="lazy" /></figure>`;
