@@ -34,6 +34,16 @@ async function loadVisitStats() {
         const data = await res.json();
         const stats = data.stats || [];
 
+        // 날짜별로 먼저 그룹화 (페이지별 UV를 날짜별로 합산)
+        const dateMap = {};
+        stats.forEach(stat => {
+            const dateKey = new Date(stat.date).toISOString().split('T')[0];
+            if (!dateMap[dateKey]) {
+                dateMap[dateKey] = 0;
+            }
+            dateMap[dateKey] += (stat.uv || 0);
+        });
+
         // 날짜별 집계
         const now = new Date();
         const today = new Date(now.setHours(0, 0, 0, 0));
@@ -43,9 +53,9 @@ async function loadVisitStats() {
 
         let todayCount = 0, weekCount = 0, monthCount = 0, totalCount = 0;
 
-        stats.forEach(stat => {
-            const statDate = new Date(stat.date);
-            const uv = stat.uv || 0;
+        // 날짜별로 합산된 데이터로 계산
+        Object.entries(dateMap).forEach(([dateStr, uv]) => {
+            const statDate = new Date(dateStr);
             if (statDate >= today) todayCount += uv;
             if (statDate >= weekStart) weekCount += uv;
             if (statDate >= monthStart) monthCount += uv;
@@ -175,13 +185,32 @@ async function loadTopPages() {
         const data = await res.json();
         const stats = data.stats || [];
 
-        // 페이지별 집계
+        // 경로 그룹화 및 한글 라벨
+        const pathGroups = {
+            '메인 페이지': ['/', '/index.html'],
+            '프로젝트': ['/project', '/project/', '/project/index.html', '/project/project-detail.html'],
+            '창호 소개': ['/information', '/information/', '/information/index.html'],
+            '문의하기': ['/inquiries', '/inquiries/', '/inquiries/index.html'],
+            '회사 정보': ['/about', '/about/', '/about/index.html'],
+            '브랜드': ['/brand', '/brand/', '/brand/index.html', '/brand/lx.html'],
+            '관리자': ['/admin-dashboard.html', '/admin-projects.html', '/admin-gallery.html', '/admin-inquiries.html', '/admin-analytics.html', '/admin-login.html']
+        };
+
+        // 그룹별 집계
         const pageCount = {};
         stats.forEach(stat => {
-            const page = stat.path || '/';
-            pageCount[page] = (pageCount[page] || 0) + (stat.uv || 0);
+            const path = stat.path || '/';
+
+            // 어느 그룹에 속하는지 찾기
+            for (const [groupName, paths] of Object.entries(pathGroups)) {
+                if (paths.includes(path)) {
+                    pageCount[groupName] = (pageCount[groupName] || 0) + (stat.uv || 0);
+                    break;
+                }
+            }
         });
 
+        // Top 10 정렬
         const topPages = Object.entries(pageCount)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 10);
