@@ -21,47 +21,44 @@ async function initAnalytics() {
     }
 }
 
-// 방문 통계 요약
+// 방문 통계 요약 - REAL DATA
 async function loadVisitStats() {
     try {
-        const res = await fetch(`${API_BASE}/metrics/visits`);
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API_BASE}/metrics/daily`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
 
-        if (!res.ok) {
-            throw new Error('Metrics API not available');
-        }
+        if (!res.ok) throw new Error('API failed');
 
         const data = await res.json();
-        const visits = data.visits || [];
+        const stats = data.stats || [];
 
-        // 날짜별 계산
+        // 날짜별 집계
         const now = new Date();
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const today = new Date(now.setHours(0, 0, 0, 0));
         const weekStart = new Date(today);
         weekStart.setDate(weekStart.getDate() - 7);
         const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
-        const todayCount = visits.filter(v => {
-            const visitDate = new Date(v.timestamp);
-            return visitDate >= today;
-        }).length;
+        let todayCount = 0, weekCount = 0, monthCount = 0, totalCount = 0;
 
-        const weekCount = visits.filter(v => {
-            const visitDate = new Date(v.timestamp);
-            return visitDate >= weekStart;
-        }).length;
+        stats.forEach(stat => {
+            const statDate = new Date(stat.date);
+            const uv = stat.uv || 0;
+            if (statDate >= today) todayCount += uv;
+            if (statDate >= weekStart) weekCount += uv;
+            if (statDate >= monthStart) monthCount += uv;
+            totalCount += uv;
+        });
 
-        const monthCount = visits.filter(v => {
-            const visitDate = new Date(v.timestamp);
-            return visitDate >= monthStart;
-        }).length;
-
-        document.getElementById('todayVisits').textContent = todayCount;
-        document.getElementById('weekVisits').textContent = weekCount;
-        document.getElementById('monthVisits').textContent = monthCount;
-        document.getElementById('totalVisits').textContent = visits.length;
+        document.getElementById('todayVisits').textContent = todayCount.toLocaleString();
+        document.getElementById('weekVisits').textContent = weekCount.toLocaleString();
+        document.getElementById('monthVisits').textContent = monthCount.toLocaleString();
+        document.getElementById('totalVisits').textContent = totalCount.toLocaleString();
 
     } catch (error) {
-        console.warn('⚠️ [Visit Stats] Using mock data');
+        console.warn('⚠️ [Visit Stats] Using mock data:', error);
         document.getElementById('todayVisits').textContent = '42';
         document.getElementById('weekVisits').textContent = '287';
         document.getElementById('monthVisits').textContent = '1,234';
@@ -69,21 +66,40 @@ async function loadVisitStats() {
     }
 }
 
-// 일별 방문자 그래프
+// 일별 방문자 그래프 - REAL DATA
 async function loadDailyVisitsChart() {
     const ctx = document.getElementById('dailyVisitsChart');
 
     try {
-        // 최근 14일 데이터 생성 (실제로는 API에서 가져옴)
-        const days = 14;
-        const labels = [];
-        const data = [];
+        const token = localStorage.getItem('token');
+        const today = new Date();
+        const from = new Date(today);
+        from.setDate(from.getDate() - 13);
 
-        for (let i = days - 1; i >= 0; i--) {
-            const date = new Date();
+        const res = await fetch(`${API_BASE}/metrics/daily?from=${from.toISOString()}&to=${today.toISOString()}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!res.ok) throw new Error('API failed');
+
+        const data = await res.json();
+        const stats = data.stats || [];
+
+        // 날짜별 집계
+        const dateMap = {};
+        stats.forEach(stat => {
+            const date = new Date(stat.date).toLocaleDateString('ko-KR', { month: 'numeric', day: 'numeric' });
+            dateMap[date] = (dateMap[date] || 0) + (stat.uv || 0);
+        });
+
+        // 최근 14일 라벨
+        const labels = [], dataPoints = [];
+        for (let i = 13; i >= 0; i--) {
+            const date = new Date(today);
             date.setDate(date.getDate() - i);
-            labels.push(`${date.getMonth() + 1}/${date.getDate()}`);
-            data.push(Math.floor(Math.random() * 100) + 50); // Mock data
+            const label = `${date.getMonth() + 1}/${date.getDate()}`;
+            labels.push(label);
+            dataPoints.push(dateMap[label] || 0);
         }
 
         dailyChart = new Chart(ctx, {
@@ -91,8 +107,8 @@ async function loadDailyVisitsChart() {
             data: {
                 labels,
                 datasets: [{
-                    label: '일별 방문자',
-                    data,
+                    label: '일별 방문자 (UV)',
+                    data: dataPoints,
                     borderColor: '#3b82f6',
                     backgroundColor: 'rgba(59, 130, 246, 0.1)',
                     tension: 0.4,
@@ -103,61 +119,74 @@ async function loadDailyVisitsChart() {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false
-                    },
+                    legend: { display: true },
                     tooltip: {
                         backgroundColor: '#111827',
-                        padding: 12,
-                        titleFont: { size: 14 },
-                        bodyFont: { size: 13 }
+                        padding: 12
                     }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: {
-                            precision: 0
-                        }
+                        ticks: { precision: 0 }
                     }
                 }
             }
         });
 
     } catch (error) {
-        console.error('❌ [Daily Chart] Error:', error);
+        console.error('❌ [Daily Chart] Using mock data:', error);
+        // Mock fallback
+        const labels = [], data = [];
+        for (let i = 13; i >= 0; i--) {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+            labels.push(`${date.getMonth() + 1}/${date.getDate()}`);
+            data.push(Math.floor(Math.random() * 100) + 50);
+        }
+        dailyChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [{ label: '일별 방문자 (Mock)', data, borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', tension: 0.4, fill: true }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { backgroundColor: '#111827', padding: 12 } },
+                scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+            }
+        });
     }
 }
 
-// 인기 페이지 Top 10
+// 인기 페이지 Top 10 - REAL DATA
 async function loadTopPages() {
     const container = document.getElementById('topPagesContainer');
 
     try {
-        const res = await fetch(`${API_BASE}/metrics/visits`);
-
-        if (!res.ok) {
-            throw new Error('API not available');
-        }
-
-        const data = await res.json();
-        const visits = data.visits || [];
-
-        // 페이지별 카운트
-        const pageCount = {};
-        visits.forEach(visit => {
-            const page = visit.pathname || '/';
-            pageCount[page] = (pageCount[page] || 0) + 1;
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API_BASE}/metrics/daily`, {
+            headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        // Top 10 정렬
+        if (!res.ok) throw new Error('API failed');
+
+        const data = await res.json();
+        const stats = data.stats || [];
+
+        // 페이지별 집계
+        const pageCount = {};
+        stats.forEach(stat => {
+            const page = stat.path || '/';
+            pageCount[page] = (pageCount[page] || 0) + (stat.uv || 0);
+        });
+
         const topPages = Object.entries(pageCount)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 10);
 
-        if (topPages.length === 0) {
-            throw new Error('No data');
-        }
+        if (topPages.length === 0) throw new Error('No data');
 
         const maxCount = topPages[0][1];
 
@@ -166,7 +195,7 @@ async function loadTopPages() {
         <thead>
           <tr>
             <th>페이지</th>
-            <th style="text-align: right;">방문 수</th>
+            <th style="text-align: right;">방문자 수 (UV)</th>
           </tr>
         </thead>
         <tbody>
@@ -188,19 +217,12 @@ async function loadTopPages() {
     `;
 
     } catch (error) {
-        console.warn('⚠️ [Top Pages] Using mock data');
+        console.warn('⚠️ [Top Pages] Using mock data:', error);
 
         const mockPages = [
-            ['/', 450],
-            ['/project', 320],
-            ['/information', 180],
-            ['/inquiries', 150],
-            ['/about', 120],
-            ['/brand', 90],
-            ['/project/project-detail.html', 85],
-            ['/admin-dashboard.html', 45],
-            ['/admin-projects.html', 42],
-            ['/admin-inquiries.html', 38]
+            ['/', 450], ['/project', 320], ['/information', 180], ['/inquiries', 150],
+            ['/about', 120], ['/brand', 90], ['/project/project-detail.html', 85],
+            ['/admin-dashboard.html', 45], ['/admin-projects.html', 42], ['/admin-inquiries.html', 38]
         ];
 
         const maxCount = mockPages[0][1];
@@ -233,23 +255,18 @@ async function loadTopPages() {
     }
 }
 
-// 디바이스 비율 차트
+// 디바이스 비율 차트 (Mock - 별도 API 필요)
 async function loadDeviceChart() {
     const ctx = document.getElementById('deviceChart');
 
     try {
-        // Mock data (실제로는 User-Agent 분석)
         deviceChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['모바일', '데스크톱', '태블릿'],
                 datasets: [{
                     data: [55, 40, 5],
-                    backgroundColor: [
-                        '#3b82f6',
-                        '#10b981',
-                        '#f59e0b'
-                    ],
+                    backgroundColor: ['#3b82f6', '#10b981', '#f59e0b'],
                     borderWidth: 0
                 }]
             },
@@ -259,10 +276,7 @@ async function loadDeviceChart() {
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: {
-                            padding: 15,
-                            font: { size: 13 }
-                        }
+                        labels: { padding: 15, font: { size: 13 } }
                     },
                     tooltip: {
                         backgroundColor: '#111827',
@@ -282,12 +296,11 @@ async function loadDeviceChart() {
     }
 }
 
-// 시간대별 방문 패턴
+// 시간대별 방문 패턴 (Mock - 별도 API 필요)
 async function loadHourlyChart() {
     const ctx = document.getElementById('hourlyChart');
 
     try {
-        // 24시간 데이터
         const hours = Array.from({ length: 24 }, (_, i) => `${i}시`);
         const data = Array.from({ length: 24 }, () => Math.floor(Math.random() * 50) + 10);
 
@@ -306,28 +319,12 @@ async function loadHourlyChart() {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        backgroundColor: '#111827',
-                        padding: 12
-                    }
+                    legend: { display: false },
+                    tooltip: { backgroundColor: '#111827', padding: 12 }
                 },
                 scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0
-                        }
-                    },
-                    x: {
-                        ticks: {
-                            maxRotation: 0,
-                            autoSkip: true,
-                            maxTicksLimit: 12
-                        }
-                    }
+                    y: { beginAtZero: true, ticks: { precision: 0 } },
+                    x: { ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 12 } }
                 }
             }
         });
