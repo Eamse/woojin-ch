@@ -123,6 +123,9 @@ const adminStaticPaths = new Set([
   '/admin-gallery.js',
   '/admin-inquiries.js',
   '/admin-projects.css',
+  '/admin-gallery-photos.html',
+  '/admin-gallery-photos.js',
+  '/admin-gallery-manage.js'
 ]);
 
 // [추가] 로그인 없이 접근 가능한 공개 스크립트 목록

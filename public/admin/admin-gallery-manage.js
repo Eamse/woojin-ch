@@ -336,6 +336,5 @@ editModal.addEventListener('click', (e) => {
 // ============================================
 
 window.editPhotoProject = function (id) {
-    console.log('clicked');
-    window.location.href = `/admin/admin-gallery-photos.html?id=${id}`
+    window.location.href = `/admin-gallery-photos.html?id=${id}`
 }

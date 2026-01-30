@@ -29,7 +29,7 @@ const btnDeleteSelected = document.getElementById('btnDeleteSelected');
 document.addEventListener('DOMContentLoaded', () => {
     if (!projectId) {
         alert('잘못된 접근입니다. 프로젝트 ID가 없습니다.');
-        window.location.href = '/admin/admin-gallery';
+        window.location.href = '/admin-gallery';
         return;
     }
 
@@ -142,12 +142,6 @@ window.saveMainImage = async function () {
     formData.append('mainImageFile', file);
 
     try {
-        // 1. 이미지 업로드 (Upload Router uses POST /projects/:id/images)
-        // But wait, if we use that endpoint, it creates a ProjectImage record.
-        // We want to update Project.mainImage string.
-        // Strategy: Upload to generates a URL, then PATCH Project.
-        // We can reuse the same endpoint `/projects/:id/images` and just take the URL.
-
         const uploadRes = await window.apiFetch(`/projects/${projectId}/images`, {
             method: 'POST',
             body: formData
@@ -181,7 +175,7 @@ window.deleteMainImage = async function () {
     try {
         await window.apiFetch(`/projects/${projectId}`, {
             method: 'PATCH',
-            body: { mainImage: null } // Send null to clear it (or empty string if backend prefers)
+            body: { mainImage: null }
         });
         alert('대표 이미지가 삭제되었습니다.');
         location.reload();
@@ -201,7 +195,7 @@ window.toggleSelectAll = function (checkbox) {
     detailImages.forEach((img, idx) => {
         img.checked = isChecked;
     });
-    renderDetailImages(); // Re-render to update checkboxes
+    renderDetailImages();
 }
 
 window.toggleImageCheck = function (index, isChecked) {
@@ -220,7 +214,6 @@ window.uploadDetailImages = async function (input) {
     }
 
     const formData = new FormData();
-    // append 'files' as per uploadRouter (name='files', maxCount=10)
     for (let i = 0; i < input.files.length; i++) {
         formData.append('files', input.files[i]);
     }
