@@ -774,6 +774,87 @@ textarea:focus {
   justify-content: center;
 }
 
-.search-box button:hover {
-  color: #3b82f6;
+
+/* --- Missing Styles for Gallery Photos --- */
+.card-btn {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #374151;
+}
+
+.card-btn:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.card-btn.edit {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.card-btn.edit:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.card-btn.delete {
+  background: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
+
+.card-btn.delete:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+.card-btn.preview {
+  background: #10b981;
+  color: white;
+  border-color: #10b981;
+}
+
+.card-btn.preview:hover {
+  background: #059669;
+  border-color: #059669;
+}
+
+.card-btn.photo {
+  background: #8b5cf6;
+  color: white;
+  border-color: #8b5cf6;
+}
+
+.card-btn.photo:hover {
+  background: #7c3aed;
+  border-color: #7c3aed;
+}
+
+.btn-back-nav {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #4b5563;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.btn-back-nav:hover {
+  background: #f3f4f6;
+  color: #111827;
 }

@@ -119,14 +119,12 @@ function renderModalGallery() {
       const galleryCard = document.createElement('div');
       galleryCard.className = 'gallery-item-card';
       galleryCard.innerHTML = `
-        <img src="${galleryImg.thumbUrl}" alt="${
-          galleryImg.alt
+        <img src="${galleryImg.thumbUrl}" alt="${galleryImg.alt
         }" loading="lazy">
         <div class="gallery-item-info">
           <span>${galleryImg.alt || '설명 없음'}</span>
-          <button class="btn-icon" data-delete-gallery-id="${
-            galleryImg.id
-          }">🗑️</button>
+          <button class="btn-icon" data-delete-gallery-id="${galleryImg.id
+        }">🗑️</button>
         </div>
       `;
       galleryGrid.appendChild(galleryCard);
@@ -182,11 +180,10 @@ function createCard(item) {
 
   card.innerHTML = `
     <div class="thumb-wrapper">
-      ${
-        thumbUrl
-          ? `<img src="${thumbUrl}" alt="${title}" loading="lazy" />`
-          : ''
-      }
+      ${thumbUrl
+      ? `<img src="${thumbUrl}" alt="${title}" loading="lazy" />`
+      : ''
+    }
       <div class="thumb-badge">${galleryCount}컷</div>
     </div>
     <div class="card-body">
@@ -200,19 +197,17 @@ function createCard(item) {
         <span>🕒 ${formatDate(item.createdAt)}</span>
       </div>
       <div class="card-actions">
-        ${
-          !isProjectImage
-            ? `
+        ${!isProjectImage
+      ? `
         <button type="button" class="btn-main" data-action="open-modal">
           관리
         </button>
-        <button type="button" class="btn-sub" data-action="delete-item" data-id="${
-          isProjectImage ? item.id : filename
-        }" data-type="${isProjectImage ? 'project' : 'admin'}">
+        <button type="button" class="btn-sub" data-action="delete-item" data-id="${isProjectImage ? item.id : filename
+      }" data-type="${isProjectImage ? 'project' : 'admin'}">
           삭제
         </button>
         `
-            : `
+      : `
         <button type="button" class="btn-main" data-action="open-modal">
           관리
         </button>
@@ -220,7 +215,7 @@ function createCard(item) {
           삭제
         </button>
         `
-        }
+    }
       </div>
     </div>
   `;

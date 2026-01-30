@@ -158,6 +158,9 @@ function createProjectCard(project) {
                     <button class="card-btn delete" onclick="deleteProject(${project.id})">
                         <i class="fas fa-trash"></i> 삭제
                     </button>
+                    <button class="card-btn photo" onclick="editPhotoProject(${project.id})">
+                        <i class="fas fa-camera"></i> 사진수정
+                </button>
                 </div>
             </div>
         </div>
@@ -327,3 +330,12 @@ editModal.addEventListener('click', (e) => {
         closeEditModal();
     }
 });
+
+// ============================================
+// 사진 관리
+// ============================================
+
+window.editPhotoProject = function (id) {
+    console.log('clicked');
+    window.location.href = `/admin/admin-gallery-photos.html?id=${id}`
+}
