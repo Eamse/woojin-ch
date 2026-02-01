@@ -45,12 +45,17 @@ async function initPhotosManager() {
  */
 async function loadProjectData() {
     try {
+        console.log('🔍 [Debug] projectId:', projectId);
+        console.log('🔍 [Debug] Requesting URL:', `/projects/${projectId}`);
+
         // 1. 프로젝트 기본 정보 (+대표이미지)
         const res = await window.apiFetch(`/projects/${projectId}`);
+        console.log('✅ [Debug] Project response:', res);
         projectData = res.project;
 
         // 2. 상세 이미지 리스트 가져오기
         const imgRes = await window.apiFetch(`/projects/${projectId}/images`);
+        console.log('✅ [Debug] Images response:', imgRes);
         detailImages = (imgRes.items || []).map(img => ({
             ...img,
             checked: false
