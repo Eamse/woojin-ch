@@ -47,12 +47,10 @@ async function loadProjectData() {
     try {
         // 1. 프로젝트 기본 정보 (+대표이미지)
         const res = await window.apiFetch(`/projects/${projectId}`);
-        projectData = res.data;
+        projectData = res.project;
 
-        // 2. 상세 이미지 리스트 가져오기 (API 확인 필요)
-        // uploadRouter.js를 보면 GET /projects/:projectId/images 가 있음.
+        // 2. 상세 이미지 리스트 가져오기
         const imgRes = await window.apiFetch(`/projects/${projectId}/images`);
-        // items가 배열임
         detailImages = (imgRes.items || []).map(img => ({
             ...img,
             checked: false
