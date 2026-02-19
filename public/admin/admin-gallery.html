@@ -1,384 +1,403 @@
 <!doctype html>
 <html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="woojin-api-base" content="https://woojin-ch.kr/api" />
+    <title>우진 인테리어 · 프로젝트 관리</title>
+    <link rel="stylesheet" href="/admin/admin-projects.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Gallery specific styles */
+      .filter-bar {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="woojin-api-base" content="https://woojin-ch.kr/api" />
-  <title>우진 인테리어 · 프로젝트 관리</title>
-  <link rel="stylesheet" href="/admin/admin-projects.css" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-  <style>
-    /* Gallery specific styles */
-    .filter-bar {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
+      .filter-btn {
+        padding: 8px 16px;
+        border: 1px solid #d1d5db;
+        background: white;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
 
-    .filter-btn {
-      padding: 8px 16px;
-      border: 1px solid #d1d5db;
-      background: white;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: all 0.2s;
-    }
+      .filter-btn:hover {
+        background: #f3f4f6;
+      }
 
-    .filter-btn:hover {
-      background: #f3f4f6;
-    }
+      .filter-btn.active {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+      }
 
-    .filter-btn.active {
-      background: #3b82f6;
-      color: white;
-      border-color: #3b82f6;
-    }
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 20px;
+      }
 
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-      gap: 20px;
-    }
+      .project-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
 
-    .project-card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+      .project-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      }
 
-    .project-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    }
+      .card-image {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        background: #f3f4f6;
+      }
 
-    .card-image {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      background: #f3f4f6;
-    }
+      .card-content {
+        padding: 16px;
+      }
 
-    .card-content {
-      padding: 16px;
-    }
+      .card-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 0 8px 0;
+        color: #111827;
+      }
 
-    .card-title {
-      font-size: 16px;
-      font-weight: 600;
-      margin: 0 0 8px 0;
-      color: #111827;
-    }
+      .card-meta {
+        font-size: 13px;
+        color: #6b7280;
+        margin-bottom: 12px;
+      }
 
-    .card-meta {
-      font-size: 13px;
-      color: #6b7280;
-      margin-bottom: 12px;
-    }
+      .card-actions {
+        display: flex;
+        gap: 8px;
+      }
 
-    .card-actions {
-      display: flex;
-      gap: 8px;
-    }
+      .card-btn {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #d1d5db;
+        background: white;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: all 0.2s;
+      }
 
-    .card-btn {
-      flex: 1;
-      padding: 8px;
-      border: 1px solid #d1d5db;
-      background: white;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-      transition: all 0.2s;
-    }
+      .card-btn.preview {
+        background: #10b981;
+        color: white;
+        border-color: #10b981;
+      }
 
-    .card-btn.preview {
-      background: #10b981;
-      color: white;
-      border-color: #10b981;
-    }
+      .card-btn.edit {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+      }
 
-    .card-btn.edit {
-      background: #3b82f6;
-      color: white;
-      border-color: #3b82f6;
-    }
+      .card-btn.delete {
+        background: #ef4444;
+        color: white;
+        border-color: #ef4444;
+      }
 
-    .card-btn.delete {
-      background: #ef4444;
-      color: white;
-      border-color: #ef4444;
-    }
+      .card-btn:hover {
+        opacity: 0.8;
+      }
 
-    .card-btn:hover {
-      opacity: 0.8;
-    }
+      /* Edit Modal */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
 
-    /* Edit Modal */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
+      .modal-overlay.show {
+        display: flex;
+      }
 
-    .modal-overlay.show {
-      display: flex;
-    }
+      .modal-container {
+        background: white;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 24px;
+      }
 
-    .modal-container {
-      background: white;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 800px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 24px;
-    }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid #e5e7eb;
+      }
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 16px;
-      border-bottom: 2px solid #e5e7eb;
-    }
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #6b7280;
+      }
 
-    .modal-close {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      color: #6b7280;
-    }
+      .modal-close:hover {
+        color: #111827;
+      }
 
-    .modal-close:hover {
-      color: #111827;
-    }
+      .loading-state {
+        text-align: center;
+        padding: 40px;
+        color: #6b7280;
+      }
 
-    .loading-state {
-      text-align: center;
-      padding: 40px;
-      color: #6b7280;
-    }
+      .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #6b7280;
+      }
 
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: #6b7280;
-    }
+      .category-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        background: #e0e7ff;
+        color: #3730a3;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+    </style>
+  </head>
 
-    .category-badge {
-      display: inline-block;
-      padding: 4px 8px;
-      background: #e0e7ff;
-      color: #3730a3;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 500;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="admin-layout">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-logo">
-        <a href="/admin-dashboard.html">
-          <span style="color: #3b82f6">Woojin</span> Admin
-        </a>
-      </div>
-      <nav class="sidebar-menu">
-        <div class="menu-category">관리 메뉴</div>
-
-        <a href="/admin-dashboard.html" class="menu-item">
-          <i class="fas fa-tachometer-alt"></i> 대시보드
-        </a>
-
-        <a href="/admin-projects.html" class="menu-item">
-          <i class="fas fa-hammer"></i> 프로젝트 등록
-        </a>
-
-        <a href="/admin-gallery.html" class="menu-item active">
-          <i class="fas fa-images"></i> 프로젝트 관리
-        </a>
-
-        <a href="/admin-inquiries.html" class="menu-item">
-          <i class="fas fa-envelope-open-text"></i> 고객 문의 관리
-        </a>
-
-        <div class="menu-category" style="margin-top: 20px">분석</div>
-        <a href="/admin-analytics.html" class="menu-item">
-          <i class="fas fa-chart-line"></i> 방문자 통계
-        </a>
-      </nav>
-
-      <div class="sidebar-footer">
-        <button onclick="window.logout()" type="button" class="btn-logout-sidebar">
-          <i class="fas fa-sign-out-alt"></i> 로그아웃
-        </button>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content-wrapper">
-      <header class="header">
-        <div class="title">프로젝트 관리</div>
-        <div class="header-right">
-          <div class="user-profile">
-            <div class="user-avatar">AD</div>
-            <span>관리자님</span>
-          </div>
+  <body>
+    <div class="admin-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <a href="/admin-dashboard.html">
+            <span style="color: #3b82f6">Woojin</span> Admin
+          </a>
         </div>
-      </header>
+        <nav class="sidebar-menu">
+          <div class="menu-category">관리 메뉴</div>
 
-      <div class="container">
-        <!-- Page Header -->
-        <div class="page-header">
-          <h2>등록된 프로젝트 관리</h2>
-          <p>등록된 시공사례를 조회, 수정, 삭제할 수 있습니다.</p>
-        </div>
+          <a href="/admin-dashboard.html" class="menu-item">
+            <i class="fas fa-tachometer-alt"></i> 대시보드
+          </a>
 
-        <!-- Category Filter -->
-        <div class="filter-bar">
-          <button class="filter-btn active" data-category="all">
-            <i class="fas fa-list"></i> 전체
-          </button>
-          <button class="filter-btn" data-category="단창">
-            단창
-          </button>
-          <button class="filter-btn" data-category="이중창 (외창 + 내창)">
-            이중창
-          </button>
-          <button class="filter-btn" data-category="시스템 단창">
-            시스템 단창
-          </button>
-          <button class="filter-btn" data-category="시스템 이중창">
-            시스템 이중창
-          </button>
-          <button class="filter-btn" data-category="폴딩 도어">
-            폴딩 도어
-          </button>
-          <button class="filter-btn" data-category="슬라이딩 도어">
-            슬라이딩 도어
-          </button>
-          <button class="filter-btn" data-category="터닝 도어">
-            터닝 도어
+          <a href="/admin-projects.html" class="menu-item">
+            <i class="fas fa-hammer"></i> 프로젝트 등록
+          </a>
+
+          <a href="/admin-gallery.html" class="menu-item active">
+            <i class="fas fa-images"></i> 프로젝트 관리
+          </a>
+
+          <a href="/admin-inquiries.html" class="menu-item">
+            <i class="fas fa-envelope-open-text"></i> 고객 문의 관리
+          </a>
+
+          <div class="menu-category" style="margin-top: 20px">분석</div>
+          <a href="/admin-analytics.html" class="menu-item">
+            <i class="fas fa-chart-line"></i> 방문자 통계
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button
+            onclick="window.logout()"
+            type="button"
+            class="btn-logout-sidebar"
+          >
+            <i class="fas fa-sign-out-alt"></i> 로그아웃
           </button>
         </div>
+      </aside>
 
-        <!-- Projects Grid -->
-        <div id="projectsGrid" class="projects-grid">
-          <div class="loading-state">
-            <i class="fas fa-spinner fa-spin"></i> 로딩 중...
+      <!-- Main Content -->
+      <main class="main-content-wrapper">
+        <header class="header">
+          <div class="title">프로젝트 관리</div>
+          <div class="header-right">
+            <div class="user-profile">
+              <div class="user-avatar">AD</div>
+              <span>관리자님</span>
+            </div>
+          </div>
+        </header>
+
+        <div class="container">
+          <!-- Page Header -->
+          <div class="page-header">
+            <h2>등록된 프로젝트 관리</h2>
+            <p>등록된 시공사례를 조회, 수정, 삭제할 수 있습니다.</p>
+          </div>
+
+          <!-- Category Filter -->
+          <div class="filter-bar">
+            <button class="filter-btn active" data-category="all">
+              <i class="fas fa-list"></i> 전체
+            </button>
+            <button class="filter-btn" data-category="단창">단창</button>
+            <button class="filter-btn" data-category="이중창 (외창 + 내창)">
+              이중창
+            </button>
+            <button class="filter-btn" data-category="시스템 단창">
+              시스템 단창
+            </button>
+            <button class="filter-btn" data-category="폴딩 도어">
+              폴딩 도어
+            </button>
+            <button class="filter-btn" data-category="슬라이딩 도어">
+              슬라이딩 도어
+            </button>
+            <button class="filter-btn" data-category="터닝 도어">
+              터닝 도어
+            </button>
+          </div>
+
+          <!-- Projects Grid -->
+          <div id="projectsGrid" class="projects-grid">
+            <div class="loading-state">
+              <i class="fas fa-spinner fa-spin"></i> 로딩 중...
+            </div>
           </div>
         </div>
-      </div>
-    </main>
-  </div>
-
-  <!-- Edit Modal -->
-  <div class="modal-overlay" id="editModal">
-    <div class="modal-container">
-      <div class="modal-header">
-        <h2 style="margin: 0;">프로젝트 수정</h2>
-        <button class="modal-close" onclick="closeEditModal()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-
-      <form id="editForm">
-        <input type="hidden" id="editProjectId" />
-
-        <!-- Image Upload -->
-        <div class="form-row upload-section">
-          <div class="form-group">
-            <label>대표(썸네일) 이미지 변경</label>
-            <input type="file" name="mainImageFile" accept="image/*" />
-            <div class="helper-text">새 이미지를 선택하면 기존 이미지가 교체됩니다</div>
-          </div>
-          <div class="form-group">
-            <label>상세(갤러리) 이미지 추가</label>
-            <input type="file" name="detailImageFiles" accept="image/*" multiple />
-            <div class="helper-text">기존 이미지에 추가됩니다</div>
-          </div>
-        </div>
-
-        <!-- Basic Info -->
-        <div class="form-row">
-          <div class="form-group" style="flex: 2">
-            <label>프로젝트 제목</label>
-            <input type="text" name="title" id="editTitle" required />
-          </div>
-          <div class="form-group">
-            <label>위치/현장</label>
-            <input type="text" name="location" id="editLocation" />
-          </div>
-        </div>
-
-        <!-- Category & Details -->
-        <div class="form-row">
-          <div class="form-group">
-            <label>시공 타입</label>
-            <select name="category" id="editCategory">
-              <option value="">선택하세요</option>
-              <option value="단창">단창</option>
-              <option value="이중창 (외창 + 내창)">이중창 (외창 + 내창)</option>
-              <option value="시스템 단창">시스템 단창</option>
-              <option value="시스템 이중창">시스템 이중창</option>
-              <option value="폴딩 도어">폴딩 도어</option>
-              <option value="슬라이딩 도어">슬라이딩 도어</option>
-              <option value="터닝 도어">터닝 도어</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>준공 연도</label>
-            <input type="number" name="year" id="editYear" />
-          </div>
-          <div class="form-group">
-            <label>시공 기간</label>
-            <input type="text" name="period" id="editPeriod" />
-          </div>
-        </div>
-
-        <!-- Area -->
-        <div class="form-row">
-          <div class="form-group">
-            <label>총 면적 (m²)</label>
-            <input type="number" name="area" id="editArea" />
-          </div>
-        </div>
-
-        <!-- Description -->
-        <div class="form-group description-group">
-          <label>설명</label>
-          <textarea name="description" id="editDescription" rows="3"></textarea>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="btn-group">
-          <button type="button" class="btn" style="background: #6b7280;" onclick="closeEditModal()">
-            취소
-          </button>
-          <button type="submit" class="btn" id="saveEditBtn">
-            <i class="fas fa-save"></i> 저장하기
-          </button>
-        </div>
-      </form>
+      </main>
     </div>
-  </div>
 
-  <script src="/common.js"></script>
-  <script src="/admin/admin-gallery-manage.js"></script>
-</body>
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModal">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2 style="margin: 0">프로젝트 수정</h2>
+          <button class="modal-close" onclick="closeEditModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
 
+        <form id="editForm">
+          <input type="hidden" id="editProjectId" />
+
+          <!-- Image Upload -->
+          <div class="form-row upload-section">
+            <div class="form-group">
+              <label>대표(썸네일) 이미지 변경</label>
+              <input type="file" name="mainImageFile" accept="image/*" />
+              <div class="helper-text">
+                새 이미지를 선택하면 기존 이미지가 교체됩니다
+              </div>
+            </div>
+            <div class="form-group">
+              <label>상세(갤러리) 이미지 추가</label>
+              <input
+                type="file"
+                name="detailImageFiles"
+                accept="image/*"
+                multiple
+              />
+              <div class="helper-text">기존 이미지에 추가됩니다</div>
+            </div>
+          </div>
+
+          <!-- Basic Info -->
+          <div class="form-row">
+            <div class="form-group" style="flex: 2">
+              <label>프로젝트 제목</label>
+              <input type="text" name="title" id="editTitle" required />
+            </div>
+            <div class="form-group">
+              <label>위치/현장</label>
+              <input type="text" name="location" id="editLocation" />
+            </div>
+          </div>
+
+          <!-- Category & Details -->
+          <div class="form-row">
+            <div class="form-group">
+              <label>시공 타입</label>
+              <select name="category" id="editCategory">
+                <option value="">선택하세요</option>
+                <option value="단창">단창</option>
+                <option value="이중창 (외창 + 내창)">
+                  이중창 (외창 + 내창)
+                </option>
+                <option value="시스템 단창">시스템 단창</option>
+                <option value="폴딩 도어">폴딩 도어</option>
+                <option value="슬라이딩 도어">슬라이딩 도어</option>
+                <option value="터닝 도어">터닝 도어</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>준공 연도</label>
+              <input type="number" name="year" id="editYear" />
+            </div>
+            <div class="form-group">
+              <label>시공 기간</label>
+              <input type="text" name="period" id="editPeriod" />
+            </div>
+          </div>
+
+          <!-- Area -->
+          <div class="form-row">
+            <div class="form-group">
+              <label>총 면적 (m²)</label>
+              <input type="number" name="area" id="editArea" />
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group description-group">
+            <label>설명</label>
+            <textarea
+              name="description"
+              id="editDescription"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="btn-group">
+            <button
+              type="button"
+              class="btn"
+              style="background: #6b7280"
+              onclick="closeEditModal()"
+            >
+              취소
+            </button>
+            <button type="submit" class="btn" id="saveEditBtn">
+              <i class="fas fa-save"></i> 저장하기
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="/common.js"></script>
+    <script src="/admin/admin-gallery-manage.js"></script>
+  </body>
 </html>

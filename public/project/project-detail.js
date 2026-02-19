@@ -210,6 +210,35 @@ function initProjectDetail() {
         ${galleryHtml}
       </div>
     `;
+
+    // SEO Meta Update
+    document.title = `${p.title} | 군포 산본 우진창호 시공사례`;
+    
+    // Update Meta Description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    const descContent = (p.description || '').replace(/<[^>]*>?/gm, '').substring(0, 150) + '...';
+    const seoDesc = `군포 산본 샷시 창호 전문 우진창호. ${p.title} 시공 사례. ${descContent}`;
+    
+    if (metaDesc) {
+      metaDesc.setAttribute('content', seoDesc);
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = seoDesc;
+      document.head.appendChild(newMeta);
+    }
+
+    // Update Meta Keywords
+    let metaKeywords = document.querySelector('meta[name="keywords"]');
+    const keywordsList = `군포 샷시, 산본 샷시, ${p.category || '창호 교체'}, ${p.location || '군포'}, 우진창호`;
+    if (metaKeywords) {
+      metaKeywords.setAttribute('content', keywordsList);
+    } else {
+      const newKeywords = document.createElement('meta');
+      newKeywords.name = 'keywords';
+      newKeywords.content = keywordsList;
+      document.head.appendChild(newKeywords);
+    }
   }
 }
 

@@ -218,7 +218,7 @@ window.uploadDetailImages = async function (input) {
 
     const formData = new FormData();
     for (let i = 0; i < input.files.length; i++) {
-        formData.append('files', input.files[i]);
+        formData.append('detailImageFiles', input.files[i]);
     }
 
     try {
